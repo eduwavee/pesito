@@ -77,7 +77,7 @@ export async function cartelImage({
           >
             $
           </div>
-          <div style={{ fontSize: 30, fontWeight: 700 }}>PrecioAR</div>
+          <div style={{ fontSize: 30, fontWeight: 700 }}>Pesito</div>
           <div style={{ marginLeft: "auto", fontSize: 22, fontWeight: 500, opacity: 0.7 }}>{footer}</div>
         </div>
 

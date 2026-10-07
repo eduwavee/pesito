@@ -1002,7 +1002,7 @@ function TotalCartel({
         )}
 
         <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2">
-          <ShareButton title="Mi armado en PrecioAR" text={`Mi PC sale ${formatArs(total)} armándola al mejor precio`} />
+          <ShareButton title="Mi armado en Pesito" text={`Mi PC sale ${formatArs(total)} armándola al mejor precio`} />
           {filled > 0 && (
             <button type="button" onClick={onReset} className="text-sm font-semibold underline">
               Empezar de nuevo

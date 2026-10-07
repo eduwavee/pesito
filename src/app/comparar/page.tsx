@@ -5,7 +5,7 @@ import Versus from "@/components/Versus";
 export async function generateMetadata({ searchParams }: PageProps<"/comparar">): Promise<Metadata> {
   const { a, b } = await searchParams;
   const title =
-    typeof a === "string" && typeof b === "string" ? `${a} vs ${b} — PrecioAR` : "Uno contra otro — PrecioAR";
+    typeof a === "string" && typeof b === "string" ? `${a} vs ${b} — Pesito` : "Uno contra otro — Pesito";
   return { title, description: "Compará el precio de dos productos en siete tiendas argentinas." };
 }
 

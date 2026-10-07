@@ -32,7 +32,7 @@ Queries each Argentine hardware store live and in parallel; each store streams i
 - Product data: title, price, optional list price, URL, optional image (often missing or on white backgrounds), brand, stock, short badge.
 - Stores can fail (Cloudflare, 403s); errors must degrade per store.
 - Prices change; the UI must tell users to verify the final price at the store.
-- Undecided: product name may change (PrecioAR is not binding); monetization not defined.
+- Product name: Pesito. Monetization not defined.
 
 ## Brand Commitments
 - Keep the credit to **Sync Solutions** (link: https://instagram.com/sync.tuc).

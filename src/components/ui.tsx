@@ -23,10 +23,10 @@ export function TopBar({ children, onHome }: { children?: React.ReactNode; onHom
           href="/"
           onClick={onHome}
           className="group flex shrink-0 items-center gap-2.5 rounded-sm text-lg font-extrabold tracking-tight focus-visible:outline-paper"
-          aria-label="PrecioAR, inicio"
+          aria-label="Pesito, inicio"
         >
           <Logo />
-          <span className="hidden lg:inline">PrecioAR</span>
+          <span className="hidden lg:inline">Pesito</span>
         </Link>
 
         <nav aria-label="Secciones" className="flex shrink-0 gap-1 text-sm font-semibold">

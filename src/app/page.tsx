@@ -8,7 +8,7 @@ export async function generateMetadata({ searchParams }: PageProps<"/">): Promis
   if (term.length < 2) return {};
   const image = `/api/og/busqueda?q=${encodeURIComponent(term)}`;
   return {
-    title: `${term} — dónde está más barato | PrecioAR`,
+    title: `${term} — dónde está más barato | Pesito`,
     description: `Precio de ${term} en Mercado Libre, Compra Gamer, FullH4rd, Venex, Mexx, Gezatek y Frávega.`,
     openGraph: { images: [image] },
     twitter: { card: "summary_large_image", images: [image] },

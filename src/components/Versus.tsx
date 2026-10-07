@@ -182,7 +182,7 @@ export default function Versus({ initialA = "", initialB = "" }: { initialA?: st
                       {done && (
                         <div className="mt-5">
                           <ShareButton
-                            title={`${sa.query} vs ${sb.query} en PrecioAR`}
+                            title={`${sa.query} vs ${sb.query} en Pesito`}
                             text={`${cheaper.query} sale ${formatArs(diff)} menos que ${pricier.query}`}
                           />
                         </div>

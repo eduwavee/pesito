@@ -1,8 +1,8 @@
-# PrecioAR — Comparador de precios de hardware
+# Pesito — Comparador de precios de hardware
 
 Buscás un producto una vez y ves el precio en **Mercado Libre, Compra Gamer, FullH4rd, Venex, Mexx, Gezatek y Frávega**, con el más barato resaltado y un resumen de precio mínimo por tienda. Además guarda el historial de precios y te avisa por mail cuando algo baja del precio que elegiste.
 
-![PrecioAR](docs/screenshot.png)
+![Pesito](docs/screenshot.png)
 
 Además, **Armá tu PC** (`/armar`): elegís pieza por pieza (procesador, mother, RAM, placa de video, disco, fuente y gabinete) al mejor precio, con chequeo de compatibilidad (socket, DDR4/DDR5, potencia de la fuente) y una PC en 3D que se va armando. También puede armarla sola a partir de tu presupuesto y uso, y el armado se comparte por link.
 

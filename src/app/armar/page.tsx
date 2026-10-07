@@ -11,7 +11,7 @@ export async function generateMetadata({ searchParams }: PageProps<"/armar">): P
   for (const [k, v] of Object.entries(await searchParams)) if (typeof v === "string") params.set(k, v);
   const image = `/api/og/armado?${params.toString()}`;
   return {
-    title: "Armá tu PC — PrecioAR",
+    title: "Armá tu PC — Pesito",
     description,
     openGraph: { images: [image] },
     twitter: { card: "summary_large_image", images: [image] },

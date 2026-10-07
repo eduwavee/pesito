@@ -16,9 +16,9 @@ const siteUrl =
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "PrecioAR — Comparador de precios de hardware",
+  title: "Pesito — Comparador de precios de hardware",
   description: "Compará precios de Mercado Libre, Compra Gamer, FullH4rd, Venex, Mexx, Gezatek y Frávega en un solo lugar.",
-  openGraph: { images: ["/api/og/busqueda"], locale: "es_AR", siteName: "PrecioAR" },
+  openGraph: { images: ["/api/og/busqueda"], locale: "es_AR", siteName: "Pesito" },
   twitter: { card: "summary_large_image" },
 };
 

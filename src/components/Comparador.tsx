@@ -678,7 +678,7 @@ function Cartel({
               </p>
             ) : (
               <ShareButton
-                title={`${best.title} en PrecioAR`}
+                title={`${best.title} en Pesito`}
                 text={`${best.title}: ${formatArs(best.price)} en ${STORES[best.store].name}`}
                 quiet
               />

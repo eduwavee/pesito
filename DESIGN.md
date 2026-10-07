@@ -1,5 +1,5 @@
 ---
-name: PrecioAR
+name: Pesito
 description: Live hardware price comparison across six Argentine stores, answered as a fluo price card.
 colors:
   fluo: "#ff3d8b"
@@ -185,7 +185,7 @@ components:
     padding: "12px 16px"
 ---
 
-# Design System: PrecioAR
+# Design System: Pesito
 
 ## Overview
 

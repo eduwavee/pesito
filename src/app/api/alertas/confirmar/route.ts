@@ -40,4 +40,4 @@ export async function POST(req: Request) {
 const done = (query: string) =>
   noticePage("Listo, alerta confirmada", p(`Seguimos “${escapeHtml(query)}”. Te avisamos por mail cuando baje.`));
 
-const invalid = () => noticePage("Ese link ya no sirve", p("Puede que la alerta se haya borrado. Creala de nuevo desde PrecioAR."), 404);
+const invalid = () => noticePage("Ese link ya no sirve", p("Puede que la alerta se haya borrado. Creala de nuevo desde Pesito."), 404);

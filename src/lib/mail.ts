@@ -11,7 +11,7 @@ export async function sendMail(to: string, subject: string, html: string): Promi
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ from: process.env.RESEND_FROM ?? "PrecioAR <onboarding@resend.dev>", to, subject, html }),
+    body: JSON.stringify({ from: process.env.RESEND_FROM ?? "Pesito <onboarding@resend.dev>", to, subject, html }),
   });
   if (!res.ok) console.warn("[mail] Resend respondió", res.status, await res.text());
   return res.ok;
@@ -27,7 +27,7 @@ export const escapeHtml = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&a
 export function priceMail(o: { heading: string; price: string; lines: string[]; cta: { href: string; label: string }; footer: string }) {
   return `<!doctype html><html><body style="margin:0;background:#eef0ea;font-family:Arial,Helvetica,sans-serif;color:#16171a">
 <div style="max-width:520px;margin:0 auto;padding:28px 20px">
-  <p style="font-weight:700;font-size:18px;margin:0 0 16px">PrecioAR</p>
+  <p style="font-weight:700;font-size:18px;margin:0 0 16px">Pesito</p>
   <div style="background:#ff3d8b;padding:24px;border-radius:6px">
     <p style="margin:0;font-weight:700;font-size:17px">${escapeHtml(o.heading)}</p>
     <p style="margin:8px 0 0;font-weight:900;font-size:44px;line-height:1">$ ${escapeHtml(o.price)}.-</p>
