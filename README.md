@@ -1,6 +1,6 @@
 # PrecioAR — Comparador de precios de hardware
 
-Buscás un producto una vez y ves el precio en **Mercado Libre, Compra Gamer, FullH4rd, Venex, Mexx y Gezatek**, con el más barato resaltado y un resumen de precio mínimo por tienda.
+Buscás un producto una vez y ves el precio en **Mercado Libre, Compra Gamer, FullH4rd, Venex, Mexx, Gezatek y Frávega**, con el más barato resaltado y un resumen de precio mínimo por tienda. Además guarda el historial de precios y te avisa por mail cuando algo baja del precio que elegiste.
 
 ![PrecioAR](docs/screenshot.png)
 
@@ -12,7 +12,7 @@ Next.js 16 (App Router) · TypeScript · Tailwind 4 · Cheerio · Three.js · Vi
 
 ```bash
 npm install
-cp .env.example .env.local   # opcional: credenciales de Mercado Libre
+cp .env.example .env.local   # opcional: Mercado Libre, base de datos, mails
 npm run dev                  # http://localhost:3000
 ```
 
@@ -22,8 +22,10 @@ npm run dev                  # http://localhost:3000
 
 ```bash
 npm test            # unitarios: texto/precios, parsers con HTML guardado, API en modo demo, lógica del armado
-npm run test:live   # smoke test contra las 6 tiendas reales (avisa si alguna cambió su HTML o bloquea la IP)
+npm run test:live   # smoke test contra las 7 tiendas reales (avisa si alguna cambió su HTML o bloquea la IP)
 ```
+
+GitHub Actions corre typecheck, lint, tests y build en cada push (`.github/workflows/ci.yml`).
 
 Los fixtures de `tests/fixtures/` son HTML real recortado (Gezatek, Mexx, Venex) o sintético cuando la tienda bloquea scripts (FullH4rd, listado de Mercado Libre).
 
@@ -46,6 +48,7 @@ Cada tienda carga por separado, así la que responde primero aparece primero y s
 | Venex | HTML de `resultado-busqueda.htm` (windows-1252); datos del JSON en `enhancedClick(...)` | `venex.ts` |
 | Mexx | HTML de `/buscar/?p=` (deduplica por número de artículo) | `mexx.ts` |
 | Gezatek | HTML de `/buscar/?q=`; datos en `data-id / data-nombre / data-precio` | `gezatek.ts` |
+| Frávega | HTML de `/l/?keyword=`; el listado sale del JSON de `__NEXT_DATA__` (estado de Apollo) | `fravega.ts` |
 | Mercado Libre | API oficial con token (`ML_CLIENT_ID` + `ML_CLIENT_SECRET`); sin credenciales intenta el HTML del listado | `mercadolibre.ts` |
 
 ### Mercado Libre
@@ -69,6 +72,19 @@ Si la búsqueda sigue en 403 con token, el adapter usa el catálogo (`/products/
 
 Las tiendas no publican specs estructuradas, así que la compatibilidad es una heurística sobre el título: cuando no se puede leer, la UI pide verificar en la tienda.
 
+### Historial y alertas de precio
+
+Cada búsqueda guarda el precio más bajo del día por tienda (`/api/historial` arma el gráfico). Con `DATABASE_URL` se usa Postgres (las tablas se crean solas); sin eso, un archivo en `.data/`.
+
+Las alertas ("avisame si baja de $X") no piden cuenta:
+
+1. `POST /api/alertas` la crea **pendiente** y manda un mail con el link de confirmación (Resend). Así nadie puede anotar el mail de otro.
+2. El link abre `/api/alertas/confirmar`, que pide apretar un botón: los servidores de mail que abren links para revisarlos no la activan solos.
+3. `/api/cron` corre una vez por día (`vercel.json`): vuelve a buscar lo que se sigue, de a tandas y con tiempo límite; lo que no entra sigue al otro día, empezando por lo revisado hace más tiempo.
+4. Cada mail trae el link de baja (`/api/alertas/baja`).
+
+Límites contra abuso: 5 alertas por hora por IP, 3 mails de confirmación por día al mismo mail y 20 alertas activas por mail. El ranking de armados populares valida cada armado y lo cuenta una vez por día por IP.
+
 ### Agregar una tienda
 
 1. Crear `src/lib/stores/mitienda.ts` exportando un `StoreAdapter` (`search(query, limit) → Product[]`).
@@ -78,7 +94,7 @@ Maximus quedó afuera por ahora: arma el listado con PageMethods de ASP.NET + se
 
 ## Deploy
 
-Funciona en Vercel o Render. Tené en cuenta que algunas tiendas (FullH4rd y Maximus usan Cloudflare) pueden bloquear IPs de datacenter; si pasa, la tienda aparece con "error" y las demás siguen andando.
+Funciona en Vercel o Render. Para el historial y las alertas en producción hacen falta `DATABASE_URL`, `RESEND_API_KEY` y `CRON_SECRET` (ver `.env.example`): sin `CRON_SECRET` el cron no corre, y sin base o sin mails no se pueden crear alertas. Tené en cuenta que algunas tiendas (FullH4rd y Maximus usan Cloudflare) pueden bloquear IPs de datacenter; si pasa, la tienda aparece con "error" y las demás siguen andando.
 
 ## Aviso
 
