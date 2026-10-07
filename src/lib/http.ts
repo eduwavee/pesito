@@ -29,6 +29,10 @@ async function raw(url: string, opts: FetchOpts = {}): Promise<Response> {
     cache: "no-store",
     signal: AbortSignal.timeout(opts.timeoutMs ?? 12_000),
   });
+  // Cloudflare "Just a moment...": la tienda bloquea consultas automáticas, reintentar no sirve
+  if (res.headers.get("cf-mitigated") === "challenge") {
+    throw new HttpError(403, "La tienda bloquea consultas automáticas (Cloudflare)");
+  }
   if (!res.ok) throw new HttpError(res.status, `HTTP ${res.status} en ${new URL(url).host}`);
   return res;
 }

@@ -16,6 +16,10 @@ export async function GET(req: NextRequest, ctx: RouteContext<"/api/search/[stor
 
   const result = await searchStore(store as StoreId, q);
   return Response.json(result, {
-    headers: { "Cache-Control": "public, s-maxage=600, stale-while-revalidate=1800" },
+    // un error (timeout, bloqueo) no se cachea en la CDN: la próxima búsqueda vuelve a intentar
+    headers: {
+      "Cache-Control":
+        result.status === "error" ? "no-store" : "public, s-maxage=600, stale-while-revalidate=1800",
+    },
   });
 }

@@ -4,7 +4,9 @@ Buscás un producto una vez y ves el precio en **Mercado Libre, Compra Gamer, Fu
 
 ![PrecioAR](docs/screenshot.png)
 
-Next.js 16 (App Router) · TypeScript · Tailwind 4 · Cheerio
+Además, **Armá tu PC** (`/armar`): elegís pieza por pieza (procesador, mother, RAM, placa de video, disco, fuente y gabinete) al mejor precio, con chequeo de compatibilidad (socket, DDR4/DDR5, potencia de la fuente) y una PC en 3D que se va armando. También puede armarla sola a partir de tu presupuesto y uso, y el armado se comparte por link.
+
+Next.js 16 (App Router) · TypeScript · Tailwind 4 · Cheerio · Three.js · Vitest
 
 ## Correr local
 
@@ -15,6 +17,15 @@ npm run dev                  # http://localhost:3000
 ```
 
 `DEMO_MODE=1 npm run dev` muestra precios de ejemplo sin consultar ninguna tienda (útil para demos o screenshots).
+
+## Tests
+
+```bash
+npm test            # unitarios: texto/precios, parsers con HTML guardado, API en modo demo, lógica del armado
+npm run test:live   # smoke test contra las 6 tiendas reales (avisa si alguna cambió su HTML o bloquea la IP)
+```
+
+Los fixtures de `tests/fixtures/` son HTML real recortado (Gezatek, Mexx, Venex) o sintético cuando la tienda bloquea scripts (FullH4rd, listado de Mercado Libre).
 
 ## Cómo funciona
 
@@ -45,6 +56,18 @@ La búsqueda pública de la API (`/sites/MLA/search`) devuelve **403 sin token**
 2. Copiá `Client ID` y `Client Secret` a `.env.local`.
 
 Si la búsqueda sigue en 403 con token, el adapter usa el catálogo (`/products/search` + precio de la buy box).
+
+### Armado de PC
+
+| Qué | Dónde |
+|---|---|
+| Categorías y filtros (descarta combos, servicios, accesorios y precios fuera de escala) | `src/lib/builder/parts.ts`, `build.ts` |
+| Specs leídas del título: socket, DDR, watts, gráficos integrados | `src/lib/builder/specs.ts` |
+| Compatibilidad y avisos | `src/lib/builder/compat.ts` |
+| Armados de referencia por uso y búsqueda del que entra en el presupuesto | `src/lib/builder/presets.ts` |
+| Escena 3D (Three.js, se carga aparte) | `src/components/pc3d/` |
+
+Las tiendas no publican specs estructuradas, así que la compatibilidad es una heurística sobre el título: cuando no se puede leer, la UI pide verificar en la tienda.
 
 ### Agregar una tienda
 

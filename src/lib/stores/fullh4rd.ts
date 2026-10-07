@@ -29,6 +29,7 @@ export function parseFullh4rd(html: string): Product[] {
       url: absUrl(href, BASE)!,
       image: absUrl(card.find("img").first().attr("src"), BASE),
       badge: cleanText(card.find(".tags .tag").first().text()) || undefined,
+      freeShipping: /env[ií]o gratis/i.test(card.find(".tags").text()) || undefined,
     });
   });
   return out;

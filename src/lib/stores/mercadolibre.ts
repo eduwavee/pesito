@@ -67,7 +67,8 @@ async function viaSearchApi(query: string, limit: number, token: string): Promis
     url: r.permalink,
     image: hiRes(r.thumbnail),
     inStock: (r.available_quantity ?? 1) > 0,
-    badge: r.shipping?.logistic_type === "fulfillment" ? "Full" : r.shipping?.free_shipping ? "Envío gratis" : undefined,
+    badge: r.shipping?.logistic_type === "fulfillment" ? "Full" : undefined,
+    freeShipping: r.shipping?.free_shipping ?? undefined,
   }));
 }
 
@@ -121,6 +122,7 @@ export function parseMlListing(html: string): Product[] {
       url: href.split("#")[0],
       image: img.attr("data-src") ?? img.attr("src"),
       badge: card.find("[aria-label*='FULL'], .poly-shipping--fulfillment").length ? "Full" : undefined,
+      freeShipping: /env[ií]o gratis|llega gratis/i.test(card.text()) || undefined,
     });
   });
   return out;

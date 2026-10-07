@@ -1,0 +1,580 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-06T12:00:00Z",
+  "title": "Design System: PrecioAR",
+  "extensions": {
+    "colorMeta": {
+      "fluo": {
+        "role": "primary",
+        "displayName": "Cartel Pink",
+        "canonical": "oklch(67.3% 0.233 1.9)",
+        "tonalRamp": [
+          "#2f0007",
+          "#59001f",
+          "#86003a",
+          "#b60058",
+          "#e61f78",
+          "#ff5f9b",
+          "#ff90c0",
+          "#ffbfe6"
+        ]
+      },
+      "fluo-deep": {
+        "role": "primary",
+        "displayName": "Deep Cartel Pink",
+        "canonical": "oklch(59.4% 0.224 4.0)",
+        "tonalRamp": [
+          "#2e0005",
+          "#58001c",
+          "#850037",
+          "#b40054",
+          "#e42873",
+          "#ff6397",
+          "#ff93bc",
+          "#ffc1e2"
+        ]
+      },
+      "lime": {
+        "role": "secondary",
+        "displayName": "Winner Lime",
+        "canonical": "oklch(89.6% 0.204 121.5)",
+        "tonalRamp": [
+          "#060f00",
+          "#1c2c00",
+          "#364c00",
+          "#526e00",
+          "#719200",
+          "#94b500",
+          "#b9d956",
+          "#e0fd90"
+        ]
+      },
+      "store-mercadolibre": {
+        "role": "tertiary",
+        "displayName": "Mercado Libre Yellow",
+        "canonical": "oklch(91.7% 0.192 101.4)",
+        "tonalRamp": [
+          "#160800",
+          "#342300",
+          "#554000",
+          "#776000",
+          "#9c8200",
+          "#bca600",
+          "#decc45",
+          "#fff285"
+        ]
+      },
+      "store-compragamer": {
+        "role": "tertiary",
+        "displayName": "Compra Gamer Orange",
+        "canonical": "oklch(70.1% 0.201 44.8)",
+        "tonalRamp": [
+          "#2c0000",
+          "#550000",
+          "#800a00",
+          "#ae2c00",
+          "#dd4b00",
+          "#fd7935",
+          "#ffa56d",
+          "#ffd0a0"
+        ]
+      },
+      "store-fullh4rd": {
+        "role": "tertiary",
+        "displayName": "FullH4rd Red",
+        "canonical": "oklch(57.3% 0.233 29.5)",
+        "tonalRamp": [
+          "#320000",
+          "#5d0000",
+          "#8b0000",
+          "#bc0000",
+          "#ed2519",
+          "#ff6451",
+          "#ff9580",
+          "#ffc3af"
+        ]
+      },
+      "store-venex": {
+        "role": "tertiary",
+        "displayName": "Venex Blue",
+        "canonical": "oklch(47.4% 0.169 257.2)",
+        "tonalRamp": [
+          "#000334",
+          "#00205c",
+          "#003e88",
+          "#1c5fb6",
+          "#3781e5",
+          "#64a6ff",
+          "#90cbff",
+          "#bdf1ff"
+        ]
+      },
+      "store-mexx": {
+        "role": "tertiary",
+        "displayName": "Mexx Cyan",
+        "canonical": "oklch(67.5% 0.142 234.3)",
+        "tonalRamp": [
+          "#000c28",
+          "#00294d",
+          "#004974",
+          "#006a9e",
+          "#008ec9",
+          "#43b1e8",
+          "#7ad5ff",
+          "#acfaff"
+        ]
+      },
+      "store-gezatek": {
+        "role": "tertiary",
+        "displayName": "Gezatek Violet",
+        "canonical": "oklch(60.6% 0.219 292.7)",
+        "tonalRamp": [
+          "#14003b",
+          "#2d0066",
+          "#4a1f94",
+          "#6a3ec5",
+          "#8b5df6",
+          "#ac88ff",
+          "#ceb1ff",
+          "#f2dbff"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "oklch(20.5% 0.006 271.1)",
+        "tonalRamp": [
+          "#0a0b0e",
+          "#242528",
+          "#414245",
+          "#606165",
+          "#818286",
+          "#a3a5a9",
+          "#c7c9cd",
+          "#edeef3"
+        ]
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Graphite",
+        "canonical": "oklch(44.2% 0.014 269.4)",
+        "tonalRamp": [
+          "#090b11",
+          "#22252c",
+          "#3f4249",
+          "#5e6169",
+          "#7f828b",
+          "#a1a5ae",
+          "#c5c9d2",
+          "#ebeef8"
+        ]
+      },
+      "ink-3": {
+        "role": "neutral",
+        "displayName": "Pencil",
+        "canonical": "oklch(55.2% 0.013 269.4)",
+        "tonalRamp": [
+          "#090b11",
+          "#22252c",
+          "#3f4249",
+          "#5e6169",
+          "#7f828a",
+          "#a2a5ad",
+          "#c6c9d2",
+          "#ebeef7"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Card Stock",
+        "canonical": "oklch(95.2% 0.008 121.6)",
+        "tonalRamp": [
+          "#0b0c08",
+          "#242621",
+          "#41433e",
+          "#60625d",
+          "#81837e",
+          "#a4a6a0",
+          "#c8cac4",
+          "#edefe9"
+        ]
+      },
+      "sheet": {
+        "role": "neutral",
+        "displayName": "Sheet",
+        "canonical": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "oklch(88.0% 0.013 121.7)",
+        "tonalRamp": [
+          "#0a0c07",
+          "#24261f",
+          "#41433c",
+          "#60625b",
+          "#81847b",
+          "#a3a69e",
+          "#c8cac2",
+          "#edf0e7"
+        ]
+      },
+      "rule-strong": {
+        "role": "neutral",
+        "displayName": "Pencil Line",
+        "canonical": "oklch(79.2% 0.016 123.1)",
+        "tonalRamp": [
+          "#0a0c06",
+          "#23261e",
+          "#40433a",
+          "#5f6359",
+          "#80847a",
+          "#a3a79c",
+          "#c7cbc0",
+          "#ecf0e5"
+        ]
+      },
+      "alert": {
+        "role": "neutral",
+        "displayName": "Alert Red",
+        "canonical": "oklch(52.9% 0.197 27.7)",
+        "tonalRamp": [
+          "#2d0000",
+          "#560000",
+          "#820003",
+          "#b0221f",
+          "#df4239",
+          "#ff7265",
+          "#ff9f90",
+          "#ffcbbc"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The verdict price on the cartel; $ at 0.42em, .- suffix."
+      },
+      "display-hero": {
+        "displayName": "Display Hero",
+        "purpose": "The home question only, uppercase, balanced."
+      },
+      "price": {
+        "displayName": "Price",
+        "purpose": "Result-row prices (1.65rem mobile, 1.875rem from 640px), struck prices, the home query input."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Results count heading and empty-result line; builder step headings at 1.875rem."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Cartel lead-in, store group headings, panel headings."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Product titles, two-line clamp."
+      },
+      "lead": {
+        "displayName": "Lead",
+        "purpose": "The single explanatory paragraph on home, max 32rem."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Toggles, segmented options, chips, footer, status lines."
+      },
+      "micro": {
+        "displayName": "Micro",
+        "purpose": "Axis ends, column heads, price differences, tags; tabular."
+      },
+      "display-section": {
+        "displayName": "Display Section",
+        "purpose": "Opening heading of a secondary page or band (Armá tu PC; the home band a step smaller), uppercase."
+      }
+    },
+    "shadows": [
+      {
+        "name": "card-lift",
+        "value": "0 24px 40px -24px rgba(22,23,26,0.6), 0 2px 4px rgba(22,23,26,0.08)",
+        "purpose": "The only lift: under the rotated fluo cartel (verdict and build total) and the blank home card."
+      },
+      {
+        "name": "tape-contact",
+        "value": "0 1px 2px rgba(22,23,26,0.12)",
+        "purpose": "Contact shadow of the paper tape strip on a cartel; part of the card, not a second elevation."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out-expo",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "The easing curve for every animation except the hanging tag's pendulum."
+      },
+      {
+        "name": "write-in",
+        "value": "520ms clip-path inset(0 100% 0 0) to inset(0)",
+        "purpose": "A new verdict price is written left to right."
+      },
+      {
+        "name": "strike",
+        "value": "360ms stroke-dashoffset 1 to 0",
+        "purpose": "The marker stroke cancels a beaten price."
+      },
+      {
+        "name": "rise",
+        "value": "420ms opacity 0 + translateY(6px) to rest",
+        "purpose": "Arriving result rows and arrival-order entries."
+      },
+      {
+        "name": "lift",
+        "value": "200ms translateY(-1px)",
+        "purpose": "Hover on ink primary buttons."
+      },
+      {
+        "name": "slap",
+        "value": "560ms translateY(-14px) scale(1.07) to rest, overshoot at 60%",
+        "purpose": "The cartel lands on the wall."
+      },
+      {
+        "name": "swing",
+        "value": "4.5s ease-in-out infinite rotate(-5deg to 6deg), origin top",
+        "purpose": "The hanging price tag on home."
+      },
+      {
+        "name": "marker-pass",
+        "value": "1500ms after 250ms, left -2% to 78% with fade in/out",
+        "purpose": "The marker crosses the home example while strikes draw at 350ms and 850ms."
+      },
+      {
+        "name": "cartel-morph",
+        "value": "view-transition group .morph 460ms ease-out-expo",
+        "purpose": "The cartel travels between home and /armar as one object (shared name cartel)."
+      },
+      {
+        "name": "part-enter-3d",
+        "value": "0.75s seat-in with slight overshoot, from the part's real direction, 0.18s stagger; case scales 97% to 100% on quartic ease-out",
+        "purpose": "A chosen part slides into its place in the 3D case."
+      },
+      {
+        "name": "camera-focus-3d",
+        "value": "0.9s quartic ease-out dolly",
+        "purpose": "Camera moves to the current step's part; overview for case, summary, and home."
+      },
+      {
+        "name": "power-on-3d",
+        "value": "exponential ramp at 2.2/s: fans spin, light strips and interior light rise",
+        "purpose": "The PC powers on once all seven parts are in."
+      },
+      {
+        "name": "idle-sway-3d",
+        "value": "camera azimuth oscillation on the glass side: cos(t*0.32), wide on home; cos(t*0.5), barely perceptible in the builder",
+        "purpose": "Slow idle sway so the model reads as 3D; drag orbits instead."
+      },
+      {
+        "name": "step-progress",
+        "value": "700ms width",
+        "purpose": "Ink fill of the step rail track."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "animation: none; strikes drawn fully; marker hidden; view transitions instant; 3D parts placed instantly, fans still, no sway, camera cuts; drag only",
+        "purpose": "prefers-reduced-motion removes every animation."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      }
+    ],
+    "focus": {
+      "value": "outline: 2px solid var(--ink); outline-offset: 2px",
+      "purpose": "Global focus; paper outline on the ink top bar; search fields use a 3px fluo ring on focus-within."
+    }
+  },
+  "components": [
+    {
+      "name": "Cartel (verdict card)",
+      "kind": "card",
+      "refersTo": "cartel",
+      "description": "The single fluo price card carrying the cheapest offer; struck history above, written-in price, ink CTA.",
+      "html": "<article class=\"ds-cartel\"><p class=\"ds-cartel-lead\">Más barato en <span class=\"ds-cartel-pill\"><span class=\"ds-dot\" style=\"background:#0057B8\"></span> Venex</span></p><ul class=\"ds-cartel-hist\"><li><span class=\"ds-struck\">$437.100.-<svg class=\"ds-strike\" viewBox=\"0 0 100 10\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path d=\"M2 7 C 25 3, 55 8, 98 3\" pathLength=\"1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" vector-effect=\"non-scaling-stroke\"/></svg></span></li><li><span class=\"ds-struck\">$392.600.-<svg class=\"ds-strike\" viewBox=\"0 0 100 10\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path d=\"M2 7 C 25 3, 55 8, 98 3\" pathLength=\"1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" vector-effect=\"non-scaling-stroke\"/></svg></span></li></ul><p class=\"ds-cartel-price\"><span class=\"ds-cartel-cur\">$</span>384.500<span aria-hidden=\"true\">.-</span></p><a class=\"ds-cartel-title\" href=\"#\">Placa de video MSI GeForce RTX 5060 Ventus 2X OC 8GB</a><div class=\"ds-cartel-foot\"><a class=\"ds-btn-primary\" href=\"#\">Ver en Venex <svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M3 8h9.5M8.5 3.5 13 8l-4.5 4.5\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></a><p>Comparado en 6 tiendas</p></div></article>",
+      "css": ".ds-cartel { font-family: var(--font-archivo, Archivo), system-ui, sans-serif; position: relative; transform: rotate(-1.2deg); border-radius: 4px; background: var(--fluo, #ff3d8b); color: var(--ink, #16171a); padding: 32px; max-width: 460px; box-shadow: 0 24px 40px -24px rgba(22,23,26,0.6), 0 2px 4px rgba(22,23,26,0.08); } .ds-cartel-lead { display: flex; align-items: center; gap: 8px; font-size: 1.125rem; font-weight: 700; line-height: 1.25; margin: 0; } .ds-cartel-pill { display: inline-flex; align-items: center; gap: 6px; border-radius: 9999px; background: var(--sheet, #fff); padding: 2px 10px; font-size: 1rem; } .ds-dot { display: inline-block; width: 10px; height: 10px; border-radius: 9999px; box-shadow: 0 0 0 1px rgba(22,23,26,0.15); } .ds-cartel-hist { list-style: none; display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 16px 0 0; padding: 0; } .ds-struck { position: relative; display: inline-block; font-variation-settings: 'wdth' 62; font-weight: 900; font-variant-numeric: tabular-nums lining-nums; letter-spacing: -0.01em; font-size: 1.25rem; color: rgba(22,23,26,0.7); } .ds-strike { position: absolute; left: -6%; top: 52%; width: 112%; height: 0.45em; transform: translateY(-50%); overflow: visible; color: var(--ink, #16171a); pointer-events: none; } .ds-strike path { stroke-dasharray: 1; animation: ds-strike 360ms cubic-bezier(0.16,1,0.3,1) both; } @keyframes ds-strike { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } } .ds-cartel-price { display: flex; align-items: flex-start; margin: 8px 0 0; font-variation-settings: 'wdth' 62; font-weight: 900; font-variant-numeric: tabular-nums lining-nums; letter-spacing: -0.01em; font-size: clamp(3.75rem, 13vw, 6rem); line-height: 0.9; animation: ds-write 520ms cubic-bezier(0.16,1,0.3,1) both; } .ds-cartel-cur { font-size: 0.42em; margin: 0.12em 4px 0 0; } @keyframes ds-write { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } } .ds-cartel-title { display: block; margin-top: 16px; max-width: 28rem; font-weight: 500; line-height: 1.375; color: inherit; text-decoration: underline; text-decoration-color: rgba(22,23,26,0.4); text-underline-offset: 0.2em; } .ds-cartel-title:hover { text-decoration-color: var(--ink, #16171a); } .ds-cartel-foot { margin-top: 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 16px; } .ds-cartel-foot p { margin: 0; font-size: 0.875rem; font-weight: 500; } .ds-btn-primary { display: inline-flex; align-items: center; gap: 8px; border-radius: 3px; background: var(--ink, #16171a); color: var(--paper, #eef0ea); padding: 12px 20px; font-weight: 700; text-decoration: none; transition: transform 200ms cubic-bezier(0.16,1,0.3,1); } .ds-btn-primary:hover { transform: translateY(-1px); } .ds-btn-primary:focus-visible { outline: 2px solid var(--ink, #16171a); outline-offset: 2px; } @media (prefers-reduced-motion: reduce) { .ds-cartel-price, .ds-strike path { animation: none; stroke-dasharray: none; } }"
+    },
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Ink action button with trailing arrow; the only filled button style outside the search submit.",
+      "html": "<button class=\"ds-btn-primary\" type=\"button\">Comparar precios <svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M3 8h9.5M8.5 3.5 13 8l-4.5 4.5\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></button>",
+      "css": ".ds-btn-primary { font-family: var(--font-archivo, Archivo), system-ui, sans-serif; display: inline-flex; align-items: center; gap: 8px; border: 0; border-radius: 3px; background: var(--ink, #16171a); color: var(--paper, #eef0ea); padding: 14px 24px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: transform 200ms cubic-bezier(0.16,1,0.3,1); } .ds-btn-primary:hover { transform: translateY(-1px); } .ds-btn-primary:active { transform: none; } .ds-btn-primary:focus-visible { outline: 2px solid var(--ink, #16171a); outline-offset: 2px; }"
+    },
+    {
+      "name": "Top Bar Search",
+      "kind": "input",
+      "refersTo": "search-field",
+      "description": "Sheet search field with flush pink submit, sitting in the ink top bar; pink ring on focus.",
+      "html": "<div class=\"ds-bar\"><form class=\"ds-search\" role=\"search\" onsubmit=\"return false\"><span class=\"ds-search-icon\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" aria-hidden=\"true\"><circle cx=\"7\" cy=\"7\" r=\"4.75\" stroke=\"currentColor\" stroke-width=\"1.75\"/><path d=\"m10.5 10.5 3.25 3.25\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\"/></svg></span><input type=\"search\" placeholder=\"Buscar otro producto\" aria-label=\"Producto a buscar\"><button type=\"submit\">Comparar</button></form></div>",
+      "css": ".ds-bar { background: var(--ink, #16171a); padding: 12px 24px; } .ds-search { font-family: var(--font-archivo, Archivo), system-ui, sans-serif; display: flex; align-items: stretch; max-width: 36rem; overflow: hidden; border-radius: 3px; background: var(--sheet, #fff); color: var(--ink, #16171a); } .ds-search:focus-within { box-shadow: 0 0 0 3px var(--fluo, #ff3d8b); } .ds-search-icon { display: grid; place-items: center; padding-left: 12px; color: var(--ink-3, #6f727a); } .ds-search input { flex: 1; min-width: 0; border: 0; background: transparent; padding: 10px; font: inherit; font-size: 1rem; color: inherit; outline: none; caret-color: var(--fluo-deep, #e0206f); } .ds-search input::placeholder { color: var(--ink-3, #6f727a); } .ds-search button { border: 0; background: var(--fluo, #ff3d8b); color: var(--ink, #16171a); padding: 0 16px; font: inherit; font-size: 0.875rem; font-weight: 700; cursor: pointer; } .ds-search button:focus-visible { outline: 2px solid var(--ink, #16171a); outline-offset: -2px; }"
+    },
+    {
+      "name": "Home Query Card",
+      "kind": "input",
+      "refersTo": "cartel",
+      "description": "The blank cartel on home: narrow black uppercase input on pink with an ink underline that thickens on focus.",
+      "html": "<form class=\"ds-blank\" onsubmit=\"return false\"><label for=\"ds-q\">¿Qué estás buscando?</label><input id=\"ds-q\" type=\"search\" placeholder=\"Ej: RTX 5060\"></form>",
+      "css": ".ds-blank { font-family: var(--font-archivo, Archivo), system-ui, sans-serif; transform: rotate(-1.5deg); border-radius: 4px; background: var(--fluo, #ff3d8b); color: var(--ink, #16171a); padding: 36px; max-width: 460px; box-shadow: 0 24px 40px -24px rgba(22,23,26,0.6), 0 2px 4px rgba(22,23,26,0.08); } .ds-blank label { display: block; font-size: 1.25rem; font-weight: 700; line-height: 1.25; } .ds-blank input { margin-top: 16px; width: 100%; border: 0; border-bottom: 3px solid var(--ink, #16171a); background: transparent; padding: 0 0 8px; font-variation-settings: 'wdth' 62; font-weight: 900; font-variant-numeric: tabular-nums lining-nums; letter-spacing: -0.01em; font-family: inherit; font-size: clamp(2rem, 6vw, 3.25rem); line-height: 1; text-transform: uppercase; color: inherit; caret-color: var(--ink, #16171a); outline: none; transition: box-shadow 150ms; } .ds-blank input::placeholder { color: rgba(22,23,26,0.8); } .ds-blank input:focus { box-shadow: 0 4px 0 var(--ink, #16171a); }"
+    },
+    {
+      "name": "Suggestion Chip",
+      "kind": "chip",
+      "refersTo": "chip-suggestion",
+      "description": "Round outlined query suggestion on the pink card; inverts to ink with pink text on hover.",
+      "html": "<div class=\"ds-chips\"><button class=\"ds-chip\" type=\"button\">RTX 5060</button><button class=\"ds-chip\" type=\"button\">Ryzen 5 7600</button></div>",
+      "css": ".ds-chips { display: flex; gap: 8px; background: var(--fluo, #ff3d8b); padding: 16px; } .ds-chip { font-family: var(--font-archivo, Archivo), system-ui, sans-serif; border: 1.5px solid var(--ink, #16171a); border-radius: 9999px; background: transparent; color: var(--ink, #16171a); padding: 6px 12px; font-size: 0.875rem; font-weight: 600; cursor: pointer; transition: background-color 150ms, color 150ms; } .ds-chip:hover { background: var(--ink, #16171a); color: var(--fluo, #ff3d8b); } .ds-chip:focus-visible { outline: 2px solid var(--ink, #16171a); outline-offset: 2px; }"
+    },
+    {
+      "name": "Store Toggle",
+      "kind": "chip",
+      "refersTo": "store-toggle-on",
+      "description": "Store filter in the rail: checkbox square, identity dot, name, live status. Off state is dashed and pencil-grey.",
+      "html": "<div class=\"ds-rail\"><button class=\"ds-toggle\" aria-pressed=\"true\" type=\"button\"><span class=\"ds-check\"><svg width=\"10\" height=\"10\" viewBox=\"0 0 10 10\" fill=\"none\" aria-hidden=\"true\"><path d=\"m2 5.2 2 2L8 3\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span><span class=\"ds-dot\" style=\"background:#FFE600\"></span>Mercado Libre<span class=\"ds-count\">48</span></button><button class=\"ds-toggle\" aria-pressed=\"false\" type=\"button\"><span class=\"ds-check\"></span><span class=\"ds-dot\" style=\"background:#FF6A00\"></span>Compra Gamer</button></div>",
+      "css": ".ds-rail { display: flex; gap: 8px; flex-wrap: wrap; background: var(--paper, #eef0ea); padding: 16px; } .ds-toggle { font-family: var(--font-archivo, Archivo), system-ui, sans-serif; display: flex; align-items: center; gap: 8px; white-space: nowrap; border: 1px solid var(--rule-strong, #b9bdb2); border-radius: 3px; background: var(--sheet, #fff); color: var(--ink, #16171a); padding: 8px 12px; font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: border-color 150ms, color 150ms; } .ds-toggle:hover { border-color: var(--ink, #16171a); } .ds-toggle[aria-pressed=false] { border-style: dashed; background: transparent; color: var(--ink-3, #6f727a); } .ds-toggle[aria-pressed=false]:hover { border-color: var(--rule-strong, #b9bdb2); color: var(--ink, #16171a); } .ds-toggle:focus-visible { outline: 2px solid var(--ink, #16171a); outline-offset: 2px; } .ds-check { display: grid; place-items: center; width: 16px; height: 16px; border-radius: 2px; border: 1.5px solid var(--rule-strong, #b9bdb2); } .ds-toggle[aria-pressed=true] .ds-check { border-color: var(--ink, #16171a); background: var(--ink, #16171a); color: var(--paper, #eef0ea); } .ds-dot { display: inline-block; width: 10px; height: 10px; border-radius: 9999px; box-shadow: 0 0 0 1px rgba(22,23,26,0.15); } .ds-count { color: var(--ink-2, #50535b); font-variant-numeric: tabular-nums; }"
+    },
+    {
+      "name": "Segmented Control",
+      "kind": "nav",
+      "refersTo": "segmented-active",
+      "description": "View and sort switch; active option is ink.",
+      "html": "<div class=\"ds-seg\" role=\"group\" aria-label=\"Orden\"><button aria-pressed=\"true\" type=\"button\">Menor precio</button><button aria-pressed=\"false\" type=\"button\">Mayor precio</button></div>",
+      "css": ".ds-seg { font-family: var(--font-archivo, Archivo), system-ui, sans-serif; display: inline-flex; border: 1px solid var(--rule-strong, #b9bdb2); border-radius: 3px; background: var(--sheet, #fff); padding: 2px; font-size: 0.875rem; } .ds-seg button { border: 0; border-radius: 2px; background: transparent; color: var(--ink-2, #50535b); padding: 6px 12px; font: inherit; font-weight: 500; cursor: pointer; transition: color 150ms, background-color 150ms; } .ds-seg button:hover { color: var(--ink, #16171a); } .ds-seg button[aria-pressed=true] { background: var(--ink, #16171a); color: var(--paper, #eef0ea); } .ds-seg button:focus-visible { outline: 2px solid var(--ink, #16171a); outline-offset: 2px; }"
+    },
+    {
+      "name": "Result Row",
+      "kind": "custom",
+      "refersTo": "tag-winner",
+      "description": "Ruled, fully clickable offer row: image well, title and meta, narrow black price with lime winner tag or +$ difference.",
+      "html": "<ul class=\"ds-rows\"><li><a class=\"ds-row\" href=\"#\"><span class=\"ds-well\">Sin foto</span><span class=\"ds-mid\"><span class=\"ds-title\">Placa de video MSI GeForce RTX 5060 Ventus 2X OC 8GB</span><span class=\"ds-meta\"><span><span class=\"ds-dot\" style=\"background:#0057B8\"></span> Venex</span><span class=\"ds-badge\">Envío gratis</span></span></span><span class=\"ds-end\"><span class=\"ds-was\">$ 412.000</span><span class=\"ds-price\">$ 384.500</span><span class=\"ds-win\">Más barato</span></span></a></li><li><a class=\"ds-row\" href=\"#\"><span class=\"ds-well\">Sin foto</span><span class=\"ds-mid\"><span class=\"ds-title\">MSI GeForce RTX 5060 Gaming OC 8GB</span><span class=\"ds-meta\"><span><span class=\"ds-dot\" style=\"background:#FF6A00\"></span> Compra Gamer</span></span></span><span class=\"ds-end\"><span class=\"ds-price\">$ 392.600</span><span class=\"ds-diff\">+$ 8.100</span></span></a></li></ul>",
+      "css": ".ds-rows { font-family: var(--font-archivo, Archivo), system-ui, sans-serif; list-style: none; margin: 0; padding: 0; background: var(--paper, #eef0ea); color: var(--ink, #16171a); } .ds-rows li + li { border-top: 1px solid var(--rule, #d6d9d0); } .ds-row { display: grid; grid-template-columns: 4.5rem minmax(0,1fr) auto; align-items: center; gap: 0 16px; padding: 14px 12px; color: inherit; text-decoration: none; transition: background-color 150ms; } .ds-row:hover { background: var(--sheet, #fff); } .ds-row:hover .ds-title { text-decoration: underline; } .ds-row:focus-visible { outline: 2px solid var(--ink, #16171a); outline-offset: 2px; } .ds-well { display: grid; place-items: center; aspect-ratio: 1; border: 1px solid var(--rule, #d6d9d0); border-radius: 3px; background: var(--sheet, #fff); padding: 6px; font-size: 0.65rem; color: var(--ink-3, #6f727a); } .ds-title { display: block; font-weight: 500; line-height: 1.375; } .ds-meta { margin-top: 4px; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; font-size: 0.875rem; color: var(--ink-2, #50535b); } .ds-dot { display: inline-block; width: 10px; height: 10px; border-radius: 9999px; box-shadow: 0 0 0 1px rgba(22,23,26,0.15); } .ds-badge { border-radius: 2px; background: var(--paper, #eef0ea); padding: 1px 6px; font-size: 0.75rem; font-weight: 500; } .ds-end { display: flex; flex-direction: column; align-items: flex-end; text-align: right; } .ds-was { font-size: 0.75rem; color: var(--ink-3, #6f727a); text-decoration: line-through; font-variant-numeric: tabular-nums; } .ds-price { font-variation-settings: 'wdth' 62; font-weight: 900; font-variant-numeric: tabular-nums lining-nums; letter-spacing: -0.01em; font-size: 1.875rem; line-height: 1; } .ds-win { margin-top: 4px; border-radius: 2px; background: var(--lime, #c8f031); padding: 2px 6px; font-size: 0.75rem; font-weight: 700; } .ds-diff { margin-top: 4px; font-size: 0.75rem; color: var(--ink-2, #50535b); font-variant-numeric: tabular-nums; }"
+    },
+    {
+      "name": "Price Strip Row",
+      "kind": "custom",
+      "refersTo": "panel",
+      "description": "Per-store minimum row on the sheet panel: every offer as a store-colored point on one price axis; the winner circled in lime.",
+      "html": "<div class=\"ds-panel\"><div class=\"ds-strip\"><span class=\"ds-name\"><span class=\"ds-dot\" style=\"background:#0057B8\"></span>Venex</span><span class=\"ds-track\"><span class=\"ds-axis\"></span><span class=\"ds-pt\" style=\"left:62%;background:#0057B8\"></span><span class=\"ds-pt ds-pt-min\" style=\"left:0%;background:#0057B8\"></span><span class=\"ds-ring\" style=\"left:0%\"></span></span><span class=\"ds-min\"><b>$ 384.500</b><small>el más barato</small></span></div><div class=\"ds-strip\"><span class=\"ds-name\"><span class=\"ds-dot\" style=\"background:#FF6A00\"></span>Compra Gamer</span><span class=\"ds-track\"><span class=\"ds-axis\"></span><span class=\"ds-pt ds-pt-min\" style=\"left:18%;background:#FF6A00\"></span><span class=\"ds-pt\" style=\"left:80%;background:#FF6A00\"></span></span><span class=\"ds-min\"><b class=\"ds-reg\">$ 392.600</b><small>+$ 8.100</small></span></div></div>",
+      "css": ".ds-panel { font-family: var(--font-archivo, Archivo), system-ui, sans-serif; border: 1px solid var(--rule, #d6d9d0); border-radius: 4px; background: var(--sheet, #fff); padding: 0 20px; color: var(--ink, #16171a); } .ds-strip { display: grid; grid-template-columns: 8.5rem minmax(0,1fr) auto; align-items: center; gap: 0 16px; padding: 10px 0; } .ds-strip + .ds-strip { border-top: 1px solid var(--rule, #d6d9d0); } .ds-name { display: flex; align-items: center; gap: 8px; font-size: 0.875rem; font-weight: 500; } .ds-dot { display: inline-block; width: 10px; height: 10px; border-radius: 9999px; box-shadow: 0 0 0 1px rgba(22,23,26,0.15); } .ds-track { position: relative; height: 20px; } .ds-axis { position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: var(--rule, #d6d9d0); } .ds-pt { position: absolute; top: 50%; width: 8px; height: 8px; border-radius: 9999px; opacity: 0.6; transform: translate(-50%,-50%); box-shadow: 0 0 0 2px var(--sheet, #fff); } .ds-pt-min { width: 14px; height: 14px; opacity: 1; } .ds-ring { position: absolute; top: 50%; width: 22px; height: 22px; box-sizing: border-box; border: 3px solid var(--lime, #c8f031); border-radius: 9999px; transform: translate(-50%,-50%); box-shadow: 0 0 0 1px var(--ink, #16171a); } .ds-min { display: flex; flex-direction: column; align-items: flex-end; font-size: 0.875rem; font-variant-numeric: tabular-nums; } .ds-min b { font-weight: 800; } .ds-min b.ds-reg { font-weight: 600; } .ds-min small { font-size: 0.75rem; color: var(--ink-2, #50535b); }"
+    },
+    {
+      "name": "Step Rail",
+      "kind": "nav",
+      "refersTo": "step-current",
+      "description": "Content-sized builder steps over a 3px hairline track with an ink progress fill; current step is an ink tab, done steps carry an ink check badge, errors the alert icon.",
+      "html": "<nav class=\"ds-steps\" aria-label=\"Pasos\"><span class=\"ds-track\"></span><span class=\"ds-fill\" style=\"width:43%\"></span><ol><li><button><span class=\"ds-n\">1</span>Procesador <span class=\"ds-ok\"><svg width=\"12\" height=\"12\" viewBox=\"0 0 10 10\" fill=\"none\" aria-hidden=\"true\"><path d=\"m2 5.2 2 2L8 3\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span><small>$ 289.999</small></button></li><li><button><span class=\"ds-n\">2</span>Mother <span class=\"ds-bad\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"none\" aria-hidden=\"true\"><path d=\"M7 1.75 12.75 12H1.25L7 1.75Z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><path d=\"M7 5.5v3\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><circle cx=\"7\" cy=\"10.2\" r=\"0.8\" fill=\"currentColor\"/></svg></span><small>$ 145.000</small></button></li><li><button aria-current=\"step\"><span class=\"ds-n\">3</span>Memoria RAM<small>Sin elegir</small></button></li><li><button><span class=\"ds-n\">4</span>Placa de video<small>Sin elegir</small></button></li></ol></nav>",
+      "css": ".ds-steps { font-family: var(--font-archivo, Archivo), system-ui, sans-serif; position: relative; background: var(--paper, #eef0ea); color: var(--ink, #16171a); padding-top: 8px; } .ds-track, .ds-fill { position: absolute; left: 0; bottom: 0; height: 3px; } .ds-track { right: 0; background: var(--rule, #d6d9d0); } .ds-fill { background: var(--ink, #16171a); transition: width 700ms cubic-bezier(0.16,1,0.3,1); } .ds-steps ol { display: flex; list-style: none; margin: 0; padding: 0; } .ds-steps li { flex: auto; } .ds-steps button { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 6px; width: 100%; border: 0; border-radius: 3px 3px 0 0; background: transparent; color: inherit; padding: 10px 12px 12px; font: inherit; font-size: 0.875rem; font-weight: 700; text-align: left; white-space: nowrap; cursor: pointer; } .ds-steps button:hover { background: var(--sheet, #fff); } .ds-steps button[aria-current=step] { background: var(--ink, #16171a); color: var(--paper, #eef0ea); } .ds-steps small { flex-basis: 100%; font-size: 0.75rem; font-weight: 400; color: var(--ink-2, #50535b); font-variant-numeric: tabular-nums; } .ds-steps button[aria-current=step] small { color: rgba(238,240,234,0.75); } .ds-n { font-variation-settings: 'wdth' 62; font-weight: 900; font-variant-numeric: tabular-nums lining-nums; letter-spacing: -0.01em; font-size: 1rem; color: var(--ink-3, #6f727a); } .ds-steps button[aria-current=step] .ds-n { color: rgba(238,240,234,0.7); } .ds-ok { display: grid; place-items: center; width: 16px; height: 16px; border-radius: 9999px; background: var(--ink, #16171a); color: var(--paper, #eef0ea); } .ds-ok svg { width: 10px; height: 10px; } .ds-bad { color: var(--alert, #c4211f); display: inline-flex; }"
+    },
+    {
+      "name": "Builder Offer Row",
+      "kind": "custom",
+      "refersTo": "button-secondary",
+      "description": "Offer in a builder step: compatibility in ink with a check, lime tag only on the cheapest compatible offer, alert-red incompatibility at 60%, outline Elegir / ink Elegida.",
+      "html": "<ul class=\"ds-offers\"><li><span class=\"ds-well\">Sin foto</span><span class=\"ds-mid\"><span class=\"ds-title\">Memoria Kingston Fury Beast DDR5 16GB 5600MHz</span><span class=\"ds-meta\"><span><span class=\"ds-dot\" style=\"background:#0057B8\"></span> Venex</span><span class=\"ds-fit\"><svg width=\"12\" height=\"12\" viewBox=\"0 0 10 10\" fill=\"none\" aria-hidden=\"true\"><path d=\"m2 5.2 2 2L8 3\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg> Compatible</span><span class=\"ds-win\">Más barato</span></span></span><span class=\"ds-price\">$ 62.300</span><button class=\"ds-pick\" aria-pressed=\"true\"><svg width=\"12\" height=\"12\" viewBox=\"0 0 10 10\" fill=\"none\" aria-hidden=\"true\"><path d=\"m2 5.2 2 2L8 3\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg> Elegida</button></li><li><span class=\"ds-well\">Sin foto</span><span class=\"ds-mid\"><span class=\"ds-title\">Memoria Corsair Vengeance DDR5 16GB 6000MHz</span><span class=\"ds-meta\"><span><span class=\"ds-dot\" style=\"background:#FF6A00\"></span> Compra Gamer</span><span class=\"ds-fit\"><svg width=\"12\" height=\"12\" viewBox=\"0 0 10 10\" fill=\"none\" aria-hidden=\"true\"><path d=\"m2 5.2 2 2L8 3\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg> Compatible</span></span></span><span class=\"ds-price\">$ 68.900</span><button class=\"ds-pick\" aria-pressed=\"false\">Elegir</button></li><li class=\"ds-off\"><span class=\"ds-well\">Sin foto</span><span class=\"ds-mid\"><span class=\"ds-title\">Memoria Kingston DDR4 16GB 3200MHz</span><span class=\"ds-meta\"><span><span class=\"ds-dot\" style=\"background:#FFE600\"></span> Mercado Libre</span><span class=\"ds-nofit\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"none\" aria-hidden=\"true\"><path d=\"M7 1.75 12.75 12H1.25L7 1.75Z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><path d=\"M7 5.5v3\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><circle cx=\"7\" cy=\"10.2\" r=\"0.8\" fill=\"currentColor\"/></svg> El mother usa DDR5</span></span></span><span class=\"ds-price\">$ 41.500</span><button class=\"ds-pick\" aria-pressed=\"false\">Elegir</button></li></ul>",
+      "css": ".ds-offers { font-family: var(--font-archivo, Archivo), system-ui, sans-serif; list-style: none; margin: 0; padding: 0 12px; background: var(--paper, #eef0ea); color: var(--ink, #16171a); } .ds-offers li { display: grid; grid-template-columns: 3.5rem minmax(0,1fr) auto auto; align-items: center; gap: 8px 16px; padding: 14px 0; } .ds-offers li + li { border-top: 1px solid var(--rule, #d6d9d0); } .ds-offers li.ds-off { opacity: 0.6; } .ds-well { display: grid; place-items: center; aspect-ratio: 1; border: 1px solid var(--rule, #d6d9d0); border-radius: 3px; background: var(--sheet, #fff); font-size: 0.65rem; color: var(--ink-3, #6f727a); } .ds-title { display: block; font-weight: 500; line-height: 1.375; } .ds-meta { margin-top: 4px; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; font-size: 0.875rem; color: var(--ink-2, #50535b); } .ds-dot { display: inline-block; width: 10px; height: 10px; border-radius: 9999px; box-shadow: 0 0 0 1px rgba(22,23,26,0.15); } .ds-fit, .ds-nofit { display: inline-flex; align-items: center; gap: 4px; font-size: 0.75rem; } .ds-fit { color: var(--ink, #16171a); font-weight: 600; } .ds-fit svg { width: 11px; height: 11px; } .ds-nofit { color: var(--alert, #c4211f); font-weight: 700; } .ds-win { border-radius: 2px; background: var(--lime, #c8f031); color: var(--ink, #16171a); padding: 1px 6px; font-size: 0.75rem; font-weight: 700; } .ds-price { font-variation-settings: 'wdth' 62; font-weight: 900; font-variant-numeric: tabular-nums lining-nums; letter-spacing: -0.01em; font-size: 1.5rem; line-height: 1; text-align: right; } .ds-pick { display: inline-flex; align-items: center; gap: 6px; border: 1.5px solid var(--ink, #16171a); border-radius: 3px; background: transparent; color: var(--ink, #16171a); padding: 8px 14px; font: inherit; font-size: 0.875rem; font-weight: 700; cursor: pointer; transition: background-color 150ms, color 150ms; } .ds-pick:hover, .ds-pick[aria-pressed=true] { background: var(--ink, #16171a); color: var(--paper, #eef0ea); } .ds-pick:focus-visible { outline: 2px solid var(--ink, #16171a); outline-offset: 2px; }"
+    },
+    {
+      "name": "Build Total Cartel",
+      "kind": "card",
+      "refersTo": "cartel",
+      "description": "The cartel as the live build total: taped to the wall, previous total struck, new total written in, Todo en <tienda> line, warnings on sheet, ink Copiar link.",
+      "html": "<article class=\"ds-total\"><span class=\"ds-tape\"></span><p class=\"ds-total-lead\">Total del armado</p><span class=\"ds-struck\">$1.214.300.-<svg viewBox=\"0 0 100 10\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path d=\"M2 7 C 25 3, 55 8, 98 3\" pathLength=\"1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" vector-effect=\"non-scaling-stroke\"/></svg></span><p class=\"ds-total-price\"><span>$</span>1.176.900<span aria-hidden=\"true\">.-</span></p><p class=\"ds-total-meta\"><b>5 de 7 piezas elegidas</b><br>Todo en Venex: <b>$ 1.203.400</b> (+$ 26.500)</p><ul class=\"ds-warn\"><li><svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"none\" aria-hidden=\"true\"><path d=\"M7 1.75 12.75 12H1.25L7 1.75Z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><path d=\"M7 5.5v3\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><circle cx=\"7\" cy=\"10.2\" r=\"0.8\" fill=\"currentColor\"/></svg> La fuente queda justa para esta placa de video.</li></ul><button class=\"ds-btn\">Copiar link</button></article>",
+      "css": ".ds-total { font-family: var(--font-archivo, Archivo), system-ui, sans-serif; position: relative; max-width: 380px; margin: 24px; transform: rotate(-1.2deg); border-radius: 4px; background: var(--fluo, #ff3d8b); color: var(--ink, #16171a); padding: 28px; box-shadow: 0 24px 40px -24px rgba(22,23,26,0.6), 0 2px 4px rgba(22,23,26,0.08); } .ds-tape { position: absolute; top: -12px; left: 50%; width: 96px; height: 28px; transform: translateX(-50%) rotate(2deg); background: rgba(255,255,255,0.58); box-shadow: 0 1px 2px rgba(22,23,26,0.12); clip-path: polygon(2% 0, 98% 4%, 100% 30%, 97% 55%, 100% 82%, 97% 100%, 3% 96%, 0 70%, 3% 45%, 0 18%); } .ds-total-lead { margin: 0; font-size: 1.125rem; font-weight: 700; } .ds-struck { position: relative; display: inline-block; margin-top: 8px; font-variation-settings: 'wdth' 62; font-weight: 900; font-variant-numeric: tabular-nums lining-nums; letter-spacing: -0.01em; font-size: 1.25rem; color: rgba(22,23,26,0.7); } .ds-struck svg { position: absolute; left: -6%; top: 52%; width: 112%; height: 0.45em; transform: translateY(-50%); overflow: visible; color: var(--ink, #16171a); } .ds-total-price { display: flex; align-items: flex-start; margin: 0; font-variation-settings: 'wdth' 62; font-weight: 900; font-variant-numeric: tabular-nums lining-nums; letter-spacing: -0.01em; font-size: clamp(3.25rem, 10vw, 5rem); line-height: 0.9; animation: ds-write 520ms cubic-bezier(0.16,1,0.3,1) both; } .ds-total-price span:first-child { font-size: 0.42em; margin: 0.12em 4px 0 0; } @keyframes ds-write { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0); } } .ds-total-meta { margin: 12px 0 0; font-size: 0.875rem; line-height: 1.5; } .ds-total-meta b { font-variant-numeric: tabular-nums; } .ds-warn { list-style: none; margin: 16px 0 0; padding: 12px; border-radius: 3px; background: var(--sheet, #fff); font-size: 0.875rem; color: var(--ink-2, #50535b); } .ds-warn li { display: flex; gap: 8px; } .ds-btn { margin-top: 20px; border: 0; border-radius: 3px; background: var(--ink, #16171a); color: var(--paper, #eef0ea); padding: 10px 16px; font: inherit; font-size: 0.875rem; font-weight: 700; cursor: pointer; } @media (prefers-reduced-motion: reduce) { .ds-total-price { animation: none; } }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Fluo Price Card",
+    "overview": "**Creative North Star: \"The Fluo Price Card\"**\n\nThe system is the Argentine shop-window price card (cartel flúo) laid on a cool sheet of card stock. One hot pink card carries the answer: a monumental, narrow, black price in Archivo at 62% width and weight 900. When a cheaper store answers, a marker stroke strikes the old price and the new one is written in left to right. Everything around the card is quiet ink on paper: hairline rules, flat white sheets, tabular numbers, small round store dots.\n\nDensity is that of a working comparison tool, not a landing page. The verdict is loud and singular; the evidence (per-store minimums, the price strip, the result list) is calm, ruled, and scannable. Color is spent on meaning, never on decoration: pink is the card, lime is \"cheapest\", the store colors are identity dots, red is failure.\n\nThe world is light-only (`color-scheme: light`) and rejects dark neon \"gamer\" surfaces, glow, and grids of equal product cards.\n\nThe world extends to a PC builder (`/armar`) without changing its materials: the build total is the same pink cartel corrected live with the same marker strike, and the parts sit in 3D as a real machine in physically based materials, with the cartel layer on top: the part being chosen outlined in pink, missing parts as dashed ink ghosts, ink outlines and an ink price tooltip on hover. Around the card live a few physical cartel objects: paper tape, a hanging price tag, the marker.",
+    "keyCharacteristics": [
+      "One rotated fluo pink card per screen, lifted off the paper by the system's only shadow.",
+      "Two widths of one family: condensed black for prices, normal width for everything else.",
+      "Hairline-ruled lists and flat white sheets instead of cards and shadows.",
+      "Lime marks the winner; store colors appear only as round dots.",
+      "Motion is handwriting and paper: strike-through and write-in, the card slapped onto the wall, parts sliding into the case, all on the ease-out-expo curve.",
+      "3D is a hybrid: realistic materials inside the case, the cartel's pink and ink drawn on top as outlines, ghosts, and a price tooltip."
+    ],
+    "rules": [
+      {
+        "name": "The Cartel Rule",
+        "body": "Pink is the card's material. It appears on the cartel (verdict or build total), on the blank card that asks for the query, on the controls that produce a cartel (logo, top-bar search submit, search focus ring), on text selection, and on the outline of the one 3D part being chosen. Never a section background, never a text color, never on a list row, never a status. A search that does not produce a cartel (a builder step) submits in ink.",
+        "section": "colors"
+      },
+      {
+        "name": "The Lime Means Cheapest Rule",
+        "body": "Lime marks the lowest price or the money saved, and nothing else. \"Compatible\" is not lime: it is ink text with a check.",
+        "section": "colors"
+      },
+      {
+        "name": "The Neutral Stores Rule",
+        "body": "Store colors never fill a surface, tint text, or color a border. Every store gets the same 10px dot (with a 1px ink/15 ring so yellow survives on white), so no store is favored beyond its price.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two Widths Rule",
+        "body": "Every price, the hero, page and band display headings, step numbers, and the budget input run in the narrow black cut with tabular lining numerals; nothing else does. Body and UI stay at normal width. No second family.",
+        "section": "typography"
+      },
+      {
+        "name": "The Tabular Rule",
+        "body": "Any number that is compared (prices, counts, response times, differences) is tabular.",
+        "section": "typography"
+      },
+      {
+        "name": "The Only Lifted Thing Rule",
+        "body": "If it is not the pink card (or the tape holding it), it is flat. Panels, rows, toggles, buttons, the 3D well, and the mobile total bar carry no shadow.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Hybrid Build Rule",
+        "body": "Inside the case the PC is rendered; on top of it, the cartel annotates. Parts use physically based materials at real scale (1 unit = 10 cm): near-black case steel, darker and lighter steel, brushed aluminum, dark and deep-green circuit boards, matte black and grey plastics, gold contacts, a perforated mesh front, printed labels, and a tempered-glass side (clear, 7% opacity, full clearcoat). Light is a studio: ACES filmic tone mapping at exposure 1.2, a neutral room environment at 0.95, a white key light with soft shadows, a cool rim from behind, and a hemisphere fill grounded in Hairline. The cartel layer is flat lines over the render: the active part's box in solid fluo pink (dashed pink while it is missing), missing parts as dashed ink ghosts at 32%, an ink box on hover (never for the case), and an ink \"Name · $price\" tooltip. Light inside the machine is white only and appears only when all seven parts are in. No pink, lime, or store colors on materials, no colored RGB lighting, no bloom, no dark stage; the canvas stays transparent over Sheet (the well, or the home band).",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do keep exactly one pink card per screen, rotated a degree or so, with Card Lift and tape.",
+      "Do render 3D parts in real materials with the cartel layer on top: the active part outlined in pink, missing ones as dashed ink ghosts, hover in ink.",
+      "Do mark compatibility in ink with a check, incompatibility in alert red with the triangle.",
+      "Do set every price in Archivo `wdth 62` weight 900 with tabular lining numerals.",
+      "Do cancel a beaten price with the marker strike and write the new one in, never by swapping text silently.",
+      "Do put data on Sheet panels and ruled lists with 1px Hairline dividers.",
+      "Do show every store with the same 10px dot and its `meta.ts` color.",
+      "Do keep Pencil small text on Sheet; on Card Stock use Graphite.",
+      "Do honor `prefers-reduced-motion` for every animation."
+    ],
+    "donts": [
+      "Don't use pink for backgrounds, text, statuses, or list rows outside the cartel, its search controls, and the active 3D part.",
+      "Don't use lime for anything that is not the cheapest price or the savings, including \"compatible\", \"chosen\", or \"done\".",
+      "Don't fill surfaces, tint text, or color borders with store colors.",
+      "Don't add shadows or glows to panels, rows, buttons, or the 3D well.",
+      "Don't put pink, lime, or store colors on 3D materials, or add colored RGB lighting, bloom, or a dark stage behind the canvas.",
+      "Don't introduce a dark theme, neon glow, or a grid of equal product cards.",
+      "Don't add a second typeface or use the narrow cut for running text."
+    ]
+  }
+}

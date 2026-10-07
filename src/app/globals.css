@@ -1,27 +1,251 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #0b0d10;
-  --panel: #13161b;
-  --line: #232831;
-  --fg: #eceff3;
-  --muted: #8b93a1;
-  --accent: #3ee08f;
+  /* cartulina y tinta */
+  --paper: #eef0ea;
+  --sheet: #ffffff;
+  --ink: #16171a;
+  --ink-2: #50535b;
+  --ink-3: #6f727a;
+  --rule: #d6d9d0;
+  --rule-strong: #b9bdb2;
+  /* cartel flúo: reservado al veredicto */
+  --fluo: #ff3d8b;
+  --fluo-deep: #e0206f;
+  --lime: #c8f031;
+  --alert: #c4211f;
+}
+
+/* modo oscuro: tinta y cartulina se dan vuelta; el rosa y el lima no cambian */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #141518;
+    --sheet: #1d1f23;
+    --ink: #eceee8;
+    --ink-2: #b4b7be;
+    --ink-3: #8f939b;
+    --rule: #2d3036;
+    --rule-strong: #43474f;
+    --alert: #ff6b5e;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #141518;
+  --sheet: #1d1f23;
+  --ink: #eceee8;
+  --ink-2: #b4b7be;
+  --ink-3: #8f939b;
+  --rule: #2d3036;
+  --rule-strong: #43474f;
+  --alert: #ff6b5e;
+  color-scheme: dark;
+}
+
+/*
+ * Lo que vive sobre rosa, lima o la barra negra usa siempre las tintas claras:
+ * así el cartel se lee igual en los dos modos.
+ */
+@layer base {
+  .light-scope {
+    --paper: #eef0ea;
+    --sheet: #ffffff;
+    --ink: #16171a;
+    --ink-2: #50535b;
+    --ink-3: #6f727a;
+    --rule: #d6d9d0;
+    --rule-strong: #b9bdb2;
+    --alert: #c4211f;
+    /* el texto heredado del body ya viene resuelto a la tinta clara: lo reseteamos */
+    color: var(--ink);
+  }
 }
 
 @theme inline {
-  --color-bg: var(--bg);
-  --color-panel: var(--panel);
-  --color-line: var(--line);
-  --color-fg: var(--fg);
-  --color-muted: var(--muted);
-  --color-accent: var(--accent);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-paper: var(--paper);
+  --color-sheet: var(--sheet);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-rule: var(--rule);
+  --color-rule-strong: var(--rule-strong);
+  --color-fluo: var(--fluo);
+  --color-fluo-deep: var(--fluo-deep);
+  --color-lime: var(--lime);
+  --color-alert: var(--alert);
+  --font-sans: var(--font-archivo);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html {
+  color-scheme: light;
+  scrollbar-color: var(--rule-strong) var(--paper);
 }
 
 body {
-  background: var(--bg);
-  color: var(--fg);
-  font-family: var(--font-sans), system-ui, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-archivo), system-ui, sans-serif;
+  font-variation-settings: "wdth" 100;
+  caret-color: var(--fluo-deep);
+}
+
+::selection {
+  background: var(--fluo);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+a {
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
+}
+
+/* números de cartel: Archivo angosto y negro */
+.cartel-num {
+  font-variation-settings: "wdth" 62;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums lining-nums;
+  letter-spacing: -0.01em;
+}
+
+/* el precio nuevo se escribe de izquierda a derecha */
+@keyframes write-in {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* el fibrón tacha el precio viejo */
+@keyframes strike {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* el cartel se pega contra la pared */
+@keyframes slap {
+  0% {
+    opacity: 0;
+    transform: translateY(-14px) scale(1.07);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(1px) scale(0.995);
+  }
+  100% {
+    transform: none;
+  }
+}
+
+/* etiqueta colgando de un hilo */
+@keyframes swing {
+  0%,
+  100% {
+    transform: rotate(-5deg);
+  }
+  50% {
+    transform: rotate(6deg);
+  }
+}
+
+/* el fibrón cruza la fila mientras tacha */
+@keyframes marker-pass {
+  0% {
+    opacity: 0;
+    left: -2%;
+  }
+  10% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+    left: 72%;
+  }
+  100% {
+    opacity: 0;
+    left: 78%;
+  }
+}
+
+.anim-slap {
+  animation: slap 560ms var(--ease-out-expo) both;
+}
+
+.anim-swing {
+  transform-origin: 50% 0;
+  animation: swing 4.5s ease-in-out infinite;
+}
+
+.anim-marker {
+  animation: marker-pass 1500ms var(--ease-out-expo) 250ms both;
+}
+
+/* cinta de papel: semitransparente, con los bordes cortados a mano */
+.tape {
+  background: rgb(255 255 255 / 0.58);
+  box-shadow: 0 1px 2px rgb(22 23 26 / 0.12);
+  clip-path: polygon(2% 0, 98% 4%, 100% 30%, 97% 55%, 100% 82%, 97% 100%, 3% 96%, 0 70%, 3% 45%, 0 18%);
+}
+
+/* el cartel viaja entre páginas como un mismo objeto */
+::view-transition-group(.morph) {
+  animation-duration: 460ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.anim-write {
+  animation: write-in 520ms var(--ease-out-expo) both;
+}
+
+.anim-strike path {
+  stroke-dasharray: 1;
+  animation: strike 360ms var(--ease-out-expo) var(--strike-delay, 0ms) both;
+}
+
+.anim-rise {
+  animation: rise 420ms var(--ease-out-expo) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-write,
+  .anim-strike path,
+  .anim-rise,
+  .anim-slap,
+  .anim-swing {
+    animation: none;
+  }
+  .anim-marker {
+    display: none;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+  .anim-strike path {
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+  }
 }

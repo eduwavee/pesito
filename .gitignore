@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# datos locales (historial de precios, alertas) cuando no hay DATABASE_URL
+/.data

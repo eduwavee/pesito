@@ -33,6 +33,11 @@ async function catalog(): Promise<CgProduct[]> {
   return value;
 }
 
+/** Nombres de todo el catálogo: vocabulario para corregir errores de tipeo. */
+export async function catalogTitles(): Promise<string[]> {
+  return (await catalog()).filter((p) => p.vendible).map((p) => p.nombre);
+}
+
 export const compragamer: StoreAdapter = {
   id: "compragamer",
   async search(query, limit) {
@@ -48,6 +53,8 @@ export const compragamer: StoreAdapter = {
         title: p.nombre,
         price: Math.round(p.precioEspecial),
         listPrice: p.precioLista > p.precioEspecial ? Math.round(p.precioLista) : undefined,
+        // en Compra Gamer el precio de lista es el de tarjeta; el especial es contado/transferencia
+        cardPrice: p.precioLista > 0 ? Math.round(p.precioLista) : undefined,
         url: `https://compragamer.com/producto/${slug(p.nombre)}_${p.id_producto}`,
         image: img ? `${IMG_BASE}${img.nombre}-grn.jpg` : undefined,
         inStock: p.stock > 0,

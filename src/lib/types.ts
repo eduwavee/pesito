@@ -4,7 +4,8 @@ export type StoreId =
   | "fullh4rd"
   | "venex"
   | "mexx"
-  | "gezatek";
+  | "gezatek"
+  | "fravega";
 
 export interface Product {
   id: string;
@@ -14,10 +15,14 @@ export interface Product {
   price: number;
   /** Precio de lista / tachado, si existe */
   listPrice?: number;
+  /** Precio pagando con tarjeta / en cuotas, cuando la tienda lo publica aparte del contado */
+  cardPrice?: number;
   url: string;
   image?: string;
   brand?: string;
   inStock?: boolean;
+  /** true / false solo cuando la tienda lo informa; undefined = no sabemos */
+  freeShipping?: boolean;
   /** Etiqueta corta, ej: "Contado", "Full", "Envío gratis" */
   badge?: string;
 }
@@ -30,7 +35,11 @@ export interface StoreResult {
   products: Product[];
   ms: number;
   cached?: boolean;
+  /** Datos de ejemplo (DEMO_MODE), no precios reales */
+  demo?: boolean;
   message?: string;
+  /** La tienda nos bloqueó (anti-bot): no tiene sentido reintentar enseguida */
+  blocked?: boolean;
 }
 
 export interface StoreAdapter {
