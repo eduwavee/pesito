@@ -80,6 +80,9 @@ export function fileDb(dir = process.env.PRECIOAR_DATA_DIR ?? join(process.cwd()
     async activeAlerts() {
       return (await load()).alerts.filter((a) => a.active);
     },
+    async alertsByEmail(email) {
+      return (await load()).alerts.filter((a) => a.email === email);
+    },
     async updateAlert(id, patch) {
       const a = (await load()).alerts.find((x) => x.id === id);
       if (a) Object.assign(a, patch);

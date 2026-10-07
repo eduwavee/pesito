@@ -54,9 +54,24 @@ describe("API de alertas y cron (modo demo)", () => {
     delete process.env.PRECIOAR_DATA_DIR;
   });
 
-  const post = async (body: unknown) => {
+  const post = async (body: unknown, ip = "10.0.0.1") => {
     const { POST } = await import("@/app/api/alertas/route");
-    return POST(new Request("http://x/api/alertas", { method: "POST", body: JSON.stringify(body) }));
+    return POST(
+      new Request("http://x/api/alertas", { method: "POST", body: JSON.stringify(body), headers: { "x-forwarded-for": ip } }),
+    );
+  };
+  const cron = async (headers?: Record<string, string>) => {
+    const { GET } = await import("@/app/api/cron/route");
+    return GET(new Request("http://x/api/cron", { headers }));
+  };
+  const confirm = async (email: string) => {
+    const { getDb } = await import("@/lib/db");
+    const [a] = (await getDb().alertsByEmail(email)).filter((x) => !x.confirmedAt);
+    const { POST } = await import("@/app/api/alertas/confirmar/route");
+    const form = new FormData();
+    form.set("id", a.id);
+    form.set("token", a.token);
+    return POST(new Request("http://x/api/alertas/confirmar", { method: "POST", body: form }));
   };
 
   it("valida mail, producto y precio", async () => {
@@ -65,15 +80,49 @@ describe("API de alertas y cron (modo demo)", () => {
     expect((await post({ email: "a@b.com", query: "rtx 5060", target: 10 })).status).toBe(400);
   });
 
-  it("avisa cuando baja del precio y no repite el aviso", async () => {
-    const res = await post({ email: "a@b.com", query: "rtx 5060", target: 99_000_000 });
+  it("no devuelve el token: sin el mail no se puede confirmar", async () => {
+    const res = await post({ email: "otro@b.com", query: "rtx 5070", target: 500_000 });
     expect(res.status).toBe(201);
-    const { GET } = await import("@/app/api/cron/route");
-    const first = await (await GET(new Request("http://x/api/cron"))).json();
-    expect(first.sent).toBe(1);
-    const second = await (await GET(new Request("http://x/api/cron"))).json();
-    expect(second.sent).toBe(0);
+    expect(await res.json()).not.toHaveProperty("token");
+    const { POST } = await import("@/app/api/alertas/confirmar/route");
+    const { id } = (await (await post({ email: "otro2@b.com", query: "rtx 5070", target: 500_000 })).json()) as {
+      id: string;
+    };
+    const form = new FormData();
+    form.set("id", id);
+    form.set("token", "0".repeat(32));
+    expect((await POST(new Request("http://x", { method: "POST", body: form }))).status).toBe(404);
+  });
+
+  it("avisa solo después de confirmar, y no repite el aviso", async () => {
+    expect((await post({ email: "a@b.com", query: "rtx 5060", target: 99_000_000 })).status).toBe(201);
+    expect((await (await cron()).json()).sent).toBe(0); // pendiente
+    expect((await confirm("a@b.com")).status).toBe(200);
+    const first = await (await cron()).json();
+    expect(first).toMatchObject({ sent: 1, checked: 1, pending: 0 });
+    expect((await (await cron()).json()).sent).toBe(0);
   }, 20_000);
+
+  it("no manda más de 3 mails de confirmación por día al mismo mail", async () => {
+    for (let i = 0; i < 3; i++) expect((await post({ email: "x@z.com", query: `ryzen ${i}`, target: 9_000 }, `10.1.0.${i}`)).status).toBe(201);
+    const res = await post({ email: "x@z.com", query: "ryzen 9", target: 9_000 }, "10.1.0.9");
+    expect(res.status).toBe(429);
+  });
+
+  it("limita las alertas por IP", async () => {
+    const ip = "10.2.0.1";
+    for (let i = 0; i < 5; i++) expect((await post({ email: `u${i}@z.com`, query: "ssd 1tb", target: 9_000 }, ip)).status).toBe(201);
+    expect((await post({ email: "u9@z.com", query: "ssd 1tb", target: 9_000 }, ip)).status).toBe(429);
+  });
+
+  it("cron: en producción no corre sin CRON_SECRET, y con secreto lo exige", async () => {
+    vi.stubEnv("NODE_ENV", "production");
+    expect((await cron()).status).toBe(503);
+    vi.stubEnv("CRON_SECRET", "s3cret");
+    expect((await cron()).status).toBe(401);
+    expect((await cron({ authorization: "Bearer s3cret" })).status).toBe(200);
+    vi.unstubAllEnvs();
+  });
 });
 
 describe("búsquedas populares", () => {

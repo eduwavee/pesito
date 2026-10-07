@@ -18,7 +18,12 @@ export interface Alert {
   query: string;
   target: number;
   createdAt: string;
+  /** el cron la revisa; arranca en false hasta que confirman el mail */
   active: boolean;
+  /** cuándo confirmaron desde el link del mail (sin esto la alerta está pendiente) */
+  confirmedAt?: string;
+  /** última vez que el cron buscó su precio (para repartir el trabajo entre días) */
+  checkedAt?: string;
   /** último precio por el que avisamos (no repetimos si no baja más) */
   notifiedPrice?: number;
 }
@@ -40,7 +45,12 @@ export interface Db {
   topQueries(limit: number): Promise<{ query: string; count: number }[]>;
   addAlert(a: Alert): Promise<void>;
   activeAlerts(): Promise<Alert[]>;
-  updateAlert(id: string, patch: Partial<Pick<Alert, "active" | "notifiedPrice">>): Promise<void>;
+  /** Todas las de un mail (activas, pendientes y dadas de baja). */
+  alertsByEmail(email: string): Promise<Alert[]>;
+  updateAlert(
+    id: string,
+    patch: Partial<Pick<Alert, "active" | "notifiedPrice" | "confirmedAt" | "checkedAt">>,
+  ): Promise<void>;
   getAlert(id: string): Promise<Alert | undefined>;
   recordBuild(b: Omit<SavedBuild, "count" | "lastAt">): Promise<void>;
   popularBuilds(limit: number): Promise<SavedBuild[]>;

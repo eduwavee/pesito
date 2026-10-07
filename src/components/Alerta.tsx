@@ -4,13 +4,13 @@ import { useState } from "react";
 import { formatArs, formatNum } from "@/lib/format";
 import { ArrowIcon, CheckIcon } from "./ui";
 
-/** "Avisame si baja": mail + precio objetivo. Sin cuenta; el mail trae el link de baja. */
+/** "Avisame si baja": mail + precio objetivo. Sin cuenta: se activa desde el mail y ahí mismo está la baja. */
 export function Alerta({ query, best }: { query: string; best?: number }) {
   const suggested = best ? Math.floor((best * 0.95) / 1000) * 1000 : undefined;
   const [email, setEmail] = useState("");
   const [raw, setRaw] = useState(suggested ? String(suggested) : "");
   const [state, setState] = useState<
-    { s: "idle" } | { s: "sending" } | { s: "ok"; emailed: boolean; storage: string } | { s: "error"; msg: string }
+    { s: "idle" } | { s: "sending" } | { s: "ok"; emailed: boolean } | { s: "error"; msg: string }
   >({ s: "idle" });
   const target = Number(raw.replace(/\D/g, ""));
 
@@ -25,7 +25,7 @@ export function Alerta({ query, best }: { query: string; best?: number }) {
       });
       const body = await res.json();
       if (!res.ok) setState({ s: "error", msg: body.error ?? "No pudimos crear la alerta" });
-      else setState({ s: "ok", emailed: body.emailed, storage: body.storage });
+      else setState({ s: "ok", emailed: body.emailed });
     } catch {
       setState({ s: "error", msg: "Sin conexión. Probá de nuevo." });
     }
@@ -44,13 +44,13 @@ export function Alerta({ query, best }: { query: string; best?: number }) {
             <span className="grid size-5 place-items-center rounded-full bg-ink text-paper">
               <CheckIcon />
             </span>
-            Listo, seguimos “{query}”.
+            Falta un paso: confirmá desde tu mail.
           </p>
           <p className="mt-2 text-sm text-ink-2">
-            Revisamos las tiendas todos los días y te escribimos a {email} cuando alguna lo tenga a {formatArs(target)} o
-            menos.
-            {!state.emailed && " (En este servidor todavía no está configurado el envío de mails: la alerta quedó guardada.)"}
-            {state.storage === "memory" && " Ojo: sin base de datos configurada, la alerta se pierde si el servidor se reinicia."}
+            Te mandamos un link a {email}. Cuando lo confirmes, revisamos las tiendas todos los días y te escribimos
+            cuando alguna tenga “{query}” a {formatArs(target)} o menos.
+            {!state.emailed &&
+              " (En este servidor no está configurado el envío de mails: el link de confirmación quedó en la consola del servidor.)"}
           </p>
         </div>
       ) : (
@@ -90,7 +90,7 @@ export function Alerta({ query, best }: { query: string; best?: number }) {
               {state.s === "sending" ? "Guardando…" : "Avisame"} <ArrowIcon />
             </button>
             <p className="text-xs text-ink-2" aria-live="polite">
-              {state.s === "error" ? <span className="font-semibold text-alert">{state.msg}</span> : "Sin cuenta. Te das de baja desde el mail."}
+              {state.s === "error" ? <span className="font-semibold text-alert">{state.msg}</span> : "Sin cuenta. Confirmás y te das de baja desde el mail."}
             </p>
           </div>
         </form>

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildTotal, cheapestFit, decodeBuild, encodeBuild, oneStoreTotals, rankOffers } from "@/lib/builder/build";
+import { buildTotal, canonicalBuildKey, cheapestFit, decodeBuild, encodeBuild, oneStoreTotals, rankOffers } from "@/lib/builder/build";
 import { buildWarnings, fitFor } from "@/lib/builder/compat";
 import { fitsCategory, type Build } from "@/lib/builder/parts";
 import { nextTier, startTier, TIERS } from "@/lib/builder/presets";
@@ -262,5 +262,21 @@ describe("presupuesto", () => {
     for (const list of Object.values(TIERS))
       for (const t of list)
         expect(Object.keys(t.queries).sort()).toEqual(["case", "cooler", "cpu", "gpu", "mother", "psu", "ram", "ssd"]);
+  });
+});
+
+describe("armados que llegan de afuera", () => {
+  it("acepta un armado real y lo deja en forma canónica", () => {
+    expect(canonicalBuildKey("gpu=rtx 5060~cg-2&cpu=ryzen 5 7600~cg-1&ram=ddr5~cg-3&ramx=2&case=~")).toBe(
+      "cpu=ryzen+5+7600%7Ecg-1&ram=ddr5%7Ecg-3&ramx=2&gpu=rtx+5060%7Ecg-2&case=%7E",
+    );
+  });
+
+  it("rechaza claves raras, piezas sin producto y unidades de más", () => {
+    expect(canonicalBuildKey("cpu=ryzen~cg-1&spam=hola")).toBeNull();
+    expect(canonicalBuildKey("cpu=ryzen~")).toBeNull();
+    expect(canonicalBuildKey("cpu=~&gpu=~")).toBeNull();
+    expect(canonicalBuildKey("ram=ddr5~cg-3&ramx=99")).toBeNull();
+    expect(canonicalBuildKey("cpu=ryzen~cg-1&cpux=2")).toBeNull();
   });
 });

@@ -1,7 +1,7 @@
 import { STORE_IDS } from "../stores/meta";
 import type { Product, StoreId } from "../types";
 import { fitFor, type Fit } from "./compat";
-import { PART_IDS, fitsCategory, qtyOf, slotPrice, type Build, type PartId } from "./parts";
+import { PART_IDS, fitsCategory, partDef, qtyOf, slotPrice, type Build, type PartId } from "./parts";
 
 export type RankedOffer = { product: Product; fit: Fit };
 
@@ -98,4 +98,35 @@ export function decodeBuild(
     out[id] = raw === "~" ? { query: "", skipped: true } : { query, pickId: pickId || undefined, qty };
   }
   return out;
+}
+
+/**
+ * Valida un armado que llega de afuera (ranking de populares) y lo devuelve en forma canónica,
+ * o null si no es un armado real: claves desconocidas, piezas sin producto elegido, unidades de más.
+ */
+export function canonicalBuildKey(key: string): string | null {
+  const params = new URLSearchParams(key);
+  const allowed = new Set(PART_IDS.flatMap((id) => [id, `${id}x`]));
+  if ([...params.keys()].some((k) => !allowed.has(k))) return null;
+  const slots = decodeBuild(key);
+  const out = new URLSearchParams();
+  let picked = 0;
+  for (const id of PART_IDS) {
+    const s = slots[id];
+    if (!s) continue;
+    if (s.skipped) {
+      out.set(id, "~");
+      continue;
+    }
+    if (s.query.length < 2 || !s.pickId || s.pickId.length > 200) return null;
+    out.set(id, `${s.query}~${s.pickId}`);
+    picked++;
+    const qty = params.get(`${id}x`);
+    if (qty !== null) {
+      const n = Number(qty);
+      if (!Number.isInteger(n) || n < 2 || n > (partDef(id).multi ?? 1)) return null;
+      out.set(`${id}x`, qty);
+    }
+  }
+  return picked ? out.toString() : null;
 }

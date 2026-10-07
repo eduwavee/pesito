@@ -21,7 +21,7 @@ export const siteUrl = () =>
   process.env.NEXT_PUBLIC_SITE_URL ??
   (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
 
-const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
+export const escapeHtml = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
 
 /** Mail simple en el estilo del cartel: el precio grande sobre rosa. */
 export function priceMail(o: { heading: string; price: string; lines: string[]; cta: { href: string; label: string }; footer: string }) {
@@ -29,10 +29,10 @@ export function priceMail(o: { heading: string; price: string; lines: string[]; 
 <div style="max-width:520px;margin:0 auto;padding:28px 20px">
   <p style="font-weight:700;font-size:18px;margin:0 0 16px">PrecioAR</p>
   <div style="background:#ff3d8b;padding:24px;border-radius:6px">
-    <p style="margin:0;font-weight:700;font-size:17px">${esc(o.heading)}</p>
-    <p style="margin:8px 0 0;font-weight:900;font-size:44px;line-height:1">$ ${esc(o.price)}.-</p>
-    ${o.lines.map((l) => `<p style="margin:10px 0 0;font-size:15px">${esc(l)}</p>`).join("")}
-    <p style="margin:20px 0 0"><a href="${o.cta.href}" style="background:#16171a;color:#eef0ea;padding:12px 18px;border-radius:3px;text-decoration:none;font-weight:700">${esc(o.cta.label)}</a></p>
+    <p style="margin:0;font-weight:700;font-size:17px">${escapeHtml(o.heading)}</p>
+    <p style="margin:8px 0 0;font-weight:900;font-size:44px;line-height:1">$ ${escapeHtml(o.price)}.-</p>
+    ${o.lines.map((l) => `<p style="margin:10px 0 0;font-size:15px">${escapeHtml(l)}</p>`).join("")}
+    <p style="margin:20px 0 0"><a href="${escapeHtml(o.cta.href)}" style="background:#16171a;color:#eef0ea;padding:12px 18px;border-radius:3px;text-decoration:none;font-weight:700">${escapeHtml(o.cta.label)}</a></p>
   </div>
   <p style="font-size:12px;color:#50535b;margin-top:18px">${o.footer}</p>
 </div></body></html>`;

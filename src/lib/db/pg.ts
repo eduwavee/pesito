@@ -15,6 +15,9 @@ export function pgDb(url: string): Db {
         id text primary key, token text not null, email text not null, query text not null,
         target integer not null, created_at timestamptz not null default now(),
         active boolean not null default true, notified_price integer)`;
+      await tx`alter table alerts add column if not exists confirmed_at timestamptz,
+        add column if not exists checked_at timestamptz`;
+      await tx`create index if not exists alerts_email on alerts (email)`;
       await tx`create table if not exists builds (
         key text primary key, total integer not null, parts integer not null,
         count integer not null default 1, last_at timestamptz not null default now())`;
@@ -29,6 +32,8 @@ export function pgDb(url: string): Db {
     createdAt: new Date(r.created_at as string).toISOString(),
     active: r.active as boolean,
     notifiedPrice: (r.notified_price as number | null) ?? undefined,
+    confirmedAt: r.confirmed_at ? new Date(r.confirmed_at as string).toISOString() : undefined,
+    checkedAt: r.checked_at ? new Date(r.checked_at as string).toISOString() : undefined,
   });
 
   return {
@@ -57,18 +62,26 @@ export function pgDb(url: string): Db {
     },
     async addAlert(a) {
       await init();
-      await sql`insert into alerts (id, token, email, query, target, created_at, active)
-        values (${a.id}, ${a.token}, ${a.email}, ${a.query}, ${a.target}, ${a.createdAt}, true)`;
+      await sql`insert into alerts (id, token, email, query, target, created_at, active, confirmed_at)
+        values (${a.id}, ${a.token}, ${a.email}, ${a.query}, ${a.target}, ${a.createdAt}, ${a.active},
+          ${a.confirmedAt ?? null})`;
     },
     async activeAlerts() {
       await init();
       return (await sql`select * from alerts where active`).map(toAlert);
+    },
+    async alertsByEmail(email) {
+      await init();
+      return (await sql`select * from alerts where email = ${email}`).map(toAlert);
     },
     async updateAlert(id, patch) {
       await init();
       if (patch.active !== undefined) await sql`update alerts set active = ${patch.active} where id = ${id}`;
       if (patch.notifiedPrice !== undefined)
         await sql`update alerts set notified_price = ${patch.notifiedPrice} where id = ${id}`;
+      if (patch.confirmedAt !== undefined)
+        await sql`update alerts set confirmed_at = ${patch.confirmedAt} where id = ${id}`;
+      if (patch.checkedAt !== undefined) await sql`update alerts set checked_at = ${patch.checkedAt} where id = ${id}`;
     },
     async getAlert(id) {
       await init();
