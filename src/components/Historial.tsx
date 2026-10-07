@@ -138,7 +138,8 @@ function Grafico({ points, min }: { points: Point[]; min: Point }) {
     return {
       xs: points.map((p) => x(p.day)),
       ys: points.map((p) => y(p.price)),
-      ticks: [hi, (hi + lo) / 2, lo].map((v) => ({ v, y: y(v) })),
+      // con un solo precio en todo el período, una sola línea (no tres encimadas)
+      ticks: [...new Set([hi, (hi + lo) / 2, lo])].map((v) => ({ v, y: y(v) })),
     };
   }, [points, w, pad.l, pad.r, pad.t, pad.b]);
 
