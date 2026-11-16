@@ -691,7 +691,7 @@ function PartStep({
               {offer.query}”{pending > 0 && ` · buscando en ${pending} ${pending === 1 ? "tienda" : "tiendas"}…`}
             </span>
             {offer.failed.length > 0 && (
-              <span>No respondieron: {offer.failed.map((s) => STORES[s].name).join(", ")}</span>
+              <span>No se pudieron consultar: {offer.failed.map((s) => STORES[s].name).join(", ")}</span>
             )}
           </p>
         )}

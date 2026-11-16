@@ -10,7 +10,7 @@ export function searchStore(store: StoreId, query: string): Promise<StoreResult>
   if (!hit) {
     hit = fetch(`/api/search/${store}?q=${encodeURIComponent(query.trim())}`)
       .then((r) => r.json() as Promise<StoreResult>)
-      .catch((): StoreResult => ({ store, status: "error", products: [], ms: 0, message: "Error de red" }));
+      .catch((): StoreResult => ({ store, status: "error", products: [], ms: 0, message: "No se pudo conectar con el servidor de Pesito", errorKind: "connection" }));
     cache.set(key, hit);
     // los errores no se cachean: se puede reintentar
     hit.then((r) => r.status === "error" && cache.delete(key));

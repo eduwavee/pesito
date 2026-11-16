@@ -9,6 +9,7 @@ import { modelOf, variantOf, variantsOf, type Variant } from "@/lib/variants";
 import { Alerta } from "./Alerta";
 import { Cuotas } from "./Cuotas";
 import { Historial } from "./Historial";
+import { errorLabel } from "@/lib/store-errors";
 import { STORE_IDS, STORES } from "@/lib/stores/meta";
 import type { Product, StoreId, StoreResult } from "@/lib/types";
 import { PcScene } from "./pc3d";
@@ -54,7 +55,7 @@ export default function Comparador({ initialQuery = "" }: { initialQuery?: strin
     for (const store of STORE_IDS) {
       fetch(`/api/search/${store}?q=${encodeURIComponent(term)}`)
         .then((r) => r.json() as Promise<StoreResult>)
-        .catch((): StoreResult => ({ store, status: "error", products: [], ms: 0, message: "Error de red" }))
+        .catch((): StoreResult => ({ store, status: "error", products: [], ms: 0, message: "No se pudo conectar con el servidor de Pesito", errorKind: "connection" }))
         .then((result) => {
           if (id !== reqId.current) return; // respuesta de una búsqueda vieja
           setSlots((prev) => ({ ...prev, [store]: { state: "done", result } }));
@@ -310,7 +311,7 @@ export default function Comparador({ initialQuery = "" }: { initialQuery?: strin
                     {slot.state === "done" && slot.result.status !== "ok" && (
                       <p className={`pt-3 text-sm ${slot.result.status === "error" ? "text-alert" : "text-ink-2"}`}>
                         {slot.result.status === "error"
-                          ? `${STORES[s].name} no respondió${slot.result.message ? `: ${slot.result.message}` : ""}.`
+                          ? `${STORES[s].name} ${errorLabel(slot.result)}${slot.result.message ? `: ${slot.result.message}` : ""}.`
                           : "Sin resultados para esta búsqueda."}{" "}
                         <a
                           href={STORES[s].search(query)}
@@ -740,7 +741,7 @@ function Llegadas({ arrivals, slots }: { arrivals: StoreId[]; slots: Record<Stor
               <span className="min-w-0 truncate font-medium">{STORES[s].name}</span>
               <span className={`ml-auto shrink-0 tabular-nums ${r?.status === "error" ? "text-alert" : "text-ink-2"}`}>
                 {r?.status === "error"
-                  ? "no respondió"
+                  ? errorLabel(r)
                   : r?.cached
                     ? "al instante"
                     : r
@@ -829,7 +830,7 @@ function PorTienda({
           if (!enabled[s]) status = <span className="text-ink-3">oculta</span>;
           else if (slot.state === "loading") status = <span className="text-ink-3">buscando…</span>;
           else if (slot.state === "done" && slot.result.status === "error")
-            status = <span className="text-alert">no respondió</span>;
+            status = <span className="text-alert">{errorLabel(slot.result)}</span>;
           else if (!own) status = <span className="text-ink-3">sin resultados</span>;
 
           return (

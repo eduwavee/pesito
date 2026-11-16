@@ -1,6 +1,6 @@
 import * as cheerio from "cheerio";
 import { cached } from "../cache";
-import { getHtml, getJson, HttpError } from "../http";
+import { getHtml, getJson, HttpError, StoreError } from "../http";
 import { cleanText, parseArs } from "../text";
 import type { Product, StoreAdapter } from "../types";
 
@@ -39,14 +39,32 @@ async function getToken(): Promise<string | undefined> {
   const secret = process.env.ML_CLIENT_SECRET;
   if (!id || !secret) return undefined;
   const { value } = await cached("ml:token", 5 * 60 * 60_000, async () => {
-    const res = await fetch(`${API}/oauth/token`, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded", Accept: "application/json" },
-      body: new URLSearchParams({ grant_type: "client_credentials", client_id: id, client_secret: secret }),
-      cache: "no-store",
-    });
-    if (!res.ok) throw new HttpError(res.status, `No se pudo obtener token de ML (${res.status})`);
-    return ((await res.json()) as { access_token: string }).access_token;
+    let res: Response;
+    try {
+      res = await fetch(`${API}/oauth/token`, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded", Accept: "application/json" },
+        body: new URLSearchParams({ grant_type: "client_credentials", client_id: id, client_secret: secret }),
+        cache: "no-store",
+        signal: AbortSignal.timeout(10_000),
+      });
+    } catch (e) {
+      const timeout = e instanceof Error && (e.name === "TimeoutError" || e.name === "AbortError");
+      throw new StoreError(
+        timeout ? "timeout" : "connection",
+        timeout ? "Mercado Libre tardó demasiado en entregar el token" : "No se pudo conectar con la API de Mercado Libre",
+      );
+    }
+    // credenciales mal cargadas: es un problema de configuración nuestro, no un bloqueo de la tienda
+    if (!res.ok) {
+      throw new StoreError(
+        "http",
+        `Mercado Libre rechazó las credenciales de la API (HTTP ${res.status}): revisá ML_CLIENT_ID y ML_CLIENT_SECRET`,
+      );
+    }
+    const token = ((await res.json().catch(() => ({}))) as { access_token?: string }).access_token;
+    if (!token) throw new StoreError("processing", "Mercado Libre no devolvió un access_token");
+    return token;
   });
   return value;
 }
@@ -103,6 +121,7 @@ async function viaCatalogApi(query: string, limit: number, token: string): Promi
 export function parseMlListing(html: string): Product[] {
   const $ = cheerio.load(html);
   const out: Product[] = [];
+  const seen = new Set<string>();
   $(".poly-card").each((_, el) => {
     const card = $(el);
     const a = card.find("a.poly-component__title, .poly-component__title a").first();
@@ -113,6 +132,9 @@ export function parseMlListing(html: string): Product[] {
     const img = card.find("img").first();
     if (!href || !title || !price) return;
     const id = /(MLA-?\d+)/.exec(href)?.[1]?.replace("-", "") ?? href;
+    // el mismo aviso puede salir dos veces (patrocinado + orgánico)
+    if (seen.has(id)) return;
+    seen.add(id);
     out.push({
       id: `ml-${id}`,
       store: "mercadolibre",
@@ -132,7 +154,11 @@ async function viaHtml(query: string, limit: number): Promise<Product[]> {
   const slug = query.trim().toLowerCase().replace(/\s+/g, "-");
   const html = await getHtml(`https://listado.mercadolibre.com.ar/${encodeURIComponent(slug).replace(/%2D/g, "-")}`);
   if (/account-verification|ingresa a\s*tu cuenta/i.test(html)) {
-    throw new HttpError(403, "Mercado Libre pidió login (anti-bot). Configurá ML_CLIENT_ID / ML_CLIENT_SECRET.");
+    throw new HttpError(
+      403,
+      "Mercado Libre exige iniciar sesión para ver el listado (verificación anti-bot). Solo se puede consultar con su API oficial: configurá ML_CLIENT_ID y ML_CLIENT_SECRET",
+      "redirigió a /gz/account-verification",
+    );
   }
   return parseMlListing(html).slice(0, limit);
 }
@@ -140,7 +166,8 @@ async function viaHtml(query: string, limit: number): Promise<Product[]> {
 export const mercadolibre: StoreAdapter = {
   id: "mercadolibre",
   async search(query, limit) {
-    const token = await getToken().catch(() => undefined);
+    // si hay credenciales cargadas y fallan, lo decimos: caer al HTML daría un "pidió login" engañoso
+    const token = await getToken();
     if (token) {
       try {
         return await viaSearchApi(query, limit, token);

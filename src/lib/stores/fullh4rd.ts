@@ -9,6 +9,7 @@ const BASE = "https://fullh4rd.com.ar";
 export function parseFullh4rd(html: string): Product[] {
   const $ = cheerio.load(html);
   const out: Product[] = [];
+  const seen = new Set<string>();
   $(".item.product-list").each((_, el) => {
     const card = $(el);
     const a = card.find("a[href]").first();
@@ -20,6 +21,10 @@ export function parseFullh4rd(html: string): Product[] {
     const price = parseArs(priceEl.clone().children().remove().end().text());
     const id = /\/prod\/(\d+)/.exec(href ?? "")?.[1];
     if (!href || !title || !price) return;
+    // el mismo producto puede repetirse en el listado (destacados + resultados)
+    const key = id ?? href;
+    if (seen.has(key)) return;
+    seen.add(key);
     out.push({
       id: `fh-${id ?? href}`,
       store: "fullh4rd",

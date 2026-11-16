@@ -48,7 +48,7 @@ Cada tienda carga por separado, así la que responde primero aparece primero y s
 | Venex | HTML de `resultado-busqueda.htm` (windows-1252); datos del JSON en `enhancedClick(...)` | `venex.ts` |
 | Mexx | HTML de `/buscar/?p=` (deduplica por número de artículo) | `mexx.ts` |
 | Gezatek | HTML de `/buscar/?q=`; datos en `data-id / data-nombre / data-precio` | `gezatek.ts` |
-| Frávega | HTML de `/l/?keyword=`; el listado sale del JSON de `__NEXT_DATA__` (estado de Apollo) | `fravega.ts` |
+| Frávega | HTML de `/l/?keyword=` (hasta 3 páginas con `&page=N`); el listado sale del JSON de `__NEXT_DATA__` (estado de Apollo) | `fravega.ts` |
 | Mercado Libre | API oficial con token (`ML_CLIENT_ID` + `ML_CLIENT_SECRET`); sin credenciales intenta el HTML del listado | `mercadolibre.ts` |
 
 ### Mercado Libre
@@ -59,6 +59,24 @@ La búsqueda pública de la API (`/sites/MLA/search`) devuelve **403 sin token**
 2. Copiá `Client ID` y `Client Secret` a `.env.local`.
 
 Si la búsqueda sigue en 403 con token, el adapter usa el catálogo (`/products/search` + precio de la buy box).
+
+### Cuando una tienda falla
+
+Cada respuesta de `/api/search/[store]` con `status: "error"` trae la causa en `errorKind`, y el server la loguea como `[tienda] error:<causa> q="..." <ms> — detalle`:
+
+| `errorKind` | Qué pasó |
+|---|---|
+| `connection` | No se pudo conectar (DNS, red, conexión rechazada) |
+| `timeout` | La tienda no contestó a tiempo |
+| `blocked` | Rechazó la consulta: 401 / 403 / 429, desafío anti-bot o pedido de login. No se reintenta por 5 minutos |
+| `http` | Otro error HTTP (404, 5xx) o credenciales rechazadas |
+| `structure` | Respondió, pero la página ya no tiene la forma que espera el extractor |
+| `empty-response` | Respondió 200 con el cuerpo vacío |
+| `processing` | Llegaron datos que no se pudieron procesar |
+
+Una búsqueda sin resultados no es un error: es `status: "empty"`.
+
+Limitaciones conocidas: **FullH4rd** responde 403 desde su firewall de Cloudflare a cualquier cliente que no sea un navegador, y **Mercado Libre** sin credenciales redirige a una verificación de cuenta. No se intenta saltear ninguno de los dos bloqueos.
 
 ### Armado de PC
 
