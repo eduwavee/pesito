@@ -4,7 +4,7 @@ import { cartelImage } from "@/lib/og/render";
 import { bestByStore } from "@/lib/race";
 import { searchStore } from "@/lib/stores";
 import { STORE_COUNT, STORE_IDS, STORES } from "@/lib/stores/meta";
-import { isNew } from "@/lib/types";
+import { isComparable } from "@/lib/types";
 
 /** Imagen para compartir una búsqueda: el más barato en el cartel y el mínimo de cada tienda al lado. */
 export async function GET(req: NextRequest) {
@@ -20,7 +20,7 @@ export async function GET(req: NextRequest) {
   }
 
   const results = await Promise.all(STORE_IDS.map((s) => searchStore(s, q)));
-  const best = [...bestByStore(results.flatMap((r) => r.products).filter(isNew)).values()].sort((a, b) => a.price - b.price);
+  const best = [...bestByStore(results.flatMap((r) => r.products).filter(isComparable)).values()].sort((a, b) => a.price - b.price);
   const answered = results.filter((r) => r.status !== "error").length;
   const winner = best[0];
 

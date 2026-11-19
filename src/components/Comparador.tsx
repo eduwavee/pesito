@@ -47,6 +47,12 @@ export default function Comparador({ initialQuery = "" }: { initialQuery?: strin
   const [sort, setSort] = useState<Sort>("asc");
   const [onlyFree, setOnlyFree] = useState(false);
   const [showUsed, setShowUsed] = useState(false);
+  const [showNotebook, setShowNotebook] = useState(false);
+  /** lo que ocultamos por defecto (usados, memorias de notebook) salvo que se pida */
+  const shown = useCallback(
+    (p: Product) => (showUsed || !p.used) && (showNotebook || !p.notebook),
+    [showUsed, showNotebook],
+  );
   const [variantPick, setVariantPick] = useState<Pick>(null);
   const [didYouMean, setDidYouMean] = useState<{ query: string; fix: string } | null>(null);
   const reqId = useRef(0);
@@ -101,14 +107,17 @@ export default function Comparador({ initialQuery = "" }: { initialQuery?: strin
       STORE_IDS.flatMap((s) => {
         const slot = slots[s];
         return slot.state === "done" && enabled[s] ? slot.result.products : [];
-      }).filter((p) => (!onlyFree || p.freeShipping) && (showUsed || !p.used)),
-    [slots, enabled, onlyFree, showUsed],
+      }).filter((p) => (!onlyFree || p.freeShipping) && shown(p)),
+    [slots, enabled, onlyFree, shown],
   );
-  // usados / reacondicionados que estamos ocultando (el botón solo aparece si hay)
-  const usedCount = STORE_IDS.reduce((n, s) => {
-    const slot = slots[s];
-    return n + (slot.state === "done" && enabled[s] ? slot.result.products.filter((p) => p.used).length : 0);
-  }, 0);
+  // cuántos estamos ocultando de cada tipo (cada botón solo aparece si hay)
+  const hiddenCount = (is: (p: Product) => boolean | undefined) =>
+    STORE_IDS.reduce((n, s) => {
+      const slot = slots[s];
+      return n + (slot.state === "done" && enabled[s] ? slot.result.products.filter(is).length : 0);
+    }, 0);
+  const usedCount = hiddenCount((p) => p.used);
+  const notebookCount = hiddenCount((p) => p.notebook);
 
   // "rtx 5060" trae 5060 y 5060 Ti: por defecto mostramos la variante que se buscó
   const { variants, asked } = useMemo(() => variantsOf(visible, query), [visible, query]);
@@ -261,6 +270,19 @@ export default function Comparador({ initialQuery = "" }: { initialQuery?: strin
                   {showUsed ? "Incluyendo usados y outlet" : `Incluir usados y outlet (${usedCount})`}
                 </button>
               )}
+              {notebookCount > 0 && (
+                <button
+                  type="button"
+                  aria-pressed={showNotebook}
+                  onClick={() => setShowNotebook((v) => !v)}
+                  title="Memorias SODIMM de notebook: no entran en una PC de escritorio"
+                  className={`rounded-[3px] border px-3 py-1.5 text-sm font-medium transition-colors ${
+                    showNotebook ? "border-ink bg-ink text-paper" : "border-rule-strong bg-sheet text-ink-2 hover:text-ink"
+                  }`}
+                >
+                  {showNotebook ? "Incluyendo de notebook" : `Incluir de notebook (${notebookCount})`}
+                </button>
+              )}
               {shippingKnown && (
                 <button
                   type="button"
@@ -311,7 +333,7 @@ export default function Comparador({ initialQuery = "" }: { initialQuery?: strin
                 const slot = slots[s];
                 const items =
                   slot.state === "done"
-                    ? slot.result.products.filter((p) => showUsed || !p.used).sort(byPrice(sort))
+                    ? slot.result.products.filter(shown).sort(byPrice(sort))
                     : [];
                 return (
                   <section key={s} aria-labelledby={`grupo-${s}`}>
@@ -1146,6 +1168,11 @@ function ResultRow({ p, best }: { p: Product; best?: Product }) {
             <span className="inline-flex items-center gap-1.5">
               <Dot store={p.store} /> {STORES[p.store].name}
             </span>
+            {p.notebook && (
+              <span className="rounded-[2px] border border-ink px-1.5 py-px text-xs font-semibold text-ink">
+                De notebook
+              </span>
+            )}
             {p.used && (
               <span className="rounded-[2px] border border-ink px-1.5 py-px text-xs font-semibold text-ink">
                 Usado / outlet

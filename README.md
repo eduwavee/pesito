@@ -77,6 +77,8 @@ Las tiendas no publican specs estructuradas, así que la compatibilidad es una h
 
 **Usados**: los títulos con usado, reacondicionado, open box, outlet o de exhibición se marcan (`isUsed` en `text.ts`); el comparador los oculta salvo que los incluyas, y no cuentan para el historial, las bajas, las alertas ni el armador.
 
+**Memorias de notebook**: si la búsqueda no pide "sodimm" o "notebook", las SODIMM se marcan (`isNotebookRam`) y se tratan igual que los usados: ocultas en el comparador y fuera del historial, las bajas y las alertas (`isComparable` en `types.ts`). Sin esto, "ddr5 16gb" daba como más barata una memoria que no entra en una PC de escritorio.
+
 ### Historial y alertas de precio
 
 Cada búsqueda guarda el precio más bajo del día por tienda (`/api/historial` arma el gráfico). Con `DATABASE_URL` se usa Postgres (las tablas se crean solas); sin eso, un archivo en `.data/`.

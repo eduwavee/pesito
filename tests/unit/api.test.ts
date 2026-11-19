@@ -64,3 +64,21 @@ describe("tiendas que bloquean", () => {
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 });
+
+describe("memorias de notebook en la búsqueda", () => {
+  afterEach(() => vi.unstubAllGlobals());
+  const card = (id: number, name: string, price: string) =>
+    `<div class="product-card" data-id="${id}" data-nombre="${name}"><div class="product-card__name"><a href="/${id}-x">x</a></div><span class="itembig-current-price">${price}</span></div>`;
+  const html = card(1, "Memoria ram Sodimm Lexar 16gb 5600Mhz DDR5", "$501.000") + card(2, "Memoria Ram Ddr5 16gb Kingston Fury Beast", "$627.000");
+
+  it("las marca si no se pidieron, y no si la búsqueda dice sodimm", async () => {
+    vi.stubGlobal("fetch", vi.fn(async () => new Response(html, { headers: { "content-type": "text/html; charset=utf-8" } })));
+    const a = (await (await call("spacegamer", "ddr5 16gb")).json()) as StoreResult;
+    expect(a.products.map((p) => [p.price, !!p.notebook])).toEqual([
+      [501_000, true],
+      [627_000, false],
+    ]);
+    const b = (await (await call("spacegamer", "sodimm ddr5 16gb")).json()) as StoreResult;
+    expect(b.products.every((p) => !p.notebook)).toBe(true);
+  });
+});

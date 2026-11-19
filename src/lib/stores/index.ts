@@ -1,8 +1,8 @@
 import { cached } from "../cache";
 import { HttpError } from "../http";
 import { arDay, getDb } from "../db";
-import { isSecondary, isUsed, matchesQuery, normalize, storeQuery } from "../text";
-import type { StoreAdapter, StoreId, StoreResult } from "../types";
+import { asksNotebook, isNotebookRam, isSecondary, isUsed, matchesQuery, normalize, storeQuery } from "../text";
+import { isComparable, type StoreAdapter, type StoreId, type StoreResult } from "../types";
 import { compragamer } from "./compragamer";
 import { demoResults } from "./demo";
 import { fravega } from "./fravega";
@@ -48,13 +48,18 @@ export async function searchStore(store: StoreId, rawQuery: string): Promise<Sto
     const matches = value.filter((p) => matchesQuery(p.title, query));
     // fundas, notebooks que "traen" lo buscado, etc. solo si no hay nada mejor
     const main = matches.filter((p) => !isSecondary(p.title, query));
+    const notebookOk = asksNotebook(query);
     const products = (main.length ? main : matches)
-      .map((p) => (isUsed(p.title) ? { ...p, used: true } : p))
+      .map((p) => {
+        const used = isUsed(p.title);
+        const notebook = !notebookOk && isNotebookRam(p.title);
+        return used || notebook ? { ...p, ...(used && { used }), ...(notebook && { notebook }) } : p;
+      })
       .sort((a, b) => a.price - b.price)
       .slice(0, LIMIT);
-    // el historial (y las bajas y alertas que salen de él) solo cuenta productos nuevos
-    const cheapestNew = products.find((p) => !p.used);
-    if (cheapestNew) remember(store, query, cheapestNew);
+    // el historial (y las bajas y alertas que salen de él) solo cuenta lo comparable: nuevo y del formato buscado
+    const cheapest = products.find(isComparable);
+    if (cheapest) remember(store, query, cheapest);
     return {
       store,
       status: products.length ? "ok" : "empty",

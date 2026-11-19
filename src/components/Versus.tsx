@@ -6,7 +6,7 @@ import { searchAll } from "@/lib/client-search";
 import { formatArs, formatNum } from "@/lib/format";
 import { bestByStore } from "@/lib/race";
 import { STORE_COUNT, STORE_IDS, STORES } from "@/lib/stores/meta";
-import type { Product, StoreId } from "@/lib/types";
+import { isComparable, type Product, type StoreId } from "@/lib/types";
 import { guessKind, pricePerGb, specsFor, type Kind } from "@/lib/versus";
 import { ArrowIcon, Dot, Footer, ShareButton, Spinner, Tape, TopBar } from "./ui";
 
@@ -24,7 +24,7 @@ const KIND_PART: Partial<Record<Kind, PartId>> = { gpu: "gpu", cpu: "cpu", ssd: 
 /** Solo lo que realmente es del tipo buscado (sin accesorios ni PCs armadas). */
 function clean(kind: Kind, products: Product[]) {
   const part = KIND_PART[kind];
-  return part ? products.filter((p) => fitsCategory(part, p)) : products.filter((p) => p.inStock !== false && !p.used);
+  return part ? products.filter((p) => fitsCategory(part, p)) : products.filter((p) => p.inStock !== false && isComparable(p));
 }
 
 export default function Versus({ initialA = "", initialB = "" }: { initialA?: string; initialB?: string }) {

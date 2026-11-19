@@ -94,6 +94,19 @@ export function isUsed(title: string): boolean {
   return USED.test(title);
 }
 
+const NOTEBOOK = /\b(so-?dimm|notebook|laptop|port[aá]til)\b/i;
+const RAM = /\b(ddr[345]l?|memoria|ram)\b/i;
+
+/** Memoria de notebook (SODIMM): no entra en una PC de escritorio aunque diga "DDR5 16GB". */
+export function isNotebookRam(title: string): boolean {
+  return RAM.test(title) && NOTEBOOK.test(title);
+}
+
+/** ¿La búsqueda pide algo de notebook? ("sodimm ddr5", "memoria notebook 16gb") */
+export function asksNotebook(query: string): boolean {
+  return NOTEBOOK.test(query);
+}
+
 export function parseArs(raw: string | undefined | null): number | undefined {
   if (!raw) return undefined;
   const s = raw.replace(/[^\d.,]/g, "");

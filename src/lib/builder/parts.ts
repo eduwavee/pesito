@@ -120,6 +120,7 @@ export function fitsCategory(part: PartId, p: Product): boolean {
     p.inStock !== false &&
     // para armar una PC nueva no sugerimos usados ni reacondicionados
     !p.used &&
+    !p.notebook &&
     !isUsed(p.title)
   );
 }

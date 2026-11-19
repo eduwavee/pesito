@@ -16,7 +16,7 @@ import {
   type Seguido,
 } from "@/lib/seguidos";
 import { STORES } from "@/lib/stores/meta";
-import { isNew, type Product } from "@/lib/types";
+import { isComparable, type Product } from "@/lib/types";
 import { AlertIcon, ArrowIcon, CheckIcon, Dot, Footer, Spinner, TopBar } from "./ui";
 
 /** Sin entrada = todavía buscando. */
@@ -37,7 +37,7 @@ export default function Seguidos() {
     const worker = async () => {
       for (let s = queue.shift(); s; s = queue.shift()) {
         const results = await searchAll(s.query);
-        const best = results.flatMap((r) => r.products).filter(isNew).sort((a, b) => a.price - b.price)[0];
+        const best = results.flatMap((r) => r.products).filter(isComparable).sort((a, b) => a.price - b.price)[0];
         const failed = results.filter((r) => r.status === "error").length;
         const key = s.query.toLowerCase();
         setNow((p) => ({ ...p, [key]: { best, failed } }));

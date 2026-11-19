@@ -28,10 +28,12 @@ export interface Product {
   badge?: string;
   /** Usado, reacondicionado u open box: se ocultan por defecto */
   used?: boolean;
+  /** Memoria de notebook (SODIMM) cuando no se buscó eso: otro formato, se oculta por defecto */
+  notebook?: boolean;
 }
 
-/** Nuevo = lo que comparamos por defecto (ver `isUsed` en text.ts). */
-export const isNew = (p: Pick<Product, "used">) => !p.used;
+/** Lo que comparamos por defecto: nuevo y del formato que se buscó (ver `isUsed` / `isNotebookRam`). */
+export const isComparable = (p: Pick<Product, "used" | "notebook">) => !p.used && !p.notebook;
 
 export type StoreStatus = "ok" | "empty" | "error" | "disabled";
 

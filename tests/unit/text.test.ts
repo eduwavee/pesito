@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { absUrl, canonical, cleanText, isSecondary, matchesQuery, normalize, parseArs, storeQuery } from "@/lib/text";
+import { absUrl, asksNotebook, canonical, cleanText, isNotebookRam, isSecondary, matchesQuery, normalize, parseArs, storeQuery } from "@/lib/text";
 
 describe("normalize", () => {
   it("saca acentos, mayúsculas y símbolos", () => {
@@ -86,5 +86,21 @@ describe("absUrl / cleanText", () => {
   });
   it("compacta espacios", () => {
     expect(cleanText("  RTX\n\t 5060  ")).toBe("RTX 5060");
+  });
+});
+
+describe("memorias de notebook", () => {
+  it("detecta SODIMM y memorias de notebook, no las de escritorio", () => {
+    expect(isNotebookRam("Memoria ram Sodimm Lexar 16gb 5600Mhz DDR5 CL46")).toBe(true);
+    expect(isNotebookRam("MEMORIA ADATA SODIMM DDR5 16GB 5600")).toBe(true);
+    expect(isNotebookRam("Memoria Kingston SO-DIMM DDR4 8GB 3200")).toBe(true);
+    expect(isNotebookRam("Memoria Notebook DDR4 16GB Kingston")).toBe(true);
+    expect(isNotebookRam("Memoria Ram Ddr5 16gb 5600mhz Kingston Fury Beast RGB Black")).toBe(false);
+    expect(isNotebookRam("Cooler para Notebook Base")).toBe(false);
+  });
+  it("si la búsqueda pide notebook, no se ocultan", () => {
+    expect(asksNotebook("sodimm ddr5 16gb")).toBe(true);
+    expect(asksNotebook("memoria notebook 8gb")).toBe(true);
+    expect(asksNotebook("ddr5 16gb")).toBe(false);
   });
 });
