@@ -83,6 +83,17 @@ export function storeQuery(query: string): string {
 }
 
 /** "$1.919.219" | "$919.799,84" | "859999" -> número */
+/**
+ * Usados, reacondicionados, open box, de exhibición y outlet (en Compra Gamer "OUTLET" es caja
+ * abierta): no se comparan contra productos nuevos, el "más barato" sería engañoso.
+ */
+const USED =
+  /\b(usad[oa]s?|reacondicionad[oa]s?|refurbished|refurb|recertificad[oa]s?|open ?box|caja abierta|segunda mano|seminuev[oa]s?|de exhibici[oó]n|outlet)\b/i;
+
+export function isUsed(title: string): boolean {
+  return USED.test(title);
+}
+
 export function parseArs(raw: string | undefined | null): number | undefined {
   if (!raw) return undefined;
   const s = raw.replace(/[^\d.,]/g, "");

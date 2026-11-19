@@ -43,6 +43,24 @@ export function variantOf(title: string, model: { digits: string }): string | un
   return undefined;
 }
 
+/**
+ * ¿El producto es exactamente el modelo de la búsqueda? Más estricto que `variantOf`: un sufijo
+ * desconocido ("5600T", "5600GT") cuenta como otro modelo, no como el base.
+ */
+export function isExactModel(title: string, query: string): boolean {
+  const model = modelOf(query);
+  if (!model) return true;
+  const words = canonical(title).split(" ");
+  const re = new RegExp(`^[a-z]*${model.digits}([a-z0-9]*)$`);
+  for (let i = 0; i < words.length; i++) {
+    const m = re.exec(words[i]);
+    if (!m) continue;
+    const suffix = m[1] || (SPACED.has(words[i + 1]) ? words[i + 1] : "");
+    return suffix === model.suffix;
+  }
+  return false;
+}
+
 /** "5060 Ti" y "7900 XTX" se escriben separados; "7600X" y "7800X3D", pegados */
 const label = (digits: string, suffix: string) =>
   !suffix ? digits : SPACED.has(suffix) && suffix !== "x3d" ? `${digits} ${fmt(suffix)}` : `${digits}${fmt(suffix)}`;

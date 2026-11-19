@@ -1,3 +1,4 @@
+import { isUsed } from "../text";
 import type { Product } from "../types";
 
 export type PartId = "cpu" | "cooler" | "mother" | "ram" | "gpu" | "ssd" | "psu" | "case";
@@ -113,15 +114,24 @@ const NOT_A_PART =
 export function fitsCategory(part: PartId, p: Product): boolean {
   const def = partDef(part);
   return (
-    def.guard.test(p.title) && !(def.reject?.test(p.title) ?? false) && !NOT_A_PART.test(p.title) && p.inStock !== false
+    def.guard.test(p.title) &&
+    !(def.reject?.test(p.title) ?? false) &&
+    !NOT_A_PART.test(p.title) &&
+    p.inStock !== false &&
+    // para armar una PC nueva no sugerimos usados ni reacondicionados
+    !p.used &&
+    !isUsed(p.title)
   );
 }
 
 /** Elección de una pieza: un producto, o `null` si se salteó a propósito (sin placa de video, cooler de caja). */
 export type Pick = Product | null;
 
-/** `qty`: unidades de la pieza (solo memorias); sin `qty` es 1. */
-export type Build = Partial<Record<PartId, { query: string; pick?: Pick; qty?: number }>>;
+/**
+ * `qty`: unidades de la pieza (solo memorias); sin `qty` es 1.
+ * `have`: la pieza ya la tenés (va con `pick: null` y no suma al total).
+ */
+export type Build = Partial<Record<PartId, { query: string; pick?: Pick; qty?: number; have?: boolean }>>;
 
 /** Unidades de una pieza, siempre entre 1 y el máximo que permite la categoría. */
 export function qtyOf(build: Build, id: PartId): number {
@@ -133,4 +143,12 @@ export function qtyOf(build: Build, id: PartId): number {
 export function slotPrice(build: Build, id: PartId): number {
   const pick = build[id]?.pick;
   return pick ? pick.price * qtyOf(build, id) : 0;
+}
+
+/** Texto para una pieza sin producto: la tenés, la salteaste a propósito, o undefined si falta elegirla. */
+export function slotNote(build: Build, id: PartId, kind: "short" | "summary"): string | undefined {
+  const slot = build[id];
+  if (slot?.pick !== null) return undefined;
+  if (slot.have) return kind === "short" ? "La tengo" : "Ya la tenés";
+  return partDef(id).skip?.[kind] ?? "Salteada";
 }

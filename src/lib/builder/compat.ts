@@ -153,7 +153,7 @@ export function buildWarnings(build: Build): Warning[] {
       });
   }
 
-  if (build.gpu?.pick === null && cpu && cpuHasGraphics(cpu.title) === false) {
+  if (build.gpu?.pick === null && !build.gpu.have && cpu && cpuHasGraphics(cpu.title) === false) {
     out.push({
       level: "error",
       parts: ["gpu", "cpu"],

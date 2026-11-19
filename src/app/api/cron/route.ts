@@ -6,7 +6,7 @@ import { evaluateFollows, pushConfigured, sendPush } from "@/lib/push";
 import { searchStore } from "@/lib/stores";
 import { STORE_IDS, STORES } from "@/lib/stores/meta";
 import { normalize } from "@/lib/text";
-import type { Product } from "@/lib/types";
+import { isNew, type Product } from "@/lib/types";
 
 export const maxDuration = 60;
 /** búsquedas a la vez (cada una consulta todas las tiendas en paralelo) */
@@ -91,7 +91,7 @@ export async function GET(req: Request) {
   async function check(j: Job) {
     // searchStore guarda el mínimo del día por tienda: esto alimenta historial y bajas
     const results = await Promise.all(STORE_IDS.map((s) => searchStore(s, j.query)));
-    const best: Product | undefined = results.flatMap((r) => r.products).sort((a, b) => a.price - b.price)[0];
+    const best: Product | undefined = results.flatMap((r) => r.products).filter(isNew).sort((a, b) => a.price - b.price)[0];
 
     for (const a of j.alerts) {
       const dropped =

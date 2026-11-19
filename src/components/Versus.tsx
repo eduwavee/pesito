@@ -24,7 +24,7 @@ const KIND_PART: Partial<Record<Kind, PartId>> = { gpu: "gpu", cpu: "cpu", ssd: 
 /** Solo lo que realmente es del tipo buscado (sin accesorios ni PCs armadas). */
 function clean(kind: Kind, products: Product[]) {
   const part = KIND_PART[kind];
-  return part ? products.filter((p) => fitsCategory(part, p)) : products.filter((p) => p.inStock !== false);
+  return part ? products.filter((p) => fitsCategory(part, p)) : products.filter((p) => p.inStock !== false && !p.used);
 }
 
 export default function Versus({ initialA = "", initialB = "" }: { initialA?: string; initialB?: string }) {

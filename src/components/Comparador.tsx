@@ -46,6 +46,7 @@ export default function Comparador({ initialQuery = "" }: { initialQuery?: strin
   const [view, setView] = useState<View>("todos");
   const [sort, setSort] = useState<Sort>("asc");
   const [onlyFree, setOnlyFree] = useState(false);
+  const [showUsed, setShowUsed] = useState(false);
   const [variantPick, setVariantPick] = useState<Pick>(null);
   const [didYouMean, setDidYouMean] = useState<{ query: string; fix: string } | null>(null);
   const reqId = useRef(0);
@@ -100,9 +101,14 @@ export default function Comparador({ initialQuery = "" }: { initialQuery?: strin
       STORE_IDS.flatMap((s) => {
         const slot = slots[s];
         return slot.state === "done" && enabled[s] ? slot.result.products : [];
-      }).filter((p) => !onlyFree || p.freeShipping),
-    [slots, enabled, onlyFree],
+      }).filter((p) => (!onlyFree || p.freeShipping) && (showUsed || !p.used)),
+    [slots, enabled, onlyFree, showUsed],
   );
+  // usados / reacondicionados que estamos ocultando (el botón solo aparece si hay)
+  const usedCount = STORE_IDS.reduce((n, s) => {
+    const slot = slots[s];
+    return n + (slot.state === "done" && enabled[s] ? slot.result.products.filter((p) => p.used).length : 0);
+  }, 0);
 
   // "rtx 5060" trae 5060 y 5060 Ti: por defecto mostramos la variante que se buscó
   const { variants, asked } = useMemo(() => variantsOf(visible, query), [visible, query]);
@@ -242,6 +248,19 @@ export default function Comparador({ initialQuery = "" }: { initialQuery?: strin
             </h2>
             <div className="flex flex-wrap gap-2">
               <Seguir query={query} best={loadingCount === 0 ? best : undefined} />
+              {usedCount > 0 && (
+                <button
+                  type="button"
+                  aria-pressed={showUsed}
+                  onClick={() => setShowUsed((v) => !v)}
+                  title="Usados, reacondicionados, outlet y open box: no compiten con los nuevos salvo que los incluyas"
+                  className={`rounded-[3px] border px-3 py-1.5 text-sm font-medium transition-colors ${
+                    showUsed ? "border-ink bg-ink text-paper" : "border-rule-strong bg-sheet text-ink-2 hover:text-ink"
+                  }`}
+                >
+                  {showUsed ? "Incluyendo usados y outlet" : `Incluir usados y outlet (${usedCount})`}
+                </button>
+              )}
               {shippingKnown && (
                 <button
                   type="button"
@@ -290,7 +309,10 @@ export default function Comparador({ initialQuery = "" }: { initialQuery?: strin
             <div className="space-y-10 pt-6">
               {STORE_IDS.filter((s) => enabled[s]).map((s) => {
                 const slot = slots[s];
-                const items = slot.state === "done" ? [...slot.result.products].sort(byPrice(sort)) : [];
+                const items =
+                  slot.state === "done"
+                    ? slot.result.products.filter((p) => showUsed || !p.used).sort(byPrice(sort))
+                    : [];
                 return (
                   <section key={s} aria-labelledby={`grupo-${s}`}>
                     <h3
@@ -1123,6 +1145,11 @@ function ResultRow({ p, best }: { p: Product; best?: Product }) {
             <span className="inline-flex items-center gap-1.5">
               <Dot store={p.store} /> {STORES[p.store].name}
             </span>
+            {p.used && (
+              <span className="rounded-[2px] border border-ink px-1.5 py-px text-xs font-semibold text-ink">
+                Usado / outlet
+              </span>
+            )}
             {p.badge && (
               <span className="rounded-[2px] bg-paper px-1.5 py-px text-xs font-medium text-ink-2">{p.badge}</span>
             )}

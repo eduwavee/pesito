@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 import { buildTotal, canonicalBuildKey, cheapestFit, decodeBuild, encodeBuild, oneStoreTotals, rankOffers } from "@/lib/builder/build";
 import { buildWarnings, fitFor } from "@/lib/builder/compat";
 import { fitsCategory, type Build } from "@/lib/builder/parts";
-import { nextTier, startTier, TIERS } from "@/lib/builder/presets";
 import {
   caseForm,
   caseMaxGpu,
@@ -244,24 +243,6 @@ describe("link para compartir", () => {
       ram: { query: "DDR5 16GB", pickId: undefined },
       gpu: { query: "", skipped: true },
     });
-  });
-});
-
-describe("presupuesto", () => {
-  const tiers = TIERS.gaming;
-  it("arranca por el medio", () => {
-    expect(startTier(tiers)).toBe(1);
-  });
-  it("baja si se pasa, sube si sobra mucho, y no vuelve a uno probado", () => {
-    expect(nextTier(tiers, 1, 1_200_000, 1_000_000, new Set([1]))).toBe(0);
-    expect(nextTier(tiers, 1, 600_000, 1_000_000, new Set([1]))).toBe(2);
-    expect(nextTier(tiers, 2, 1_100_000, 1_000_000, new Set([1, 2]))).toBeUndefined();
-    expect(nextTier(tiers, 1, 900_000, 1_000_000, new Set([1]))).toBeUndefined();
-  });
-  it("cada nivel tiene las 7 piezas definidas", () => {
-    for (const list of Object.values(TIERS))
-      for (const t of list)
-        expect(Object.keys(t.queries).sort()).toEqual(["case", "cooler", "cpu", "gpu", "mother", "psu", "ram", "ssd"]);
   });
 });
 

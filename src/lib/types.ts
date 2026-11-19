@@ -25,7 +25,12 @@ export interface Product {
   freeShipping?: boolean;
   /** Etiqueta corta, ej: "Contado", "Full", "Envío gratis" */
   badge?: string;
+  /** Usado, reacondicionado u open box: se ocultan por defecto */
+  used?: boolean;
 }
+
+/** Nuevo = lo que comparamos por defecto (ver `isUsed` en text.ts). */
+export const isNew = (p: Pick<Product, "used">) => !p.used;
 
 export type StoreStatus = "ok" | "empty" | "error" | "disabled";
 

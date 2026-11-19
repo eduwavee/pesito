@@ -11,8 +11,28 @@ import {
   rankOffers,
 } from "@/lib/builder/build";
 import { buildWarnings, type Fit } from "@/lib/builder/compat";
-import { fitsCategory, PART_IDS, PARTS, partDef, qtyOf, slotPrice, type Build, type PartId } from "@/lib/builder/parts";
-import { nextTier, startTier, TIERS, USES, type Use } from "@/lib/builder/presets";
+import {
+  limiter,
+  optimizeBudget,
+  OWNABLE,
+  spendByPart,
+  type Brand,
+  type BudgetResult,
+  type Fetch,
+  type Owned,
+} from "@/lib/builder/budget";
+import {
+  fitsCategory,
+  PART_IDS,
+  PARTS,
+  partDef,
+  qtyOf,
+  slotNote,
+  slotPrice,
+  type Build,
+  type PartId,
+} from "@/lib/builder/parts";
+import { USES, type Use } from "@/lib/builder/presets";
 import { recommendFor, type Recommendation } from "@/lib/builder/recommend";
 import { cpuHasGraphics, cpuIncludesCooler } from "@/lib/builder/specs";
 import { searchAll } from "@/lib/client-search";
@@ -41,8 +61,9 @@ import {
 type OfferState = { query: string; products: Product[]; received: StoreId[]; failed: StoreId[]; auto?: boolean };
 type Mode = "manual" | "presupuesto";
 type Auto =
-  | { phase: "running"; tier: string }
-  | { phase: "done"; tier: string; total: number; budget: number; missing: PartId[] };
+  | { phase: "running"; text: string }
+  | { phase: "error"; message: string }
+  | ({ phase: "done"; budget: number; owned: Owned; missing: PartId[] } & BudgetResult);
 
 const STORAGE_KEY = "precioar:armado";
 const RESUMEN = PARTS.length;
@@ -99,7 +120,7 @@ export default function Armador() {
           const d = decoded[id];
           if (!d) continue;
           if (d.skipped) {
-            b[id] = { query: "", pick: null };
+            b[id] = { query: "", pick: null, have: d.have };
             continue;
           }
           const list = lists[ids.indexOf(id)];
@@ -125,7 +146,7 @@ export default function Armador() {
   }, [build]);
 
   const choose = (part: PartId, pick: Product | null) =>
-    setBuild((prev) => ({ ...prev, [part]: { ...prev[part], query: prev[part]?.query ?? "", pick } }));
+    setBuild((prev) => ({ ...prev, [part]: { ...prev[part], query: prev[part]?.query ?? "", pick, have: false } }));
 
   const setQty = (part: PartId, qty: number) =>
     setBuild((prev) => ({ ...prev, [part]: { ...prev[part], query: prev[part]?.query ?? "", qty } }));
@@ -137,43 +158,46 @@ export default function Armador() {
     setStep(0);
   };
 
-  /** Por presupuesto: prueba niveles de armado hasta quedar dentro (o lo más cerca posible). */
-  async function runBudget(budget: number, use: Use) {
-    const tiers = TIERS[use];
-    const tried = new Set<number>();
-    let i = startTier(tiers);
-    let best: { i: number; build: Build; total: number } | undefined;
-    for (;;) {
-      tried.add(i);
-      setAuto({ phase: "running", tier: tiers[i].name });
-      const q = tiers[i].queries;
-      const lists = await Promise.all(PART_IDS.map((id) => (q[id] ? search(id, q[id]!) : Promise.resolve([]))));
-      const b: Build = {};
-      PART_IDS.forEach((id, k) => {
-        b[id] = q[id] === null ? { query: "", pick: null } : { query: q[id]!, pick: cheapestFit(id, lists[k], b) };
+  /**
+   * Por presupuesto: el optimizador arranca del armado más barato y sube de a un escalón
+   * la pieza que más rinde por peso, con precios de hoy (ver lib/builder/budget.ts).
+   */
+  async function runBudget(budget: number, use: Use, brand: Brand, owned: Owned) {
+    setAuto({ phase: "running", text: "Buscando precios…" });
+    const lists = new Map<string, Promise<Product[]>>();
+    const limit = limiter(6);
+    const fetchList: Fetch = (_part, q) => {
+      const key = q.trim().toLowerCase();
+      let hit = lists.get(key);
+      if (!hit) {
+        hit = limit(() => searchAll(q).then((rs) => rs.flatMap((r) => r.products)));
+        lists.set(key, hit);
+      }
+      return hit;
+    };
+    try {
+      const result = await optimizeBudget({
+        budget,
+        use,
+        brand,
+        owned,
+        fetch: fetchList,
+        onProgress: (text) => setAuto({ phase: "running", text }),
       });
-      const total = buildTotal(b);
-      const better =
-        !best ||
-        (total <= budget && (best.total > budget || total > best.total)) ||
-        (best.total > budget && total < best.total);
-      if (better) best = { i, build: b, total };
-      const n = nextTier(tiers, i, total, budget, tried);
-      if (n === undefined) break;
-      i = n;
+      // dejar a la vista las ofertas de cada pieza elegida (ya están en cache)
+      await Promise.all(PART_IDS.map((id) => (result.build[id]?.query ? search(id, result.build[id]!.query) : null)));
+      setBuild(result.build);
+      setAuto({
+        phase: "done",
+        budget,
+        owned,
+        ...result,
+        missing: PART_IDS.filter((id) => result.build[id]?.pick === undefined),
+      });
+      setStep(RESUMEN);
+    } catch (e) {
+      setAuto({ phase: "error", message: e instanceof Error ? e.message : "No pudimos armar la PC. Probá de nuevo." });
     }
-    const chosen = best!;
-    // dejar a la vista las ofertas del armado elegido (ya están en cache)
-    await Promise.all(PART_IDS.map((id) => (chosen.build[id]?.query ? search(id, chosen.build[id]!.query) : null)));
-    setBuild(chosen.build);
-    setAuto({
-      phase: "done",
-      tier: tiers[chosen.i].name,
-      total: chosen.total,
-      budget,
-      missing: PART_IDS.filter((id) => chosen.build[id]?.pick === undefined),
-    });
-    setStep(RESUMEN);
   }
 
   const total = buildTotal(build);
@@ -184,7 +208,7 @@ export default function Armador() {
     [offers],
   );
   const placed = useMemo(
-    () => Object.fromEntries(PART_IDS.map((id) => [id, !!build[id]?.pick])) as Record<PartId, boolean>,
+    () => Object.fromEntries(PART_IDS.map((id) => [id, !!build[id]?.pick || !!build[id]?.have])) as Record<PartId, boolean>,
     [build],
   );
   const part = step < RESUMEN ? PARTS[step] : undefined;
@@ -220,7 +244,7 @@ export default function Armador() {
           const state = pick
             ? `${qty > 1 ? `${qty} × ` : ""}${formatArs(slotPrice(build, d.id))}`
             : pick === null
-              ? d.skip?.short.toLowerCase()
+              ? slotNote(build, d.id, "short")?.toLowerCase()
               : "sin elegir";
           return [d.id, `${d.name} · ${state}`];
         }),
@@ -376,20 +400,40 @@ export default function Armador() {
 
 /* ---------- Presupuesto ---------- */
 
-function Presupuesto({ auto, onRun }: { auto: Auto | null; onRun: (budget: number, use: Use) => void }) {
+const OWN_LABEL: Record<(typeof OWNABLE)[number], string> = {
+  gpu: "Placa de video",
+  ssd: "Disco",
+  psu: "Fuente",
+  case: "Gabinete",
+};
+
+function Presupuesto({
+  auto,
+  onRun,
+}: {
+  auto: Auto | null;
+  onRun: (budget: number, use: Use, brand: Brand, owned: Owned) => void;
+}) {
   const [raw, setRaw] = useState("");
   const [use, setUse] = useState<Use>("gaming");
+  const [brand, setBrand] = useState<Brand>("any");
+  const [owned, setOwned] = useState<Owned>({});
   const budget = Number(raw.replace(/\D/g, ""));
   const running = auto?.phase === "running";
+  // en oficina no hay placa de video: el procesador trae gráficos
+  const ownable = OWNABLE.filter((id) => !(use === "oficina" && id === "gpu"));
+  const chip =
+    "cursor-pointer rounded-full border-[1.5px] border-ink px-3 py-1.5 text-sm font-semibold transition-colors has-[:checked]:bg-ink has-[:checked]:text-paper has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-ink";
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        if (budget >= 100_000 && !running) onRun(budget, use);
+        if (budget >= 100_000 && !running)
+          onRun(budget, use, brand, Object.fromEntries(ownable.map((id) => [id, !!owned[id]])) as Owned);
       }}
-      className="anim-rise mt-6 grid gap-5 rounded-[4px] border border-rule bg-sheet p-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end sm:p-6"
+      className="anim-rise mt-6 grid gap-6 rounded-[4px] border border-rule bg-sheet p-5 sm:p-6"
     >
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid gap-6 md:grid-cols-2">
         <label className="block">
           <span className="text-sm font-bold">¿Cuánto querés gastar?</span>
           <span className="mt-2 flex items-baseline border-b-[3px] border-ink transition-shadow focus-within:shadow-[0_4px_0_var(--ink)]">
@@ -404,44 +448,162 @@ function Presupuesto({ auto, onRun }: { auto: Auto | null; onRun: (budget: numbe
             />
           </span>
           <span id="presupuesto-ayuda" className="mt-1.5 block text-xs text-ink-2">
-            Mínimo $ 100.000. Probamos armados reales con precios de hoy.
+            Mínimo $ 100.000. Usamos toda la plata: subimos primero lo que más rinde para tu uso.
           </span>
         </label>
+        <div className="grid gap-5">
+          <fieldset>
+            <legend className="text-sm font-bold">¿Para qué la vas a usar?</legend>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {USES.map((u) => (
+                <label key={u.id} className={chip}>
+                  <input
+                    type="radio"
+                    name="uso"
+                    value={u.id}
+                    checked={use === u.id}
+                    onChange={() => setUse(u.id)}
+                    className="sr-only"
+                  />
+                  {u.name}
+                </label>
+              ))}
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend className="text-sm font-bold">Procesador</legend>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {(
+                [
+                  ["any", "Me da igual"],
+                  ["amd", "AMD"],
+                  ["intel", "Intel"],
+                ] as [Brand, string][]
+              ).map(([id, name]) => (
+                <label key={id} className={chip}>
+                  <input
+                    type="radio"
+                    name="marca"
+                    value={id}
+                    checked={brand === id}
+                    onChange={() => setBrand(id)}
+                    className="sr-only"
+                  />
+                  {name}
+                </label>
+              ))}
+            </div>
+          </fieldset>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-4 border-t border-dashed border-rule-strong pt-5 md:flex-row md:items-end md:justify-between">
         <fieldset>
-          <legend className="text-sm font-bold">¿Para qué la vas a usar?</legend>
+          <legend className="text-sm font-bold">Ya tengo (no lo compro)</legend>
           <div className="mt-2 flex flex-wrap gap-2">
-            {USES.map((u) => (
-              <label
-                key={u.id}
-                className="cursor-pointer rounded-full border-[1.5px] border-ink px-3 py-1.5 text-sm font-semibold transition-colors has-[:checked]:bg-ink has-[:checked]:text-paper has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-ink"
-              >
+            {ownable.map((id) => (
+              <label key={id} className={chip}>
                 <input
-                  type="radio"
-                  name="uso"
-                  value={u.id}
-                  checked={use === u.id}
-                  onChange={() => setUse(u.id)}
+                  type="checkbox"
+                  checked={!!owned[id]}
+                  onChange={(e) => setOwned((o) => ({ ...o, [id]: e.target.checked }))}
                   className="sr-only"
                 />
-                {u.name}
+                {owned[id] && <CheckIcon size={10} />} {OWN_LABEL[id]}
               </label>
             ))}
           </div>
         </fieldset>
-      </div>
-      <div className="flex flex-col items-start gap-2 sm:items-end">
-        <button
-          type="submit"
-          disabled={running || budget < 100_000}
-          className="inline-flex items-center gap-2 rounded-[3px] bg-ink px-5 py-3 font-bold text-paper transition-transform duration-200 ease-out-expo hover:-translate-y-px disabled:cursor-not-allowed disabled:bg-ink-3"
-        >
-          {running ? "Armando…" : "Armame la PC"} {!running && <ArrowIcon />}
-        </button>
-        <p className="text-sm text-ink-2" aria-live="polite">
-          {auto?.phase === "running" && `Probando un armado ${auto.tier.toLowerCase()}…`}
-        </p>
+        <div className="flex flex-col items-start gap-2 md:items-end">
+          <button
+            type="submit"
+            disabled={running || budget < 100_000}
+            className="inline-flex items-center gap-2 rounded-[3px] bg-ink px-5 py-3 font-bold text-paper transition-transform duration-200 ease-out-expo hover:-translate-y-px disabled:cursor-not-allowed disabled:bg-ink-3"
+          >
+            {running ? "Armando…" : "Armame la PC"} {!running && <ArrowIcon />}
+          </button>
+          <p className="max-w-xs text-sm text-ink-2 md:text-right" aria-live="polite">
+            {auto?.phase === "running" && auto.text}
+            {auto?.phase === "error" && <span className="font-semibold text-alert">{auto.message}</span>}
+          </p>
+        </div>
       </div>
     </form>
+  );
+}
+
+const PLATFORM_NAME: Record<BudgetResult["platform"], string> = { AM4: "AMD (AM4)", AM5: "AMD (AM5)", LGA1700: "Intel" };
+
+/** El resultado del presupuesto: cuánto usa, qué te daría un poco más, y a dónde va la plata. */
+function Veredicto({ auto, build, total }: { auto: Extract<Auto, { phase: "done" }>; build: Build; total: number }) {
+  const fits = total <= auto.budget;
+  const spend = spendByPart(build);
+  const max = spend[0]?.share ?? 1;
+  const ownedList = OWNABLE.filter((id) => auto.owned[id]).map((id) => OWN_LABEL[id].toLowerCase());
+  return (
+    <div className="mt-4 space-y-4">
+      <div className={`rounded-[3px] px-4 py-3 text-sm ${fits ? "bg-lime light-scope" : "bg-sheet"}`}>
+        <p className="font-semibold">
+          {fits
+            ? `Armado ${PLATFORM_NAME[auto.platform]} por ${formatArs(total)}: usa el ${Math.round((total / auto.budget) * 100)}% de tu presupuesto${
+                auto.budget - total > 0 ? ` (te sobran ${formatArs(auto.budget - total)})` : ""
+              }.`
+            : `Lo más barato que encontramos sale ${formatArs(total)}: se pasa ${formatArs(total - auto.budget)} de tu presupuesto.`}
+        </p>
+        {ownedList.length > 0 && <p className="mt-1">Sin contar lo que ya tenés: {ownedList.join(", ")}.</p>}
+        {auto.missing.length > 0 && (
+          <p className="mt-1">
+            No encontramos {auto.missing.map((id) => partDef(id).name.toLowerCase()).join(", ")}: buscalo a mano.
+          </p>
+        )}
+      </div>
+
+      {(auto.more || auto.less) && (
+        <ul className="divide-y divide-rule rounded-[3px] border border-rule bg-sheet text-sm">
+          {auto.more && (
+            <li className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 px-4 py-3">
+              <span>
+                <strong className="font-bold">Con {formatArs(auto.more.extra)} más</strong>: {auto.more.to} en vez de{" "}
+                {auto.more.from}.
+              </span>
+              <span className="text-ink-2">{partDef(auto.more.part).name}</span>
+            </li>
+          )}
+          {auto.less && (
+            <li className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 px-4 py-3">
+              <span>
+                <strong className="font-bold">La última mejora que entró</strong>: {auto.less.to} en vez de {auto.less.from}{" "}
+                <span className="text-ink-2">(+{formatArs(auto.less.delta)})</span>.
+              </span>
+              <span className="text-ink-2">{partDef(auto.less.part).name}</span>
+            </li>
+          )}
+        </ul>
+      )}
+
+      {spend.length > 1 && (
+        <figure className="rounded-[3px] border border-rule bg-sheet px-4 py-3">
+          <figcaption className="text-sm font-bold">Dónde va la plata</figcaption>
+          <table className="mt-2 w-full text-sm">
+            <caption className="sr-only">Monto y porcentaje del total por pieza</caption>
+            <tbody>
+              {spend.map((s) => (
+                <tr key={s.part} title={`${partDef(s.part).name}: ${formatArs(s.amount)}`}>
+                  <th scope="row" className="w-28 py-1 pr-3 text-left font-medium text-ink-2">
+                    {partDef(s.part).name}
+                  </th>
+                  <td className="py-1 pr-3" aria-hidden="true">
+                    <span className="block h-2.5 rounded-r-[4px] bg-ink" style={{ width: `${(s.share / max) * 100}%` }} />
+                  </td>
+                  <td className="w-12 py-1 text-right tabular-nums font-semibold">{Math.round(s.share * 100)}%</td>
+                  <td className="hidden w-28 py-1 text-right tabular-nums text-ink-2 sm:table-cell">{formatArs(s.amount)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </figure>
+      )}
+    </div>
   );
 }
 
@@ -483,7 +645,7 @@ function StepRail({
               it.id === "resumen"
                 ? `${done} de ${PARTS.length}`
                 : slot?.pick === null
-                  ? (partDef(it.id).skip?.short ?? "Salteada")
+                  ? slotNote(build, it.id, "short")
                   : slot?.pick
                     ? formatArs(slotPrice(build, it.id))
                     : "Sin elegir";
@@ -679,6 +841,15 @@ function PartStep({
             )}
           </button>
         </div>
+      )}
+
+      {build[part]?.have && (
+        <p className="mt-5 flex items-center gap-2 rounded-[3px] border border-dashed border-rule-strong px-4 py-3 text-sm">
+          <span className="grid size-5 shrink-0 place-items-center rounded-full bg-ink text-paper">
+            <CheckIcon size={10} />
+          </span>
+          Marcaste que ya tenés {def.article}: no suma al total. Si elegís una oferta de abajo, la agregamos al armado.
+        </p>
       )}
 
       {/* ofertas */}
@@ -974,8 +1145,12 @@ function TotalCartel({
         </p>
         <p className="mt-3 text-sm font-semibold">
           {filled} de {PARTS.length} piezas elegidas
-          {build.gpu?.pick === null && " (sin placa de video)"}
+          {build.gpu?.pick === null && (build.gpu.have ? " (con tu placa de video)" : " (sin placa de video)")}
           {build.cooler?.pick === null && " (cooler de caja)"}
+          {PART_IDS.some((id) => id !== "gpu" && build[id]?.have) &&
+            ` (sin contar ${PART_IDS.filter((id) => id !== "gpu" && build[id]?.have)
+              .map((id) => partDef(id).article)
+              .join(", ")}: ya lo tenés)`}
         </p>
 
         {oneStore && (
@@ -1037,17 +1212,7 @@ function Resumen({
     <div className="anim-rise">
       <h2 className="text-3xl font-bold tracking-tight">Tu armado</h2>
 
-      {auto?.phase === "done" && (
-        <p
-          className={`mt-4 rounded-[3px] px-4 py-3 text-sm font-medium ${auto.total <= auto.budget ? "bg-lime light-scope" : "bg-sheet"}`}
-        >
-          {auto.total <= auto.budget
-            ? `Armado ${auto.tier.toLowerCase()} por ${formatArs(auto.total)}: te sobran ${formatArs(auto.budget - auto.total)} de tu presupuesto.`
-            : `Lo más barato que encontramos sale ${formatArs(auto.total)}: se pasa ${formatArs(auto.total - auto.budget)} de tu presupuesto.`}
-          {auto.missing.length > 0 &&
-            ` No encontramos ${auto.missing.map((id) => partDef(id).name.toLowerCase()).join(", ")}; buscalo a mano.`}
-        </p>
-      )}
+      {auto?.phase === "done" && <Veredicto auto={auto} build={build} total={total} />}
 
       <ol className="mt-5 divide-y divide-rule border-y border-ink">
         {PARTS.map((def, i) => {
@@ -1080,7 +1245,7 @@ function Resumen({
                   </a>
                 ) : (
                   <span className="text-ink-2">
-                    {pick === null ? (def.skip?.summary ?? "Salteada") : "Sin elegir"}
+                    {pick === null ? slotNote(build, def.id, "summary") : "Sin elegir"}
                   </span>
                 )}
               </span>

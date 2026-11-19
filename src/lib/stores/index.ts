@@ -1,7 +1,7 @@
 import { cached } from "../cache";
 import { HttpError } from "../http";
 import { arDay, getDb } from "../db";
-import { isSecondary, matchesQuery, normalize, storeQuery } from "../text";
+import { isSecondary, isUsed, matchesQuery, normalize, storeQuery } from "../text";
 import type { StoreAdapter, StoreId, StoreResult } from "../types";
 import { compragamer } from "./compragamer";
 import { demoResults } from "./demo";
@@ -46,8 +46,13 @@ export async function searchStore(store: StoreId, rawQuery: string): Promise<Sto
     const matches = value.filter((p) => matchesQuery(p.title, query));
     // fundas, notebooks que "traen" lo buscado, etc. solo si no hay nada mejor
     const main = matches.filter((p) => !isSecondary(p.title, query));
-    const products = (main.length ? main : matches).sort((a, b) => a.price - b.price).slice(0, LIMIT);
-    if (products[0]) remember(store, query, products[0]);
+    const products = (main.length ? main : matches)
+      .map((p) => (isUsed(p.title) ? { ...p, used: true } : p))
+      .sort((a, b) => a.price - b.price)
+      .slice(0, LIMIT);
+    // el historial (y las bajas y alertas que salen de él) solo cuenta productos nuevos
+    const cheapestNew = products.find((p) => !p.used);
+    if (cheapestNew) remember(store, query, cheapestNew);
     return {
       store,
       status: products.length ? "ok" : "empty",

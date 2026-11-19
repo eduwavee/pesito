@@ -67,10 +67,14 @@ Si la búsqueda sigue en 403 con token, el adapter usa el catálogo (`/products/
 | Categorías y filtros (descarta combos, servicios, accesorios y precios fuera de escala) | `src/lib/builder/parts.ts`, `build.ts` |
 | Specs leídas del título: socket, DDR, watts, gráficos integrados | `src/lib/builder/specs.ts` |
 | Compatibilidad y avisos | `src/lib/builder/compat.ts` |
-| Armados de referencia por uso y búsqueda del que entra en el presupuesto | `src/lib/builder/presets.ts` |
+| Armado por presupuesto (optimizador) | `src/lib/builder/budget.ts` |
 | Escena 3D (Three.js, se carga aparte) | `src/components/pc3d/` |
 
 Las tiendas no publican specs estructuradas, así que la compatibilidad es una heurística sobre el título: cuando no se puede leer, la UI pide verificar en la tienda.
+
+**Por presupuesto** el armado arranca del más barato compatible y, ronda por ronda, sube un escalón la pieza que más rinde por peso para el uso (gaming: placa de video; edición: procesador y memoria), hasta agotar el presupuesto. Cada escala (procesadores por plataforma AM4/AM5/LGA1700, placas, RAM, disco) tiene un puntaje relativo; en gaming la placa no suma por encima de lo que el procesador puede aprovechar. Mother, cooler, fuente y gabinete salen de lo elegido. Se puede preferir AMD o Intel y marcar piezas que ya tenés (se guardan en el link como `=`). Para procesadores y placas solo vale el modelo exacto: "Ryzen 5 5600" no es un 5600G ni un 5600T. Las búsquedas van de a 6 para no saturar a las tiendas.
+
+**Usados**: los títulos con usado, reacondicionado, open box, outlet o de exhibición se marcan (`isUsed` en `text.ts`); el comparador los oculta salvo que los incluyas, y no cuentan para el historial, las bajas, las alertas ni el armador.
 
 ### Historial y alertas de precio
 

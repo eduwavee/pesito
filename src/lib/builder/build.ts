@@ -64,7 +64,8 @@ export function oneStoreTotals(offers: Partial<Record<PartId, Product[]>>, build
 /* ---------- link para compartir ---------- */
 
 /**
- * `?cpu=Ryzen 5 7600~cg-123&gpu=~&ramx=2` → búsqueda + id elegido; `~` solo = pieza salteada;
+ * `?cpu=Ryzen 5 7600~cg-123&gpu=~&ssd==&ramx=2` → búsqueda + id elegido; `~` solo = pieza salteada;
+ * `=` = pieza que ya tenés;
  * `<pieza>x` = unidades, solo si son más de una.
  * Al abrir el link se vuelve a buscar y se elige ese id si sigue estando (si no, el más barato).
  */
@@ -73,7 +74,7 @@ export function encodeBuild(build: Build): string {
   for (const id of PART_IDS) {
     const slot = build[id];
     if (!slot) continue;
-    if (slot.pick === null) params.set(id, "~");
+    if (slot.pick === null) params.set(id, slot.have ? "=" : "~");
     else if (slot.query) params.set(id, `${slot.query}~${slot.pick?.id ?? ""}`);
     const qty = qtyOf(build, id);
     if (slot.pick && qty > 1) params.set(`${id}x`, String(qty));
@@ -81,7 +82,7 @@ export function encodeBuild(build: Build): string {
   return params.toString();
 }
 
-export type DecodedSlot = { query: string; pickId?: string; skipped?: boolean; qty?: number };
+export type DecodedSlot = { query: string; pickId?: string; skipped?: boolean; have?: boolean; qty?: number };
 
 export function decodeBuild(
   search: string,
@@ -95,7 +96,12 @@ export function decodeBuild(
     const query = (i < 0 ? raw : raw.slice(0, i)).trim().slice(0, 80);
     const pickId = i < 0 ? "" : raw.slice(i + 1);
     const qty = Number(params.get(`${id}x`)) || undefined;
-    out[id] = raw === "~" ? { query: "", skipped: true } : { query, pickId: pickId || undefined, qty };
+    out[id] =
+      raw === "~"
+        ? { query: "", skipped: true }
+        : raw === "="
+          ? { query: "", skipped: true, have: true }
+          : { query, pickId: pickId || undefined, qty };
   }
   return out;
 }
@@ -115,7 +121,7 @@ export function canonicalBuildKey(key: string): string | null {
     const s = slots[id];
     if (!s) continue;
     if (s.skipped) {
-      out.set(id, "~");
+      out.set(id, s.have ? "=" : "~");
       continue;
     }
     if (s.query.length < 2 || !s.pickId || s.pickId.length > 200) return null;
