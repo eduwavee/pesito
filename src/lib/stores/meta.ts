@@ -14,11 +14,11 @@ export const STORES: Record<StoreId, { name: string; color: string; home: string
     home: "https://compragamer.com",
     search: (q) => `https://compragamer.com/productos?criterio=${encodeURIComponent(q)}`,
   },
-  fullh4rd: {
-    name: "FullH4rd",
-    color: "#E10600",
-    home: "https://fullh4rd.com.ar",
-    search: (q) => `https://fullh4rd.com.ar/cat/search/${encodeURIComponent(q)}`,
+  rockethard: {
+    name: "RocketHard",
+    color: "#C83E75",
+    home: "https://rockethard.com.ar",
+    search: (q) => `https://rockethard.com.ar/buscar/?q=${encodeURIComponent(q).replace(/%20/g, "+")}`,
   },
   venex: {
     name: "Venex",

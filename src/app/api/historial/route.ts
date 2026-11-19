@@ -1,5 +1,6 @@
 import type { NextRequest } from "next/server";
 import { getDb } from "@/lib/db";
+import { STORES } from "@/lib/stores/meta";
 import { normalize } from "@/lib/text";
 
 /** Precio más bajo de cada día (entre todas las tiendas) para una búsqueda. */
@@ -11,6 +12,8 @@ export async function GET(req: NextRequest) {
   const rows = await db.history(q, days);
   const byDay = new Map<string, (typeof rows)[number]>();
   for (const r of rows) {
+    // tiendas que ya no comparamos (ej. FullH4rd): su historial queda en la base pero no se muestra
+    if (!(r.store in STORES)) continue;
     const cur = byDay.get(r.day);
     if (!cur || r.price < cur.price) byDay.set(r.day, r);
   }

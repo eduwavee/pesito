@@ -30,6 +30,19 @@ describe("base local (archivo JSON)", () => {
     expect(await db.activeAlerts()).toHaveLength(0);
   });
 
+  it("chequeos de tiendas y suscripciones push", async () => {
+    const at = new Date().toISOString();
+    await db.recordChecks([{ at, store: "mexx", status: "ok", ms: 300, count: 10 }]);
+    expect(await db.storeChecks(1)).toEqual([{ at, store: "mexx", status: "ok", ms: 300, count: 10 }]);
+
+    const sub = { endpoint: "https://fcm.googleapis.com/x", p256dh: "k", auth: "a", createdAt: at, follows: [{ query: "rtx 5060" }] };
+    await db.savePush(sub);
+    await db.savePush({ ...sub, follows: [{ query: "rtx 5060", basePrice: 1000 }] });
+    expect(await db.pushSubs()).toEqual([{ ...sub, follows: [{ query: "rtx 5060", basePrice: 1000 }] }]);
+    await db.deletePush(sub.endpoint);
+    expect(await db.pushSubs()).toEqual([]);
+  });
+
   it("armados populares: cuenta repeticiones", async () => {
     await db.recordBuild({ key: "cpu=a~1", total: 1, parts: 1 });
     await db.recordBuild({ key: "cpu=b~2", total: 2, parts: 1 });

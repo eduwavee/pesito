@@ -1,0 +1,21 @@
+{
+  "name": "Pesito — Comparador de precios de hardware",
+  "short_name": "Pesito",
+  "description": "Compará precios de hardware en siete tiendas argentinas y seguí lo que querés comprar.",
+  "lang": "es-AR",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#eef0ea",
+  "theme_color": "#16171a",
+  "categories": ["shopping", "utilities"],
+  "icons": [
+    { "src": "/icono/192", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icono/512", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icono/512", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Seguidos", "url": "/seguidos" },
+    { "name": "Armar PC", "url": "/armar" }
+  ]
+}

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { useSeguidos } from "@/lib/seguidos";
 import { STORES } from "@/lib/stores/meta";
 import type { StoreId } from "@/lib/types";
 
@@ -54,6 +55,7 @@ export function TopBar({ children, onHome }: { children?: React.ReactNode; onHom
         {children}
 
         <ThemeToggle />
+        <SeguidosLink active={path.startsWith("/seguidos")} />
 
         <a
           href="https://instagram.com/sync.tuc"
@@ -73,7 +75,10 @@ export function Footer() {
     <footer className="mt-auto border-t border-rule">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-2 px-4 py-6 text-sm text-ink-2 sm:flex-row sm:items-center sm:justify-between sm:px-6">
         <p>
-          Precios leídos en vivo de cada tienda (se guardan 10 minutos). Verificá siempre el precio final en el sitio.
+          Precios leídos en vivo de cada tienda (se guardan 10 minutos). Verificá siempre el precio final en el sitio.{" "}
+          <Link href="/estado" className="whitespace-nowrap font-medium text-ink underline underline-offset-2">
+            Estado de las tiendas
+          </Link>
         </p>
         <p className="shrink-0">
           Hecho por{" "}
@@ -300,6 +305,37 @@ export function ShareButton({ title, text, quiet = false }: { title: string; tex
     >
       <LinkIcon /> <span aria-live="polite">{done ? "¡Link copiado!" : "Compartir"}</span>
     </button>
+  );
+}
+
+/** Acceso a Seguidos con la cantidad, al lado del tema. */
+function SeguidosLink({ active }: { active: boolean }) {
+  const n = useSeguidos().length;
+  return (
+    <Link
+      href="/seguidos"
+      aria-current={active ? "page" : undefined}
+      aria-label={n ? `Seguidos (${n})` : "Seguidos"}
+      title="Seguidos"
+      className={`relative grid size-9 shrink-0 place-items-center rounded-[3px] transition-colors hover:bg-paper/10 hover:text-paper focus-visible:outline-paper ${
+        active ? "text-paper" : "text-paper/75"
+      }`}
+    >
+      <svg width="18" height="18" viewBox="0 0 16 16" aria-hidden="true">
+        <path
+          d="M8 1.6l1.95 4.1 4.45.55-3.27 3.08.84 4.42L8 11.6l-3.97 2.15.84-4.42L1.6 6.25l4.45-.55z"
+          fill={active ? "currentColor" : "none"}
+          stroke="currentColor"
+          strokeWidth="1.4"
+          strokeLinejoin="round"
+        />
+      </svg>
+      {n > 0 && (
+        <span className="cartel-num absolute -right-0.5 -top-0.5 grid h-4 min-w-4 place-items-center rounded-full bg-fluo light-scope px-1 text-[11px] leading-none text-ink">
+          {n}
+        </span>
+      )}
+    </Link>
   );
 }
 

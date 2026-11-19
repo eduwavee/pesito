@@ -1,10 +1,10 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { parseFravega } from "@/lib/stores/fravega";
-import { parseFullh4rd } from "@/lib/stores/fullh4rd";
 import { parseGezatek } from "@/lib/stores/gezatek";
 import { parseMlListing } from "@/lib/stores/mercadolibre";
 import { parseMexx } from "@/lib/stores/mexx";
+import { parseRockethard } from "@/lib/stores/rockethard";
 import { parseVenex } from "@/lib/stores/venex";
 import type { Product } from "@/lib/types";
 
@@ -49,13 +49,22 @@ describe("parsers con HTML guardado", () => {
     expect(out[0].badge).toBe("Contado");
   });
 
-  it("FullH4rd (sintético): precio vigente, tachado y descarta sin precio", () => {
-    const out = parseFullh4rd(fixture("fullh4rd"));
-    expectValid(out, "fullh4rd");
-    expect(out).toHaveLength(2);
-    expect(out[0]).toMatchObject({ id: "fh-31234", price: 404700, listPrice: 449700, badge: "Envío gratis", freeShipping: true });
-    expect(out[1].freeShipping).toBeUndefined();
-    expect(out[0].url).toBe("https://fullh4rd.com.ar/prod/31234/placa-de-video-msi-geforce-rtx-5060-8gb-ventus-2x");
+  it("RocketHard (HTML real, plataforma qloud): precio especial y precio con Mercado Pago", () => {
+    const out = parseRockethard(fixture("rockethard"));
+    expectValid(out, "rockethard");
+    expect(out).toHaveLength(4);
+    expect(out[0]).toMatchObject({
+      id: "rh-162167",
+      title: "Mouse Logitech G203 Gaming Lightsync Black",
+      brand: "LOGITECH",
+      price: 30304,
+      cardPrice: 35757,
+      inStock: true,
+      badge: "Precio especial",
+      url: "https://rockethard.com.ar/perifericos/mouse/mouse-logitech-g203-gaming-lightsync-black-162167.html",
+    });
+    expect(out.every((p) => p.cardPrice! > p.price)).toBe(true);
+    expect(parseRockethard("<html>sin datos</html>")).toEqual([]);
   });
 
   it("Mercado Libre listado (sintético): id MLA, precio anterior y Full", () => {

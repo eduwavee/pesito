@@ -53,13 +53,13 @@ describe("tiendas que bloquean", () => {
     );
     vi.stubGlobal("fetch", fetchMock);
 
-    const res = await call("fullh4rd", "rtx 5060");
+    const res = await call("rockethard", "rtx 5060");
     expect(res.headers.get("cache-control")).toBe("no-store");
     const body = (await res.json()) as StoreResult;
     expect(body).toMatchObject({ status: "error", blocked: true });
     expect(body.message).toMatch(/Cloudflare/);
 
-    const again = (await (await call("fullh4rd", "otra cosa")).json()) as StoreResult;
+    const again = (await (await call("rockethard", "otra cosa")).json()) as StoreResult;
     expect(again).toMatchObject({ status: "error", blocked: true });
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });

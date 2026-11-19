@@ -141,3 +141,36 @@ export async function cartelImage({
     },
   );
 }
+
+/**
+ * Ícono de la app (PWA): el logo del cartel, un cuadrito rosa inclinado con el "$",
+ * sobre la tinta de la barra superior. Cabe en la zona segura de los íconos "maskable".
+ */
+export async function logoImage(size: number) {
+  const tile = Math.round(size * 0.56);
+  return new ImageResponse(
+    (
+      <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", background: INK }}>
+        <div
+          style={{
+            width: tile,
+            height: tile,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            background: FLUO,
+            borderRadius: Math.round(tile * 0.09),
+            transform: "rotate(-6deg)",
+            fontFamily: "Cartel",
+            fontSize: Math.round(tile * 0.78),
+            color: INK,
+            lineHeight: 1,
+          }}
+        >
+          $
+        </div>
+      </div>
+    ),
+    { width: size, height: size, fonts: await loadFonts() },
+  );
+}

@@ -37,6 +37,38 @@ export interface SavedBuild {
   lastAt: string;
 }
 
+/** Resultado de revisar una tienda (monitor de /estado). */
+export interface StoreCheck {
+  at: string; // ISO
+  store: StoreId;
+  /** ok = trajo productos; empty = respondió sin nada (posible cambio de HTML); error = falló */
+  status: "ok" | "empty" | "error";
+  ms: number;
+  count: number;
+  message?: string;
+  blocked?: boolean;
+}
+
+/** Una búsqueda seguida desde un dispositivo con notificaciones push. */
+export interface PushFollow {
+  query: string;
+  /** precio más bajo cuando se empezó a seguir: avisamos si baja de acá */
+  basePrice?: number;
+  /** último precio por el que avisamos (no repetimos si no baja más) */
+  notifiedPrice?: number;
+}
+
+/** Suscripción Web Push de un navegador, con lo que sigue ese dispositivo. */
+export interface PushSub {
+  endpoint: string;
+  p256dh: string;
+  auth: string;
+  createdAt: string;
+  follows: PushFollow[];
+  /** última vez que el cron revisó sus búsquedas */
+  checkedAt?: string;
+}
+
 export interface Db {
   readonly kind: "postgres" | "file" | "memory";
   recordSnapshots(rows: Snapshot[]): Promise<void>;
@@ -54,4 +86,13 @@ export interface Db {
   getAlert(id: string): Promise<Alert | undefined>;
   recordBuild(b: Omit<SavedBuild, "count" | "lastAt">): Promise<void>;
   popularBuilds(limit: number): Promise<SavedBuild[]>;
+  /** Todos los snapshots de los últimos `days` días (para las bajas de precio). */
+  recentSnapshots(days: number): Promise<Snapshot[]>;
+  recordChecks(rows: StoreCheck[]): Promise<void>;
+  /** Chequeos de los últimos `days` días, del más viejo al más nuevo. */
+  storeChecks(days: number): Promise<StoreCheck[]>;
+  /** Alta o reemplazo (por endpoint) de una suscripción push. */
+  savePush(sub: PushSub): Promise<void>;
+  deletePush(endpoint: string): Promise<void>;
+  pushSubs(): Promise<PushSub[]>;
 }

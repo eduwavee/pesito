@@ -17,9 +17,13 @@ const siteUrl =
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: "Pesito — Comparador de precios de hardware",
-  description: "Compará precios de Mercado Libre, Compra Gamer, FullH4rd, Venex, Mexx, Gezatek y Frávega en un solo lugar.",
+  description: "Compará precios de Mercado Libre, Compra Gamer, RocketHard, Venex, Mexx, Gezatek y Frávega en un solo lugar.",
   openGraph: { images: ["/api/og/busqueda"], locale: "es_AR", siteName: "Pesito" },
   twitter: { card: "summary_large_image" },
+  // estático en public/: un manifest.ts se recompila en cada pedido en `next dev` y recarga la página en bucle
+  manifest: "/manifest.webmanifest",
+  icons: { apple: "/icono/180" },
+  appleWebApp: { capable: true, title: "Pesito", statusBarStyle: "default" },
 };
 
 export const viewport: Viewport = { themeColor: "#16171a" };

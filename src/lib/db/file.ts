@@ -1,12 +1,17 @@
 import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import type { Alert, Db, SavedBuild, Snapshot } from "./types";
+import type { Alert, Db, PushSub, SavedBuild, Snapshot, StoreCheck } from "./types";
 
 interface Data {
   snapshots: Snapshot[];
   alerts: Alert[];
   builds: SavedBuild[];
+  checks?: StoreCheck[];
+  push?: PushSub[];
 }
+
+/** Chequeos de tiendas que guardamos (el monitor muestra 14 días). */
+const CHECK_DAYS = 30;
 
 /**
  * Base local en un archivo JSON (desarrollo o una sola instancia).
@@ -102,6 +107,33 @@ export function fileDb(dir = process.env.PRECIOAR_DATA_DIR ?? join(process.cwd()
     async popularBuilds(limit) {
       const d = await load();
       return [...d.builds].sort((a, b) => b.count - a.count || b.lastAt.localeCompare(a.lastAt)).slice(0, limit);
+    },
+    async recentSnapshots(days) {
+      const from = new Date(Date.now() - days * 864e5).toISOString().slice(0, 10);
+      return (await load()).snapshots.filter((s) => s.day >= from);
+    },
+    async recordChecks(rows) {
+      const d = await load();
+      const cutoff = new Date(Date.now() - CHECK_DAYS * 864e5).toISOString();
+      d.checks = [...(d.checks ?? []), ...rows].filter((c) => c.at >= cutoff);
+      await save();
+    },
+    async storeChecks(days) {
+      const from = new Date(Date.now() - days * 864e5).toISOString();
+      return ((await load()).checks ?? []).filter((c) => c.at >= from).sort((a, b) => a.at.localeCompare(b.at));
+    },
+    async savePush(sub) {
+      const d = await load();
+      d.push = [...(d.push ?? []).filter((x) => x.endpoint !== sub.endpoint), sub];
+      await save();
+    },
+    async deletePush(endpoint) {
+      const d = await load();
+      d.push = (d.push ?? []).filter((x) => x.endpoint !== endpoint);
+      await save();
+    },
+    async pushSubs() {
+      return [...((await load()).push ?? [])];
     },
   };
 }

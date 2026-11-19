@@ -33,7 +33,7 @@ describe("raceSteps", () => {
   });
 
   it("ignora tiendas sin resultados u ocultas", () => {
-    const steps = raceSteps(["fullh4rd", "gezatek", "mexx"], best);
+    const steps = raceSteps(["rockethard", "gezatek", "mexx"], best);
     expect(steps.map((s) => s.store)).toEqual(["mexx"]);
   });
 });

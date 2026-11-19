@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import Armador from "@/components/armador/Armador";
 
 const description =
-  "Armá tu PC pieza por pieza al mejor precio de Mercado Libre, Compra Gamer, FullH4rd, Venex, Mexx, Gezatek y Frávega, con chequeo de compatibilidad o a partir de tu presupuesto.";
+  "Armá tu PC pieza por pieza al mejor precio de Mercado Libre, Compra Gamer, RocketHard, Venex, Mexx, Gezatek y Frávega, con chequeo de compatibilidad o a partir de tu presupuesto.";
 
 export async function generateMetadata({ searchParams }: PageProps<"/armar">): Promise<Metadata> {
   const params = new URLSearchParams();

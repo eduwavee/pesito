@@ -6,7 +6,7 @@ import type { StoreAdapter, StoreId, StoreResult } from "../types";
 import { compragamer } from "./compragamer";
 import { demoResults } from "./demo";
 import { fravega } from "./fravega";
-import { fullh4rd } from "./fullh4rd";
+import { rockethard } from "./rockethard";
 import { gezatek } from "./gezatek";
 import { mercadolibre } from "./mercadolibre";
 import { mexx } from "./mexx";
@@ -15,7 +15,7 @@ import { venex } from "./venex";
 export const ADAPTERS: Record<StoreId, StoreAdapter> = {
   mercadolibre,
   compragamer,
-  fullh4rd,
+  rockethard,
   venex,
   mexx,
   gezatek,
@@ -56,18 +56,24 @@ export async function searchStore(store: StoreId, rawQuery: string): Promise<Sto
       cached: hit,
     };
   } catch (e) {
-    const isBlock = e instanceof HttpError && (e.status === 401 || e.status === 403 || e.status === 429);
-    const message =
-      e instanceof HttpError
-        ? e.message
-        : e instanceof Error && e.name === "TimeoutError"
-          ? "La tienda tardó demasiado en responder"
-          : "No se pudo consultar la tienda";
+    const { message, blocked: isBlock } = describeError(e);
     if (isBlock) blocked.set(store, { until: Date.now() + BLOCKED_TTL, message });
     // un bloqueo anti-bot es esperable (no es un bug nuestro): aviso, no error
     (isBlock ? console.warn : console.error)(`[${store}]`, e instanceof Error ? e.message : e);
     return { store, status: "error", products: [], ms: Date.now() - t0, message, blocked: isBlock || undefined };
   }
+}
+
+/** Mensaje para mostrar y si es un bloqueo anti-bot (no tiene sentido reintentar enseguida). */
+export function describeError(e: unknown): { message: string; blocked: boolean } {
+  const blocked = e instanceof HttpError && (e.status === 401 || e.status === 403 || e.status === 429);
+  const message =
+    e instanceof HttpError
+      ? e.message
+      : e instanceof Error && e.name === "TimeoutError"
+        ? "La tienda tardó demasiado en responder"
+        : "No se pudo consultar la tienda";
+  return { message, blocked };
 }
 
 /** Guarda el más barato del día para el historial. No bloquea la respuesta y nunca la rompe. */

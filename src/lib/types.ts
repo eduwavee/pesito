@@ -1,7 +1,7 @@
 export type StoreId =
   | "mercadolibre"
   | "compragamer"
-  | "fullh4rd"
+  | "rockethard"
   | "venex"
   | "mexx"
   | "gezatek"

@@ -15,7 +15,7 @@ colors:
   alert: "#c4211f"
   store-mercadolibre: "#FFE600"
   store-compragamer: "#FF6A00"
-  store-fullh4rd: "#E10600"
+  store-rockethard: "#C83E75"
   store-venex: "#0057B8"
   store-mexx: "#00A3E0"
   store-gezatek: "#8B5CF6"
@@ -219,7 +219,7 @@ Cool card stock and ink with two fluorescent signal colors, each bound to one me
 - **Winner Lime** (lime): the "cheapest" mark only. The 3px ring around the winning point on the price strip, the "Más barato" tag in result rows and on the cheapest compatible offer in a builder step, the cheapest complete one-store total, and the savings notes (under the per-store table; "te sobran" when a budget build comes in under budget).
 
 ### Tertiary
-- **Store identity colors** (store-mercadolibre, store-compragamer, store-fullh4rd, store-venex, store-mexx, store-gezatek): a brand commitment from PRODUCT.md, fixed in `src/lib/stores/meta.ts`. Rendered only as round dots next to store names and as offer points on the price strip.
+- **Store identity colors** (store-mercadolibre, store-compragamer, store-rockethard, store-venex, store-mexx, store-gezatek, store-fravega): a brand commitment from PRODUCT.md, fixed in `src/lib/stores/meta.ts`. Rendered only as round dots next to store names and as offer points on the price strip.
 
 ### Neutral
 - **Ink** (ink): primary text, the top bar, primary buttons, active segmented options, the current builder step, the chosen offer's "Elegida" button, the compatibility line (ink text with a check), the mobile total bar, 3D hover outlines, missing-part ghosts and the 3D tooltip, the marker stroke, and the strong rule under the results header.

@@ -1,5 +1,5 @@
 import postgres from "postgres";
-import type { Alert, Db, SavedBuild, Snapshot } from "./types";
+import type { Alert, Db, PushFollow, PushSub, SavedBuild, Snapshot, StoreCheck } from "./types";
 
 /** Postgres (Neon, Supabase, Vercel Postgres...). Crea las tablas la primera vez. */
 export function pgDb(url: string): Db {
@@ -21,6 +21,14 @@ export function pgDb(url: string): Db {
       await tx`create table if not exists builds (
         key text primary key, total integer not null, parts integer not null,
         count integer not null default 1, last_at timestamptz not null default now())`;
+      await tx`create table if not exists store_checks (
+        at timestamptz not null, store text not null, status text not null,
+        ms integer not null, count integer not null, message text, blocked boolean,
+        primary key (at, store))`;
+      await tx`create table if not exists push_subs (
+        endpoint text primary key, p256dh text not null, auth text not null,
+        created_at timestamptz not null default now(), follows jsonb not null default '[]',
+        checked_at timestamptz)`;
     }));
 
   const toAlert = (r: Record<string, unknown>): Alert => ({
@@ -105,6 +113,63 @@ export function pgDb(url: string): Db {
           parts: r.parts,
           count: r.count,
           lastAt: new Date(r.last_at).toISOString(),
+        }),
+      );
+    },
+    async recentSnapshots(days) {
+      await init();
+      const rows = await sql`select to_char(day, 'YYYY-MM-DD') as day, query, store, price, title, url
+        from snapshots where day >= current_date - ${days}::int`;
+      return rows as unknown as Snapshot[];
+    },
+    async recordChecks(rows) {
+      if (!rows.length) return;
+      await init();
+      for (const c of rows) {
+        await sql`insert into store_checks (at, store, status, ms, count, message, blocked)
+          values (${c.at}, ${c.store}, ${c.status}, ${c.ms}, ${c.count}, ${c.message ?? null}, ${c.blocked ?? null})
+          on conflict do nothing`;
+      }
+      await sql`delete from store_checks where at < now() - interval '30 days'`;
+    },
+    async storeChecks(days) {
+      await init();
+      const rows = await sql`select * from store_checks where at >= now() - ${days} * interval '1 day' order by at`;
+      return rows.map(
+        (r): StoreCheck => ({
+          at: new Date(r.at).toISOString(),
+          store: r.store,
+          status: r.status,
+          ms: r.ms,
+          count: r.count,
+          message: r.message ?? undefined,
+          blocked: r.blocked ?? undefined,
+        }),
+      );
+    },
+    async savePush(sub) {
+      await init();
+      await sql`insert into push_subs (endpoint, p256dh, auth, created_at, follows, checked_at)
+        values (${sub.endpoint}, ${sub.p256dh}, ${sub.auth}, ${sub.createdAt}, ${sql.json(sub.follows as never)},
+          ${sub.checkedAt ?? null})
+        on conflict (endpoint) do update set p256dh = excluded.p256dh, auth = excluded.auth,
+          follows = excluded.follows, checked_at = excluded.checked_at`;
+    },
+    async deletePush(endpoint) {
+      await init();
+      await sql`delete from push_subs where endpoint = ${endpoint}`;
+    },
+    async pushSubs() {
+      await init();
+      const rows = await sql`select * from push_subs`;
+      return rows.map(
+        (r): PushSub => ({
+          endpoint: r.endpoint,
+          p256dh: r.p256dh,
+          auth: r.auth,
+          createdAt: new Date(r.created_at).toISOString(),
+          follows: (r.follows ?? []) as PushFollow[],
+          checkedAt: r.checked_at ? new Date(r.checked_at).toISOString() : undefined,
         }),
       );
     },

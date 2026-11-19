@@ -1,6 +1,6 @@
 # Pesito — Comparador de precios de hardware
 
-Buscás un producto una vez y ves el precio en **Mercado Libre, Compra Gamer, FullH4rd, Venex, Mexx, Gezatek y Frávega**, con el más barato resaltado y un resumen de precio mínimo por tienda. Además guarda el historial de precios y te avisa por mail cuando algo baja del precio que elegiste.
+Buscás un producto una vez y ves el precio en **Mercado Libre, Compra Gamer, RocketHard, Venex, Mexx, Gezatek y Frávega**, con el más barato resaltado y un resumen de precio mínimo por tienda. Además guarda el historial de precios y te avisa por mail cuando algo baja del precio que elegiste.
 
 ![Pesito](docs/screenshot.png)
 
@@ -27,7 +27,7 @@ npm run test:live   # smoke test contra las 7 tiendas reales (avisa si alguna ca
 
 GitHub Actions corre typecheck, lint, tests y build en cada push (`.github/workflows/ci.yml`).
 
-Los fixtures de `tests/fixtures/` son HTML real recortado (Gezatek, Mexx, Venex) o sintético cuando la tienda bloquea scripts (FullH4rd, listado de Mercado Libre).
+Los fixtures de `tests/fixtures/` son HTML real recortado (Gezatek, RocketHard, Mexx, Venex, Frávega) o sintético cuando la tienda bloquea scripts (listado de Mercado Libre).
 
 ## Cómo funciona
 
@@ -44,10 +44,10 @@ Cada tienda carga por separado, así la que responde primero aparece primero y s
 | Tienda | Cómo se obtiene | Archivo |
 |---|---|---|
 | Compra Gamer | JSON público del catálogo completo (`static.compragamer.com/productos`, ~2 MB) cacheado 15 min y filtrado en el server | `src/lib/stores/compragamer.ts` |
-| FullH4rd | HTML de `/cat/search/{q}` | `fullh4rd.ts` |
 | Venex | HTML de `resultado-busqueda.htm` (windows-1252); datos del JSON en `enhancedClick(...)` | `venex.ts` |
 | Mexx | HTML de `/buscar/?p=` (deduplica por número de artículo) | `mexx.ts` |
-| Gezatek | HTML de `/buscar/?q=`; datos en `data-id / data-nombre / data-precio` | `gezatek.ts` |
+| Gezatek | HTML de `/buscar/?q=`; datos en `data-id / data-nombre / data-precio` (plataforma qloud, parser compartido en `qloud.ts`) | `gezatek.ts` |
+| RocketHard | Misma plataforma que Gezatek: `/buscar/?q=`, precio especial en `data-precio` y precio con Mercado Pago en `.precio_mp` | `rockethard.ts` |
 | Frávega | HTML de `/l/?keyword=`; el listado sale del JSON de `__NEXT_DATA__` (estado de Apollo) | `fravega.ts` |
 | Mercado Libre | API oficial con token (`ML_CLIENT_ID` + `ML_CLIENT_SECRET`); sin credenciales intenta el HTML del listado | `mercadolibre.ts` |
 
@@ -80,21 +80,38 @@ Las alertas ("avisame si baja de $X") no piden cuenta:
 
 1. `POST /api/alertas` la crea **pendiente** y manda un mail con el link de confirmación (Resend). Así nadie puede anotar el mail de otro.
 2. El link abre `/api/alertas/confirmar`, que pide apretar un botón: los servidores de mail que abren links para revisarlos no la activan solos.
-3. `/api/cron` corre una vez por día (`vercel.json`): vuelve a buscar lo que se sigue, de a tandas y con tiempo límite; lo que no entra sigue al otro día, empezando por lo revisado hace más tiempo.
+3. `/api/cron` corre una vez por día (`vercel.json`): revisa las tiendas (monitor), vuelve a buscar lo que se sigue (alertas por mail y avisos push), de a tandas y con tiempo límite, y con el tiempo que sobra refresca las 20 búsquedas más populares que todavía no tienen precio de hoy. Lo que no entra sigue al otro día, empezando por lo revisado hace más tiempo.
 4. Cada mail trae el link de baja (`/api/alertas/baja`).
 
 Límites contra abuso: 5 alertas por hora por IP, 3 mails de confirmación por día al mismo mail y 20 alertas activas por mail. El ranking de armados populares valida cada armado y lo cuenta una vez por día por IP.
+
+### Bajas de precio
+
+`/api/bajas` compara el precio más bajo de hoy (entre todas las tiendas) de cada búsqueda con el último día anterior registrado en las dos semanas previas (`src/lib/drops.ts`). La home muestra las que bajaron 3% o más. Las "bajas" de más del 50% se descartan: casi siempre son otro producto que matcheó la búsqueda.
+
+### Seguidos y notificaciones (PWA)
+
+- **Seguir** (arriba de los resultados) guarda la búsqueda y su precio en el navegador (`localStorage`, sin cuenta). `/seguidos` muestra el precio de hoy contra el de cuando la empezaste a seguir.
+- Pesito se puede instalar como app (`public/manifest.webmanifest`, íconos en `/icono/{180,192,512}`).
+- Con las claves VAPID configuradas, `/seguidos` ofrece **avisos push**: el navegador se suscribe (`public/sw.js`), `POST /api/push` guarda la suscripción con la lista de seguidos y el cron manda una notificación cuando el más barato baja al menos 1% respecto del precio de referencia. Solo se aceptan endpoints de servicios de push conocidos (FCM, Mozilla, Apple, Windows), porque el server les hace POST.
+- En iPhone las notificaciones funcionan con la app agregada a inicio (iOS 16.4+).
+
+### Monitor de tiendas
+
+`/estado` muestra si cada tienda responde, con los últimos 14 días. El cron revisa cada tienda con dos búsquedas de prueba (`src/lib/health.ts`, directo al adapter: no ensucian el historial ni las sugerencias). Si alguien entra a `/estado` y el último chequeo tiene más de 30 minutos, se hace uno nuevo (como mucho uno cada 15 minutos por instancia). Con `MONITOR_EMAIL` llega un mail cuando una tienda deja de responder o vuelve.
 
 ### Agregar una tienda
 
 1. Crear `src/lib/stores/mitienda.ts` exportando un `StoreAdapter` (`search(query, limit) → Product[]`).
 2. Sumarlo al `StoreId` en `types.ts`, a `meta.ts` (nombre/color) y a `ADAPTERS` en `stores/index.ts`.
 
+Si la tienda usa la plataforma qloud.ar (como Gezatek y RocketHard), alcanza con `parseQloud` de `qloud.ts`.
+
 Maximus quedó afuera por ahora: arma el listado con PageMethods de ASP.NET + sesión, así que necesita un navegador headless.
 
 ## Deploy
 
-Funciona en Vercel o Render. Para el historial y las alertas en producción hacen falta `DATABASE_URL`, `RESEND_API_KEY` y `CRON_SECRET` (ver `.env.example`): sin `CRON_SECRET` el cron no corre, y sin base o sin mails no se pueden crear alertas. Tené en cuenta que algunas tiendas (FullH4rd y Maximus usan Cloudflare) pueden bloquear IPs de datacenter; si pasa, la tienda aparece con "error" y las demás siguen andando.
+Funciona en Vercel o Render. Para el historial y las alertas en producción hacen falta `DATABASE_URL`, `RESEND_API_KEY` y `CRON_SECRET` (ver `.env.example`): sin `CRON_SECRET` el cron no corre, y sin base o sin mails no se pueden crear alertas. Tené en cuenta que algunas tiendas (Venex usa Cloudflare) pueden bloquear IPs de datacenter; si pasa, la tienda aparece con "error" y las demás siguen andando.
 
 ## Aviso
 

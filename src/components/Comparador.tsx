@@ -7,11 +7,13 @@ import { groupProducts, type ProductGroup } from "@/lib/group";
 import { bestByStore as bestPerStore, raceSteps } from "@/lib/race";
 import { modelOf, variantOf, variantsOf, type Variant } from "@/lib/variants";
 import { Alerta } from "./Alerta";
+import { Bajas } from "./Bajas";
 import { Cuotas } from "./Cuotas";
 import { Historial } from "./Historial";
 import { STORE_IDS, STORES } from "@/lib/stores/meta";
 import type { Product, StoreId, StoreResult } from "@/lib/types";
 import { PcScene } from "./pc3d";
+import { Seguir } from "./Seguir";
 import { useAutocomplete } from "./Sugerencias";
 import { ArrowIcon, CheckIcon, Dot, Footer, SearchIcon, Segmented, ShareButton, Spinner, Struck, Tape, TopBar } from "./ui";
 
@@ -239,6 +241,7 @@ export default function Comparador({ initialQuery = "" }: { initialQuery?: strin
               <span className="font-normal text-ink-2"> para “{query}”</span>
             </h2>
             <div className="flex flex-wrap gap-2">
+              <Seguir query={query} best={loadingCount === 0 ? best : undefined} />
               {shippingKnown && (
                 <button
                   type="button"
@@ -530,6 +533,7 @@ function Home({
         </div>
       </div>
 
+      <Bajas onPick={onPick} />
       <ArmaBand />
     </main>
   );
