@@ -8,8 +8,10 @@ import { demoResults } from "./demo";
 import { fravega } from "./fravega";
 import { rockethard } from "./rockethard";
 import { gezatek } from "./gezatek";
+import { goldentech } from "./goldentech";
 import { mercadolibre } from "./mercadolibre";
 import { mexx } from "./mexx";
+import { spacegamer } from "./spacegamer";
 
 export const ADAPTERS: Record<StoreId, StoreAdapter> = {
   mercadolibre,
@@ -18,6 +20,8 @@ export const ADAPTERS: Record<StoreId, StoreAdapter> = {
   mexx,
   gezatek,
   fravega,
+  goldentech,
+  spacegamer,
 };
 
 const TTL = 10 * 60_000;

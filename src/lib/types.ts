@@ -4,7 +4,9 @@ export type StoreId =
   | "rockethard"
   | "mexx"
   | "gezatek"
-  | "fravega";
+  | "fravega"
+  | "goldentech"
+  | "spacegamer";
 
 export interface Product {
   id: string;

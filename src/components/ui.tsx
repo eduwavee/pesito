@@ -19,7 +19,7 @@ export function TopBar({ children, onHome }: { children?: React.ReactNode; onHom
   const path = usePathname();
   return (
     <header className="light-scope sticky top-0 z-30 bg-ink text-paper">
-      <div className="mx-auto flex w-full max-w-7xl items-center gap-3 px-4 py-3 sm:gap-5 sm:px-6">
+      <div className="mx-auto flex w-full max-w-7xl flex-wrap items-center gap-x-3 gap-y-2.5 px-4 py-3 sm:flex-nowrap sm:gap-5 sm:px-6">
         <Link
           href="/"
           onClick={onHome}

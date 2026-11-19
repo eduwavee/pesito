@@ -1,6 +1,6 @@
 # Pesito — Comparador de precios de hardware
 
-Buscás un producto una vez y ves el precio en **Mercado Libre, Compra Gamer, RocketHard, Mexx, Gezatek y Frávega**, con el más barato resaltado y un resumen de precio mínimo por tienda. Además guarda el historial de precios y te avisa por mail cuando algo baja del precio que elegiste.
+Buscás un producto una vez y ves el precio en **Mercado Libre, Compra Gamer, RocketHard, Mexx, Gezatek, Frávega, Goldentech y Space Gamer**, con el más barato resaltado y un resumen de precio mínimo por tienda. Además guarda el historial de precios y te avisa por mail cuando algo baja del precio que elegiste.
 
 ![Pesito](docs/screenshot.png)
 
@@ -27,7 +27,7 @@ npm run test:live   # smoke test contra las tiendas reales (avisa si alguna camb
 
 GitHub Actions corre typecheck, lint, tests y build en cada push (`.github/workflows/ci.yml`).
 
-Los fixtures de `tests/fixtures/` son HTML real recortado (Gezatek, RocketHard, Mexx, Frávega) o sintético cuando la tienda bloquea scripts (listado de Mercado Libre).
+Los fixtures de `tests/fixtures/` son HTML real recortado (Gezatek, RocketHard, Mexx, Frávega, Space Gamer; la respuesta JSON de Goldentech) o sintético cuando la tienda bloquea scripts (listado de Mercado Libre).
 
 ## Cómo funciona
 
@@ -47,6 +47,8 @@ Cada tienda carga por separado, así la que responde primero aparece primero y s
 | Mexx | HTML de `/buscar/?p=` (deduplica por número de artículo) | `mexx.ts` |
 | Gezatek | HTML de `/buscar/?q=`; datos en `data-id / data-nombre / data-precio` (plataforma qloud, parser compartido en `qloud.ts`) | `gezatek.ts` |
 | RocketHard | Misma plataforma que Gezatek: `/buscar/?q=`, precio especial en `data-precio` y precio con Mercado Pago en `.precio_mp` | `rockethard.ts` |
+| Goldentech | Store API pública de WooCommerce (`/wp-json/wc/store/v1/products?search=`), precios en centavos | `goldentech.ts` |
+| Space Gamer | HTML de `/Buscar/{texto}`; datos en `data-id / data-nombre` y `.itembig-current-price` | `spacegamer.ts` |
 | Frávega | HTML de `/l/?keyword=`; el listado sale del JSON de `__NEXT_DATA__` (estado de Apollo) | `fravega.ts` |
 | Mercado Libre | API oficial con token (`ML_CLIENT_ID` + `ML_CLIENT_SECRET`); sin credenciales intenta el HTML del listado | `mercadolibre.ts` |
 

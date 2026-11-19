@@ -38,6 +38,18 @@ export const STORES: Record<StoreId, { name: string; color: string; home: string
     home: "https://www.fravega.com",
     search: (q) => `https://www.fravega.com/l/?keyword=${encodeURIComponent(q)}`,
   },
+  goldentech: {
+    name: "Goldentech",
+    color: "#0B7A3B",
+    home: "https://goldentechstore.com.ar",
+    search: (q) => `https://goldentechstore.com.ar/?s=${encodeURIComponent(q)}&post_type=product`,
+  },
+  spacegamer: {
+    name: "Space Gamer",
+    color: "#3F4A5A",
+    home: "https://spacegamer.com.ar",
+    search: (q) => `https://spacegamer.com.ar/Buscar/${encodeURIComponent(q)}`,
+  },
 };
 
 export const STORE_IDS = Object.keys(STORES) as StoreId[];

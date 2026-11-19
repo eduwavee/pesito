@@ -11,6 +11,8 @@ const FACTOR: Record<StoreId, number> = {
   mexx: 1.03,
   gezatek: 0.99,
   fravega: 1.05,
+  goldentech: 1.02,
+  spacegamer: 0.98,
 };
 
 export function demoResults(store: StoreId, query: string): Product[] {

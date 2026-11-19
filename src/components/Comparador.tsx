@@ -398,7 +398,8 @@ function SearchBar({
 }) {
   const ac = useAutocomplete({ input, setInput, onPick });
   return (
-    <div className="relative min-w-0 flex-1 sm:max-w-xl">
+    // en el celu el buscador va en su propia fila: al lado de la navegación no entra
+    <div className="relative order-last min-w-0 basis-full sm:order-none sm:max-w-xl sm:flex-1 sm:basis-auto">
       <form
         role="search"
         onSubmit={(e) => {
@@ -755,7 +756,7 @@ function Llegadas({ arrivals, slots }: { arrivals: StoreId[]; slots: Record<Stor
   return (
     <div className="px-1">
       <h2 className="text-sm font-bold">Cómo fueron llegando las tiendas</h2>
-      <ol className="mt-3 grid grid-cols-2 gap-x-4 gap-y-1.5 text-sm sm:gap-x-6">
+      <ol className="mt-3 grid grid-cols-1 gap-x-4 gap-y-1.5 text-sm min-[420px]:grid-cols-2 sm:gap-x-6">
         {arrivals.map((s, i) => {
           const slot = slots[s];
           const r = slot.state === "done" ? slot.result : undefined;

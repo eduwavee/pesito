@@ -1,0 +1,109 @@
+{
+ "_source": "https://goldentechstore.com.ar/wp-json/wc/store/v1/products?search=rtx%205060 (recortado a 4 items, 2026-11-19)",
+ "items": [
+  {
+   "id": 189682,
+   "name": "Placa de Video Inno3D GeForce RTX 5060 Twin X2 8GB",
+   "permalink": "https://goldentechstore.com.ar/producto/placa-de-video-inno3d-geforce-rtx-5060-twin-x2-8gb/",
+   "is_in_stock": true,
+   "on_sale": false,
+   "prices": {
+    "price": "100863445",
+    "regular_price": "100863445",
+    "sale_price": "100863445",
+    "price_range": null,
+    "currency_code": "ARS",
+    "currency_symbol": "$",
+    "currency_minor_unit": 2,
+    "currency_decimal_separator": ",",
+    "currency_thousand_separator": ".",
+    "currency_prefix": "$ ",
+    "currency_suffix": ""
+   },
+   "images": [
+    {
+     "src": "https://goldentechstore.com.ar/wp-content/uploads/xmd98_l.webp",
+     "thumbnail": "https://goldentechstore.com.ar/wp-content/uploads/xmd98_l-300x300.webp"
+    }
+   ]
+  },
+  {
+   "id": 189654,
+   "name": "Placa de Video ASUS NVIDIA GeForce PRIME RTX 5060TI 16GB GDDR7 OC Edition",
+   "permalink": "https://goldentechstore.com.ar/producto/placa-de-video-asus-nvidia-geforce-prime-rtx-5060ti-16gb-gddr7-oc-edition/",
+   "is_in_stock": true,
+   "on_sale": false,
+   "prices": {
+    "price": "174118757",
+    "regular_price": "174118757",
+    "sale_price": "174118757",
+    "price_range": null,
+    "currency_code": "ARS",
+    "currency_symbol": "$",
+    "currency_minor_unit": 2,
+    "currency_decimal_separator": ",",
+    "currency_thousand_separator": ".",
+    "currency_prefix": "$ ",
+    "currency_suffix": ""
+   },
+   "images": [
+    {
+     "src": "https://goldentechstore.com.ar/wp-content/uploads/RkWtD_l.webp",
+     "thumbnail": "https://goldentechstore.com.ar/wp-content/uploads/RkWtD_l-300x300.webp"
+    }
+   ]
+  },
+  {
+   "id": 189644,
+   "name": "PLACA DE VIDEO ASUS DUAL RTX 5060 8GB EVO OC",
+   "permalink": "https://goldentechstore.com.ar/producto/placa-de-video-asus-dual-rtx-5060-8gb-evo-oc/",
+   "is_in_stock": true,
+   "on_sale": false,
+   "prices": {
+    "price": "109550793",
+    "regular_price": "109550793",
+    "sale_price": "109550793",
+    "price_range": null,
+    "currency_code": "ARS",
+    "currency_symbol": "$",
+    "currency_minor_unit": 2,
+    "currency_decimal_separator": ",",
+    "currency_thousand_separator": ".",
+    "currency_prefix": "$ ",
+    "currency_suffix": ""
+   },
+   "images": [
+    {
+     "src": "https://goldentechstore.com.ar/wp-content/uploads/nb_PLACA-DE-VIDEO-ASUS-DUAL-RTX-5060-8GB-EVO-OC_export_bdf89bda8d9e1fd10bfd7d3d04479cbd.png",
+     "thumbnail": "https://goldentechstore.com.ar/wp-content/uploads/nb_PLACA-DE-VIDEO-ASUS-DUAL-RTX-5060-8GB-EVO-OC_export_bdf89bda8d9e1fd10bfd7d3d04479cbd-300x300.png"
+    }
+   ]
+  },
+  {
+   "id": 186673,
+   "name": "VGA Gigabyte GeForce RTX 5060 GAMING OC V2 8G (7344)",
+   "permalink": "https://goldentechstore.com.ar/producto/vga-gigabyte-geforce-rtx-5060-gaming-oc-v2-8g-7344/",
+   "is_in_stock": true,
+   "on_sale": false,
+   "prices": {
+    "price": "107118904",
+    "regular_price": "107118904",
+    "sale_price": "107118904",
+    "price_range": null,
+    "currency_code": "ARS",
+    "currency_symbol": "$",
+    "currency_minor_unit": 2,
+    "currency_decimal_separator": ",",
+    "currency_thousand_separator": ".",
+    "currency_prefix": "$ ",
+    "currency_suffix": ""
+   },
+   "images": [
+    {
+     "src": "https://goldentechstore.com.ar/wp-content/uploads/000000000041865924168artic-75-.png",
+     "thumbnail": "https://goldentechstore.com.ar/wp-content/uploads/000000000041865924168artic-75--300x300.png"
+    }
+   ]
+  }
+ ]
+}
