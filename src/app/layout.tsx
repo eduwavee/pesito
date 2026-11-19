@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Archivo } from "next/font/google";
 import Script from "next/script";
+import { STORE_LIST } from "@/lib/stores/meta";
 import "./globals.css";
 
 const archivo = Archivo({
@@ -17,7 +18,7 @@ const siteUrl =
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: "Pesito — Comparador de precios de hardware",
-  description: "Compará precios de Mercado Libre, Compra Gamer, RocketHard, Venex, Mexx, Gezatek y Frávega en un solo lugar.",
+  description: `Compará precios de ${STORE_LIST} en un solo lugar.`,
   openGraph: { images: ["/api/og/busqueda"], locale: "es_AR", siteName: "Pesito" },
   twitter: { card: "summary_large_image" },
   // estático en public/: un manifest.ts se recompila en cada pedido en `next dev` y recarga la página en bucle

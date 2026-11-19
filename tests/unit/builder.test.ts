@@ -20,7 +20,7 @@ import {
 import type { Product, StoreId } from "@/lib/types";
 
 let n = 0;
-const p = (title: string, price: number, store: StoreId = "venex", extra: Partial<Product> = {}): Product => ({
+const p = (title: string, price: number, store: StoreId = "rockethard", extra: Partial<Product> = {}): Product => ({
   id: `t-${++n}`,
   store,
   title,
@@ -127,7 +127,7 @@ describe("categorías", () => {
     expect(fitsCategory("ram", p("Memoria SODIMM 16GB DDR5 notebook", 1))).toBe(false);
     expect(fitsCategory("ssd", p("Disco SSD externo 1TB USB", 1))).toBe(false);
     expect(fitsCategory("case", p("Ventilador para gabinete 120mm", 1))).toBe(false);
-    expect(fitsCategory("gpu", p("Placa de video RTX 5060", 1, "venex", { inStock: false }))).toBe(false);
+    expect(fitsCategory("gpu", p("Placa de video RTX 5060", 1, "rockethard", { inStock: false }))).toBe(false);
     expect(fitsCategory("cpu", p("PC Gamer AMD Ryzen 5 5500 RX 7600 16GB + Teclado", 1))).toBe(false);
     expect(fitsCategory("ram", p("Memoria Kit 2x8GB DDR5 6000", 1))).toBe(true);
     expect(fitsCategory("case", p("Service Instalación de armado de PC o cambio de gabinete", 1))).toBe(false);
@@ -220,12 +220,12 @@ describe("totales", () => {
   });
 
   it("todo en una tienda: ordena por completas y después por precio", () => {
-    const cpuV = p("Procesador Ryzen 5 7600", 300_000, "venex");
+    const cpuV = p("Procesador Ryzen 5 7600", 300_000, "rockethard");
     const cpuM = p("Procesador Ryzen 5 7600", 280_000, "mexx");
-    const moV = p("Mother B650M", 200_000, "venex");
+    const moV = p("Mother B650M", 200_000, "rockethard");
     const build: Build = { cpu: { query: "", pick: cpuM }, mother: { query: "", pick: moV } };
     const totals = oneStoreTotals({ cpu: [cpuV, cpuM], mother: [moV] }, build);
-    expect(totals[0]).toEqual({ store: "venex", total: 500_000, missing: [] });
+    expect(totals[0]).toEqual({ store: "rockethard", total: 500_000, missing: [] });
     expect(totals.find((t) => t.store === "mexx")).toEqual({ store: "mexx", total: 280_000, missing: ["mother"] });
   });
 });

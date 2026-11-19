@@ -1,6 +1,6 @@
 # Pesito — Comparador de precios de hardware
 
-Buscás un producto una vez y ves el precio en **Mercado Libre, Compra Gamer, RocketHard, Venex, Mexx, Gezatek y Frávega**, con el más barato resaltado y un resumen de precio mínimo por tienda. Además guarda el historial de precios y te avisa por mail cuando algo baja del precio que elegiste.
+Buscás un producto una vez y ves el precio en **Mercado Libre, Compra Gamer, RocketHard, Mexx, Gezatek y Frávega**, con el más barato resaltado y un resumen de precio mínimo por tienda. Además guarda el historial de precios y te avisa por mail cuando algo baja del precio que elegiste.
 
 ![Pesito](docs/screenshot.png)
 
@@ -22,12 +22,12 @@ npm run dev                  # http://localhost:3000
 
 ```bash
 npm test            # unitarios: texto/precios, parsers con HTML guardado, API en modo demo, lógica del armado
-npm run test:live   # smoke test contra las 7 tiendas reales (avisa si alguna cambió su HTML o bloquea la IP)
+npm run test:live   # smoke test contra las tiendas reales (avisa si alguna cambió su HTML o bloquea la IP)
 ```
 
 GitHub Actions corre typecheck, lint, tests y build en cada push (`.github/workflows/ci.yml`).
 
-Los fixtures de `tests/fixtures/` son HTML real recortado (Gezatek, RocketHard, Mexx, Venex, Frávega) o sintético cuando la tienda bloquea scripts (listado de Mercado Libre).
+Los fixtures de `tests/fixtures/` son HTML real recortado (Gezatek, RocketHard, Mexx, Frávega) o sintético cuando la tienda bloquea scripts (listado de Mercado Libre).
 
 ## Cómo funciona
 
@@ -44,7 +44,6 @@ Cada tienda carga por separado, así la que responde primero aparece primero y s
 | Tienda | Cómo se obtiene | Archivo |
 |---|---|---|
 | Compra Gamer | JSON público del catálogo completo (`static.compragamer.com/productos`, ~2 MB) cacheado 15 min y filtrado en el server | `src/lib/stores/compragamer.ts` |
-| Venex | HTML de `resultado-busqueda.htm` (windows-1252); datos del JSON en `enhancedClick(...)` | `venex.ts` |
 | Mexx | HTML de `/buscar/?p=` (deduplica por número de artículo) | `mexx.ts` |
 | Gezatek | HTML de `/buscar/?q=`; datos en `data-id / data-nombre / data-precio` (plataforma qloud, parser compartido en `qloud.ts`) | `gezatek.ts` |
 | RocketHard | Misma plataforma que Gezatek: `/buscar/?q=`, precio especial en `data-precio` y precio con Mercado Pago en `.precio_mp` | `rockethard.ts` |
@@ -111,11 +110,13 @@ Límites contra abuso: 5 alertas por hora por IP, 3 mails de confirmación por d
 
 Si la tienda usa la plataforma qloud.ar (como Gezatek y RocketHard), alcanza con `parseQloud` de `qloud.ts`.
 
+Antes de sumar una tienda, revisá su `robots.txt`: si prohíbe la página de búsqueda que usaría el adapter, no la sumamos. Por eso salieron FullH4rd (403) y Venex, que en noviembre de 2026 activó un desafío de Cloudflare y prohíbe `/resultado-busqueda.htm` y `?keywords=` a los bots.
+
 Maximus quedó afuera por ahora: arma el listado con PageMethods de ASP.NET + sesión, así que necesita un navegador headless.
 
 ## Deploy
 
-Funciona en Vercel o Render. Para el historial y las alertas en producción hacen falta `DATABASE_URL`, `RESEND_API_KEY` y `CRON_SECRET` (ver `.env.example`): sin `CRON_SECRET` el cron no corre, y sin base o sin mails no se pueden crear alertas. Tené en cuenta que algunas tiendas (Venex usa Cloudflare) pueden bloquear IPs de datacenter; si pasa, la tienda aparece con "error" y las demás siguen andando.
+Funciona en Vercel o Render. Para el historial y las alertas en producción hacen falta `DATABASE_URL`, `RESEND_API_KEY` y `CRON_SECRET` (ver `.env.example`): sin `CRON_SECRET` el cron no corre, y sin base o sin mails no se pueden crear alertas. Tené en cuenta que algunas tiendas pueden bloquear IPs de datacenter (Cloudflare); si pasa, la tienda aparece con "error" y las demás siguen andando.
 
 ## Aviso
 

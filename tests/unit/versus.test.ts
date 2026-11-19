@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { capacityGb, guessKind, pricePerGb, specsFor } from "@/lib/versus";
 import type { Product } from "@/lib/types";
 
-const p = (title: string, price = 100_000): Product => ({ id: title, store: "venex", title, price, url: "#" });
+const p = (title: string, price = 100_000): Product => ({ id: title, store: "rockethard", title, price, url: "#" });
 
 describe("comparar", () => {
   it("lee capacidades", () => {

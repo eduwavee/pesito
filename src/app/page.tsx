@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import Comparador from "@/components/Comparador";
+import { STORE_LIST } from "@/lib/stores/meta";
 
 export async function generateMetadata({ searchParams }: PageProps<"/">): Promise<Metadata> {
   const { q } = await searchParams;
@@ -9,7 +10,7 @@ export async function generateMetadata({ searchParams }: PageProps<"/">): Promis
   const image = `/api/og/busqueda?q=${encodeURIComponent(term)}`;
   return {
     title: `${term} — dónde está más barato | Pesito`,
-    description: `Precio de ${term} en Mercado Libre, Compra Gamer, RocketHard, Venex, Mexx, Gezatek y Frávega.`,
+    description: `Precio de ${term} en ${STORE_LIST}.`,
     openGraph: { images: [image] },
     twitter: { card: "summary_large_image", images: [image] },
   };

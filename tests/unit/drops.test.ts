@@ -63,8 +63,8 @@ describe("bajas de precio", () => {
         snap("2026-11-10", "a", "mexx", 90_000),
         snap("2026-11-17", "a", "mexx", 110_000),
         snap("2026-11-19", "a", "mexx", 100_000),
-        snap("2026-11-18", "b", "venex", 100_000),
-        snap("2026-11-19", "b", "venex", 80_000),
+        snap("2026-11-18", "b", "rockethard", 100_000),
+        snap("2026-11-19", "b", "rockethard", 80_000),
       ],
       { today },
     );

@@ -22,18 +22,18 @@ describe("GET /api/search/[store] (DEMO_MODE)", () => {
   });
 
   it("400 si la búsqueda es muy corta", async () => {
-    expect((await call("venex", "r")).status).toBe(400);
-    expect((await call("venex")).status).toBe(400);
+    expect((await call("gezatek", "r")).status).toBe(400);
+    expect((await call("gezatek")).status).toBe(400);
   });
 
   it("devuelve productos marcados como demo y con cache pública", async () => {
-    const res = await call("venex", "rtx 5060");
+    const res = await call("gezatek", "rtx 5060");
     expect(res.status).toBe(200);
     expect(res.headers.get("cache-control")).toContain("s-maxage=600");
     const body = (await res.json()) as StoreResult;
-    expect(body).toMatchObject({ store: "venex", status: "ok", demo: true });
+    expect(body).toMatchObject({ store: "gezatek", status: "ok", demo: true });
     expect(body.products.length).toBeGreaterThan(0);
-    expect(body.products.every((p) => p.store === "venex" && p.price > 0)).toBe(true);
+    expect(body.products.every((p) => p.store === "gezatek" && p.price > 0)).toBe(true);
   });
 
   it("los precios demo son estables para la misma búsqueda", async () => {

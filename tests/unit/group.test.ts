@@ -42,8 +42,8 @@ describe("groupProducts", () => {
     const groups = groupProducts(
       [
         p("mexx", "Placa De Video GeForce RTX 5060 8Gb Msi Shadow 2X Oc", 810_000),
-        p("venex", "Placa de Video MSI NVIDIA GeForce RTX 5060 8GB Shadow 2X OC", 790_000),
-        p("venex", "Placa de Video MSI RTX 5060 8GB Shadow 2X OC White", 805_000),
+        p("rockethard", "Placa de Video MSI NVIDIA GeForce RTX 5060 8GB Shadow 2X OC", 790_000),
+        p("rockethard", "Placa de Video MSI RTX 5060 8GB Shadow 2X OC White", 805_000),
         p("gezatek", "Placa de Video Palit RTX 5060 Dual 8GB", 700_000),
         p("fravega", "Placa De Video MSI GeForce RTX 5060 8GB GDDR7 SHADOW 2X", 900_000),
       ],
@@ -51,7 +51,7 @@ describe("groupProducts", () => {
     );
     expect(groups).toHaveLength(1);
     expect(groups[0].offers.map((o) => [o.store, o.price])).toEqual([
-      ["venex", 790_000],
+      ["rockethard", 790_000],
       ["mexx", 810_000],
       ["fravega", 900_000],
     ]);

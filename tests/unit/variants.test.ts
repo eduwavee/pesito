@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { modelOf, variantOf, variantsOf } from "@/lib/variants";
 import type { Product } from "@/lib/types";
 
-const p = (title: string, price: number): Product => ({ id: title, store: "venex", title, price, url: "#" });
+const p = (title: string, price: number): Product => ({ id: title, store: "rockethard", title, price, url: "#" });
 
 describe("modelOf", () => {
   it("encuentra el número de modelo y el sufijo pedido", () => {

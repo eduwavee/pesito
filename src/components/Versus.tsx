@@ -5,7 +5,7 @@ import { fitsCategory, type PartId } from "@/lib/builder/parts";
 import { searchAll } from "@/lib/client-search";
 import { formatArs, formatNum } from "@/lib/format";
 import { bestByStore } from "@/lib/race";
-import { STORE_IDS, STORES } from "@/lib/stores/meta";
+import { STORE_COUNT, STORE_IDS, STORES } from "@/lib/stores/meta";
 import type { Product, StoreId } from "@/lib/types";
 import { guessKind, pricePerGb, specsFor, type Kind } from "@/lib/versus";
 import { ArrowIcon, Dot, Footer, ShareButton, Spinner, Tape, TopBar } from "./ui";
@@ -101,7 +101,7 @@ export default function Versus({ initialA = "", initialB = "" }: { initialA?: st
       <TopBar />
       <main className="mx-auto w-full max-w-6xl flex-1 px-4 pb-20 pt-8 sm:px-6">
         <h1 className="cartel-num text-[clamp(2.75rem,7vw,4.5rem)] uppercase leading-[0.95]">Uno contra otro</h1>
-        <p className="mt-2 max-w-xl text-ink-2">Dos productos, siete tiendas: cuál sale menos y qué te llevás por la diferencia.</p>
+        <p className="mt-2 max-w-xl text-ink-2">Dos productos, {STORE_COUNT} tiendas: cuál sale menos y qué te llevás por la diferencia.</p>
 
         <form
           onSubmit={(e) => {

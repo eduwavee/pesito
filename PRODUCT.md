@@ -15,7 +15,7 @@ Three audiences at once, confirmed by the owner:
 Used equally on desktop (calm comparison, many tabs open while building a PC) and phone (quick price check).
 
 ## Product Purpose
-Search a product once and see live prices from Mercado Libre, Compra Gamer, RocketHard, Venex, Mexx, Gezatek and Frávega side by side, with the cheapest highlighted and a minimum-price-per-store summary. Success: the user finds the cheapest real offer in seconds and clicks through to the store.
+Search a product once and see live prices from Mercado Libre, Compra Gamer, RocketHard, Mexx, Gezatek and Frávega side by side, with the cheapest highlighted and a minimum-price-per-store summary. Success: the user finds the cheapest real offer in seconds and clicks through to the store.
 
 ## Positioning
 Queries each Argentine hardware store live and in parallel; each store streams in independently, so the first to answer shows first and a failing store never blocks the rest. Prices are read from the stores' own public sites, not a stale database.

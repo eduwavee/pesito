@@ -5,7 +5,6 @@ import { parseGezatek } from "@/lib/stores/gezatek";
 import { parseMlListing } from "@/lib/stores/mercadolibre";
 import { parseMexx } from "@/lib/stores/mexx";
 import { parseRockethard } from "@/lib/stores/rockethard";
-import { parseVenex } from "@/lib/stores/venex";
 import type { Product } from "@/lib/types";
 
 const fixture = (name: string) => readFileSync(new URL(`../fixtures/${name}.html`, import.meta.url), "utf8");
@@ -41,12 +40,6 @@ describe("parsers con HTML guardado", () => {
 
   it("Mexx (HTML real)", () => {
     expectValid(parseMexx(fixture("mexx")), "mexx");
-  });
-
-  it("Venex (HTML real)", () => {
-    const out = parseVenex(fixture("venex"));
-    expectValid(out, "venex");
-    expect(out[0].badge).toBe("Contado");
   });
 
   it("RocketHard (HTML real, plataforma qloud): precio especial y precio con Mercado Pago", () => {

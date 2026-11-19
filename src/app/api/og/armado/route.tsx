@@ -4,7 +4,7 @@ import { PARTS } from "@/lib/builder/parts";
 import { formatArs, formatNum } from "@/lib/format";
 import { cartelImage } from "@/lib/og/render";
 import { searchStore } from "@/lib/stores";
-import { STORE_IDS, STORES } from "@/lib/stores/meta";
+import { STORE_COUNT, STORE_IDS, STORES } from "@/lib/stores/meta";
 import type { Product } from "@/lib/types";
 
 /** Imagen para compartir un armado: el total en el cartel y las piezas al lado. */
@@ -27,7 +27,7 @@ export async function GET(req: NextRequest) {
     heading: chosen.length ? "Total del armado" : "Armá tu PC",
     price: chosen.length ? formatNum(total) : "—",
     caption: chosen.length
-      ? `${chosen.length} de ${PARTS.length} piezas al mejor precio de siete tiendas`
+      ? `${chosen.length} de ${PARTS.length} piezas al mejor precio de ${STORE_COUNT} tiendas`
       : "Pieza por pieza al mejor precio, con chequeo de compatibilidad.",
     rows: picks.map(({ def, pick, qty }) => ({
       label: qty > 1 ? `${def.name} ×${qty}` : def.name,

@@ -6,7 +6,7 @@ import { cpuTier, recommendFor, shortName } from "@/lib/builder/recommend";
 import type { Product, StoreId } from "@/lib/types";
 
 let n = 0;
-const p = (title: string, price = 100_000, store: StoreId = "venex"): Product => ({ id: `r-${++n}`, store, title, price, url: "#" });
+const p = (title: string, price = 100_000, store: StoreId = "rockethard"): Product => ({ id: `r-${++n}`, store, title, price, url: "#" });
 const queries = (part: Parameters<typeof recommendFor>[0], build: Build) => recommendFor(part, build).map((r) => r.query);
 
 describe("recomendaciones según el armado", () => {
@@ -61,7 +61,7 @@ describe("recomendaciones según el armado", () => {
 });
 
 describe("varias memorias", () => {
-  const ram = p("Memoria Kingston Fury Beast DDR5 16GB 5600", 120_000, "venex");
+  const ram = p("Memoria Kingston Fury Beast DDR5 16GB 5600", 120_000, "rockethard");
   const ramCg = p("Memoria Kingston Fury Beast DDR5 16GB 5600", 110_000, "compragamer");
 
   it("el total multiplica el precio", () => {

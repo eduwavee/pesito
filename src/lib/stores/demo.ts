@@ -8,7 +8,6 @@ const FACTOR: Record<StoreId, number> = {
   mercadolibre: 1.08,
   compragamer: 0.97,
   rockethard: 1.0,
-  venex: 0.95,
   mexx: 1.03,
   gezatek: 0.99,
   fravega: 1.05,

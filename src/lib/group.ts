@@ -3,7 +3,7 @@ import type { Product, StoreId } from "./types";
 import { modelOf, VARIANT_WORDS, variantOf } from "./variants";
 
 /**
- * Agrupa el MISMO producto publicado en distintas tiendas ("MSI RTX 5060 Shadow 2X" en Venex,
+ * Agrupa el MISMO producto publicado en distintas tiendas ("MSI RTX 5060 Shadow 2X" en Gezatek,
  * Mexx y Frávega) para comparar precio contra precio y no solo "lo más barato que encontramos".
  *
  * Cada tienda titula a su manera, así que comparamos solo lo que distingue un producto:

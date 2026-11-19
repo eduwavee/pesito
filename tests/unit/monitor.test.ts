@@ -35,21 +35,21 @@ describe("monitor de tiendas", () => {
     ]);
     expect(mexx).toMatchObject({ uptime: 50, avgMs: 500, lastOk: "2026-11-18T16:00:00Z" });
     expect(mexx.current?.status).toBe("error");
-    const venex = report.find((r) => r.store === "venex")!;
-    expect(venex.uptime).toBeUndefined();
-    expect(venex.days.every((d) => d.status === "none")).toBe(true);
+    const rh = report.find((r) => r.store === "rockethard")!;
+    expect(rh.uptime).toBeUndefined();
+    expect(rh.days.every((d) => d.status === "none")).toBe(true);
   });
 
   it("detecta tiendas que se rompen y que vuelven, no la primera vez", () => {
-    const prev = [check("mexx", "2026-11-18T10:00:00Z", "ok"), check("venex", "2026-11-18T10:00:00Z", "error")];
+    const prev = [check("mexx", "2026-11-18T10:00:00Z", "ok"), check("rockethard", "2026-11-18T10:00:00Z", "error")];
     const next = [
       check("mexx", "2026-11-19T10:00:00Z", "empty"),
-      check("venex", "2026-11-19T10:00:00Z", "ok"),
+      check("rockethard", "2026-11-19T10:00:00Z", "ok"),
       check("gezatek", "2026-11-19T10:00:00Z", "error"),
     ];
     const { broke, recovered } = transitions(prev, next);
     expect(broke.map((c) => c.store)).toEqual(["mexx"]);
-    expect(recovered.map((c) => c.store)).toEqual(["venex"]);
+    expect(recovered.map((c) => c.store)).toEqual(["rockethard"]);
   });
 
   it("una prueba: ok con productos, empty sin productos, error con bloqueo (sin reintentar)", async () => {
@@ -61,8 +61,8 @@ describe("monitor de tiendas", () => {
     vi.spyOn(ADAPTERS.gezatek, "search").mockResolvedValue([]);
     expect(await probeStore("gezatek")).toMatchObject({ status: "empty", count: 0 });
 
-    const blocked = vi.spyOn(ADAPTERS.venex, "search").mockRejectedValue(new HttpError(403, "HTTP 403 en venex"));
-    expect(await probeStore("venex")).toMatchObject({ status: "error", blocked: true, message: "HTTP 403 en venex" });
+    const blocked = vi.spyOn(ADAPTERS.rockethard, "search").mockRejectedValue(new HttpError(403, "HTTP 403 en rockethard"));
+    expect(await probeStore("rockethard")).toMatchObject({ status: "error", blocked: true, message: "HTTP 403 en rockethard" });
     expect(blocked).toHaveBeenCalledTimes(1);
   });
 });

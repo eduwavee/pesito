@@ -10,7 +10,7 @@ describe("base local (archivo JSON)", () => {
   const today = new Date().toISOString().slice(0, 10);
 
   it("guarda el mínimo del día por tienda y no lo pisa con uno más caro", async () => {
-    const row = { day: today, query: "rtx 5060", store: "venex" as const, price: 400_000, title: "RTX 5060", url: "#" };
+    const row = { day: today, query: "rtx 5060", store: "rockethard" as const, price: 400_000, title: "RTX 5060", url: "#" };
     await db.recordSnapshots([row]);
     await db.recordSnapshots([{ ...row, price: 420_000 }]);
     await db.recordSnapshots([{ ...row, price: 390_000 }]);
@@ -141,7 +141,7 @@ describe("API de alertas y cron (modo demo)", () => {
 describe("búsquedas populares", () => {
   it("ordena por cantidad de registros", async () => {
     const db = fileDb(mkdtempSync(join(tmpdir(), "precioar-top-")));
-    const row = { day: "2026-10-01", query: "rtx 5060", store: "venex" as const, price: 1, title: "x", url: "#" };
+    const row = { day: "2026-10-01", query: "rtx 5060", store: "rockethard" as const, price: 1, title: "x", url: "#" };
     await db.recordSnapshots([row, { ...row, store: "mexx" }, { ...row, query: "ryzen 5 7600" }]);
     expect(await db.topQueries(5)).toEqual([
       { query: "rtx 5060", count: 2 },

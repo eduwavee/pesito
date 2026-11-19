@@ -38,7 +38,7 @@ import { cpuHasGraphics, cpuIncludesCooler } from "@/lib/builder/specs";
 import { searchAll } from "@/lib/client-search";
 import { formatArs, formatNum } from "@/lib/format";
 import { capacityGb } from "@/lib/versus";
-import { STORE_IDS, STORES } from "@/lib/stores/meta";
+import { STORE_COUNT, STORE_IDS, STORES } from "@/lib/stores/meta";
 import type { Product, StoreId } from "@/lib/types";
 import { PcScene } from "../pc3d";
 import { Armados } from "./Armados";
@@ -293,7 +293,7 @@ export default function Armador() {
           <div>
             <h1 className="cartel-num text-[clamp(2.75rem,7vw,4.5rem)] uppercase leading-[0.95]">Armá tu PC</h1>
             <p className="mt-2 max-w-xl text-ink-2">
-              Pieza por pieza al mejor precio de siete tiendas. Te avisamos si algo no es compatible.
+              Pieza por pieza al mejor precio de {STORE_COUNT} tiendas. Te avisamos si algo no es compatible.
             </p>
           </div>
           <Segmented

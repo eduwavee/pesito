@@ -10,7 +10,7 @@ import { Alerta } from "./Alerta";
 import { Bajas } from "./Bajas";
 import { Cuotas } from "./Cuotas";
 import { Historial } from "./Historial";
-import { STORE_IDS, STORES } from "@/lib/stores/meta";
+import { STORE_COUNT, STORE_IDS, STORES } from "@/lib/stores/meta";
 import type { Product, StoreId, StoreResult } from "@/lib/types";
 import { PcScene } from "./pc3d";
 import { Seguir } from "./Seguir";
@@ -465,7 +465,7 @@ function Home({
             ¿Dónde está más barato?
           </h1>
           <p className="mt-6 max-w-lg text-lg leading-relaxed text-ink-2">
-            Escribí el componente una vez. Lo buscamos en vivo en siete tiendas argentinas y te dejamos el cartel con el
+            Escribí el componente una vez. Lo buscamos en vivo en {STORE_COUNT} tiendas argentinas y te dejamos el cartel con el
             precio más bajo.
           </p>
         </div>

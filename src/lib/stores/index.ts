@@ -10,13 +10,11 @@ import { rockethard } from "./rockethard";
 import { gezatek } from "./gezatek";
 import { mercadolibre } from "./mercadolibre";
 import { mexx } from "./mexx";
-import { venex } from "./venex";
 
 export const ADAPTERS: Record<StoreId, StoreAdapter> = {
   mercadolibre,
   compragamer,
   rockethard,
-  venex,
   mexx,
   gezatek,
   fravega,

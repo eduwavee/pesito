@@ -1,7 +1,7 @@
 {
   "name": "Pesito — Comparador de precios de hardware",
   "short_name": "Pesito",
-  "description": "Compará precios de hardware en siete tiendas argentinas y seguí lo que querés comprar.",
+  "description": "Compará precios de hardware en tiendas argentinas y seguí lo que querés comprar.",
   "lang": "es-AR",
   "start_url": "/",
   "scope": "/",

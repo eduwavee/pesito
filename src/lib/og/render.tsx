@@ -44,7 +44,7 @@ export async function cartelImage({
   rows,
   footer,
 }: {
-  /** línea arriba del número, ej "Más barato en Venex" */
+  /** línea arriba del número, ej "Más barato en Mexx" */
   heading: string;
   /** número sin "$", ej "384.500" (o "—" si no hay) */
   price: string;

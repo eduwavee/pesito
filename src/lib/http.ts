@@ -12,7 +12,7 @@ export class HttpError extends Error {
 
 interface FetchOpts {
   timeoutMs?: number;
-  /** charset a usar si el server no lo informa bien (ej. Venex = windows-1252) */
+  /** charset a usar si el server no lo informa bien (ej. sitios viejos en windows-1252) */
   charset?: string;
   headers?: Record<string, string>;
 }

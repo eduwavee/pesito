@@ -3,6 +3,7 @@ import { getDb, type Db } from "@/lib/db";
 import { formatNum } from "@/lib/format";
 import { priceMail, sendMail, siteUrl } from "@/lib/mail";
 import { clientIp, rateLimit } from "@/lib/rate-limit";
+import { STORE_COUNT } from "@/lib/stores/meta";
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const DAY = 864e5;
@@ -67,7 +68,7 @@ export async function POST(req: Request) {
       heading: `¿Seguimos “${query}”?`,
       price: formatNum(target),
       lines: [
-        "Confirmá y revisamos las siete tiendas todos los días: te escribimos apenas alguna lo tenga a ese precio o menos.",
+        `Confirmá y revisamos las ${STORE_COUNT} tiendas todos los días: te escribimos apenas alguna lo tenga a ese precio o menos.`,
       ],
       cta: { href: confirmUrl, label: "Confirmar alerta" },
       footer: "Si no la pediste vos, ignorá este mail: sin confirmar no te escribimos más.",

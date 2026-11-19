@@ -3,7 +3,7 @@ import { formatArs, formatNum } from "@/lib/format";
 import { cartelImage } from "@/lib/og/render";
 import { bestByStore } from "@/lib/race";
 import { searchStore } from "@/lib/stores";
-import { STORE_IDS, STORES } from "@/lib/stores/meta";
+import { STORE_COUNT, STORE_IDS, STORES } from "@/lib/stores/meta";
 import { isNew } from "@/lib/types";
 
 /** Imagen para compartir una búsqueda: el más barato en el cartel y el mínimo de cada tienda al lado. */
@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
     return cartelImage({
       heading: "¿Dónde está más barato?",
       price: "—",
-      caption: "Compará hardware en siete tiendas argentinas, en vivo.",
+      caption: `Compará hardware en ${STORE_COUNT} tiendas argentinas, en vivo.`,
       rows: STORE_IDS.map((s) => ({ label: STORES[s].name, value: "", dot: STORES[s].color })),
       footer: "Comparador de precios",
     });
