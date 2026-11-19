@@ -8,6 +8,7 @@ import { bestByStore } from "@/lib/race";
 import { STORE_COUNT, STORE_IDS, STORES } from "@/lib/stores/meta";
 import { isComparable, type Product, type StoreId } from "@/lib/types";
 import { guessKind, pricePerGb, specsFor, type Kind } from "@/lib/versus";
+import { Duelos } from "./Duelos";
 import { ArrowIcon, Dot, Footer, ShareButton, Spinner, Tape, TopBar } from "./ui";
 
 type Side = { query: string; products: Product[]; received: StoreId[] };
@@ -298,6 +299,8 @@ export default function Versus({ initialA = "", initialB = "" }: { initialA?: st
             </section>
           </>
         )}
+
+        <Duelos onPick={run} title={sa && sb ? "Otros duelos" : "Duelos destacados"} />
       </main>
       <Footer />
     </div>

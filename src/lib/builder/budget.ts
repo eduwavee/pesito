@@ -4,6 +4,7 @@ import { PART_IDS, slotPrice, type Build, type PartId } from "./parts";
 import type { Use } from "./presets";
 import { recommendFor, shortName } from "./recommend";
 import { cpuIncludesCooler } from "./specs";
+import { GPU_PERF, perfOf } from "../perf";
 import { isExactModel } from "../variants";
 
 /**
@@ -37,6 +38,12 @@ interface Platform {
   apus: { query: string; score: number }[];
 }
 
+/** Procesador de la tabla de rendimiento (lib/perf.ts); `high` = pide un mother mejor. */
+function cpu(query: string, high = false): Platform["cpus"][number] {
+  const p = perfOf(query)!;
+  return { query, gaming: p.gaming, edicion: p.edicion!, high: high || undefined };
+}
+
 const PLATFORMS: Platform[] = [
   {
     id: "AM4",
@@ -44,10 +51,10 @@ const PLATFORMS: Platform[] = [
     mem: "DDR4",
     mothers: ["A520M", "B550M"],
     cpus: [
-      { query: "Ryzen 5 5500", gaming: 70, edicion: 60 },
-      { query: "Ryzen 5 5600", gaming: 78, edicion: 66 },
-      { query: "Ryzen 7 5700X", gaming: 82, edicion: 85, high: true },
-      { query: "Ryzen 7 5700X3D", gaming: 98, edicion: 82, high: true },
+      cpu("Ryzen 5 5500"),
+      cpu("Ryzen 5 5600"),
+      cpu("Ryzen 7 5700X", true),
+      cpu("Ryzen 7 5700X3D", true),
     ],
     apus: [
       { query: "Ryzen 5 5600G", score: 100 },
@@ -60,13 +67,13 @@ const PLATFORMS: Platform[] = [
     mem: "DDR5",
     mothers: ["A620M", "B650M"],
     cpus: [
-      { query: "Ryzen 5 7600", gaming: 100, edicion: 85 },
-      { query: "Ryzen 5 9600X", gaming: 106, edicion: 90 },
-      { query: "Ryzen 7 7700", gaming: 108, edicion: 115, high: true },
-      { query: "Ryzen 7 7800X3D", gaming: 128, edicion: 112, high: true },
-      { query: "Ryzen 7 9800X3D", gaming: 140, edicion: 125, high: true },
-      { query: "Ryzen 9 9900X", gaming: 115, edicion: 160, high: true },
-      { query: "Ryzen 9 9950X", gaming: 120, edicion: 200, high: true },
+      cpu("Ryzen 5 7600"),
+      cpu("Ryzen 5 9600X"),
+      cpu("Ryzen 7 7700", true),
+      cpu("Ryzen 7 7800X3D", true),
+      cpu("Ryzen 7 9800X3D", true),
+      cpu("Ryzen 9 9900X", true),
+      cpu("Ryzen 9 9950X", true),
     ],
     apus: [
       { query: "Ryzen 5 8600G", score: 125 },
@@ -79,11 +86,11 @@ const PLATFORMS: Platform[] = [
     mem: "DDR5",
     mothers: ["H610M DDR5", "B760M DDR5"],
     cpus: [
-      { query: "Core i3 12100F", gaming: 62, edicion: 45 },
-      { query: "Core i5 12400F", gaming: 80, edicion: 70 },
-      { query: "Core i5 14400F", gaming: 92, edicion: 90 },
-      { query: "Core i5 14600KF", gaming: 105, edicion: 115, high: true },
-      { query: "Core i7 14700KF", gaming: 115, edicion: 150, high: true },
+      cpu("Core i3 12100F"),
+      cpu("Core i5 12400F"),
+      cpu("Core i5 14400F"),
+      cpu("Core i5 14600KF", true),
+      cpu("Core i7 14700KF", true),
     ],
     apus: [
       { query: "Core i3 12100", score: 90 },
@@ -93,16 +100,10 @@ const PLATFORMS: Platform[] = [
   },
 ];
 
-const GPUS: Step[] = [
-  { query: "RX 6600", score: 100 },
-  { query: "RTX 5060", score: 135 },
-  { query: "RX 9060 XT", score: 150 },
-  { query: "RTX 5060 Ti", score: 160 },
-  { query: "RTX 5070", score: 205 },
-  { query: "RX 9070 XT", score: 240 },
-  { query: "RTX 5070 Ti", score: 255 },
-  { query: "RTX 5080", score: 300 },
-];
+/** Escala de placas del armador (puntajes en lib/perf.ts). */
+const GPUS: Step[] = ["RX 6600", "RTX 5060", "RX 9060 XT", "RTX 5060 Ti", "RTX 5070", "RX 9070 XT", "RTX 5070 Ti", "RTX 5080"].map(
+  (query) => ({ query, score: GPU_PERF.find((g) => g.query === query)!.gaming }),
+);
 
 const SSDS: Step[] = [
   { query: "SSD 500GB NVMe", score: 100 },

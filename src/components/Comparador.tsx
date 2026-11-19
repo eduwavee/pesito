@@ -7,6 +7,7 @@ import { groupProducts, type ProductGroup } from "@/lib/group";
 import { bestByStore as bestPerStore, raceSteps } from "@/lib/race";
 import { modelOf, variantOf, variantsOf, type Variant } from "@/lib/variants";
 import { Alerta } from "./Alerta";
+import { Alternativas } from "./Alternativas";
 import { Bajas } from "./Bajas";
 import { Cuotas } from "./Cuotas";
 import { Historial } from "./Historial";
@@ -240,6 +241,8 @@ export default function Comparador({ initialQuery = "" }: { initialQuery?: strin
               {bestByStore.size > 0 && <Cuotas offers={[...bestByStore.values()].sort((a, b) => a.price - b.price)} />}
             </div>
           </section>
+
+          {!demo && <Alternativas key={`alt-${query}`} query={query} onPick={pickSuggestion} />}
 
           {/* Historial + alerta de precio */}
           {!demo && (

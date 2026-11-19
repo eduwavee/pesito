@@ -3,10 +3,14 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { formatArs } from "@/lib/format";
 import { STORES } from "@/lib/stores/meta";
+import { buyTiming, type Verdict } from "@/lib/timing";
 import type { StoreId } from "@/lib/types";
-import { Dot } from "./ui";
+import { AlertIcon, CheckIcon, Dot } from "./ui";
 
 type Point = { day: string; price: number; store: StoreId; title: string; url: string };
+
+/** Día de hoy en Argentina (UTC-3), igual que el historial. */
+const arToday = () => new Date(Date.now() - 3 * 3600e3).toISOString().slice(0, 10);
 
 const DAY = new Intl.DateTimeFormat("es-AR", { day: "numeric", month: "short", timeZone: "UTC" });
 const fmtDay = (d: string) => DAY.format(new Date(`${d}T00:00:00Z`));
@@ -16,15 +20,16 @@ const fmtDay = (d: string) => DAY.format(new Date(`${d}T00:00:00Z`));
  * las tiendas), con el mínimo del período marcado y la tienda en el tooltip.
  */
 export function Historial({ query, best }: { query: string; best?: number }) {
-  const [data, setData] = useState<{ points: Point[]; storage: string } | null>(null);
+  // `today`: el día (hora argentina) en que llegó el historial, para el veredicto de compra
+  const [data, setData] = useState<{ points: Point[]; storage: string; today: string } | null>(null);
   const [table, setTable] = useState(false);
 
   useEffect(() => {
     let alive = true;
     fetch(`/api/historial?q=${encodeURIComponent(query)}&dias=90`)
       .then((r) => r.json())
-      .then((d) => alive && setData({ points: d.points ?? [], storage: d.storage }))
-      .catch(() => alive && setData({ points: [], storage: "error" }));
+      .then((d) => alive && setData({ points: d.points ?? [], storage: d.storage, today: arToday() }))
+      .catch(() => alive && setData({ points: [], storage: "error", today: arToday() }));
     return () => {
       alive = false;
     };
@@ -35,6 +40,7 @@ export function Historial({ query, best }: { query: string; best?: number }) {
   const first = points[0];
   const last = points[points.length - 1];
   const change = first && last && points.length > 1 ? (last.price - first.price) / first.price : 0;
+  const timing = data ? buyTiming(points, best, data.today) : undefined;
 
   return (
     <section aria-labelledby="historial-titulo" className="rounded-[4px] border border-rule bg-sheet">
@@ -51,6 +57,8 @@ export function Historial({ query, best }: { query: string; best?: number }) {
 
       <div className="px-4 py-4 sm:px-5">
         {!data && <div className="h-40 animate-pulse rounded-[3px] bg-rule/50" aria-hidden="true" />}
+
+        {timing && best !== undefined && <Momento verdict={timing.verdict} text={timing.text} />}
 
         {data && points.length < 2 && (
           <p className="text-sm text-ink-2">
@@ -79,6 +87,27 @@ export function Historial({ query, best }: { query: string; best?: number }) {
         )}
       </div>
     </section>
+  );
+}
+
+const MOMENTO: Record<Verdict, { label: string; className: string }> = {
+  bueno: { label: "Buen momento para comprar", className: "bg-ink text-paper" },
+  normal: { label: "Precio normal", className: "border border-ink text-ink" },
+  esperar: { label: "Conviene esperar", className: "border border-dashed border-ink text-ink" },
+  pocos: { label: "Sin historial suficiente", className: "border border-rule-strong text-ink-2" },
+};
+
+/** ¿Comprar ahora o esperar? (siempre con texto: el estilo solo acompaña) */
+function Momento({ verdict, text }: { verdict: Verdict; text: string }) {
+  const m = MOMENTO[verdict];
+  return (
+    <div className="mb-4 flex flex-wrap items-center gap-x-3 gap-y-1.5" aria-live="polite">
+      <span className={`inline-flex items-center gap-1.5 rounded-[3px] px-2 py-1 text-sm font-bold ${m.className}`}>
+        {verdict === "bueno" ? <CheckIcon size={10} /> : verdict === "esperar" ? <AlertIcon /> : null}
+        {m.label}
+      </span>
+      <span className="text-sm text-ink-2">{text}</span>
+    </div>
   );
 }
 

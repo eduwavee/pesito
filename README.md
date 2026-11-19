@@ -92,6 +92,13 @@ Las alertas ("avisame si baja de $X") no piden cuenta:
 
 Límites contra abuso: 5 alertas por hora por IP, 3 mails de confirmación por día al mismo mail y 20 alertas activas por mail. El ranking de armados populares valida cada armado y lo cuenta una vez por día por IP.
 
+### Duelos, alternativas y "¿comprar ahora?"
+
+- **Tabla de rendimiento** (`src/lib/perf.ts`): puntaje relativo y aproximado de placas y procesadores (juegos y edición). Solo sirve para compararlos entre sí; la UI siempre lo aclara. La usan el armado por presupuesto, las alternativas y los duelos.
+- **Antes de comprar, mirá** (`/api/alternativas`, `src/lib/alternatives.ts`): al buscar una placa o un procesador de la tabla, propone uno que rinde parecido por menos (o, si no hay, uno que rinde un poco menos y sale bastante menos) y un salto que rinde bastante más por hasta 25 % más. Precios: el más barato de hoy entre todas las tiendas, solo nuevos y del modelo exacto (`src/lib/prices.ts`). Cache de 30 minutos por modelo.
+- **Duelos destacados** (`/api/duelos`, `src/lib/duelos.ts`) en "Uno contra otro": NVIDIA vs AMD, AMD vs Intel, AM4 o AM5, DDR4 o DDR5, 1 TB o 2 TB… con precio de hoy de cada lado y, en discos y memorias, precio por GB.
+- **¿Comprar ahora o esperar?** (`src/lib/timing.ts`, en el bloque del historial): compara el precio de hoy con el mínimo y la mediana de los últimos 30 días (con inflación, una ventana más larga haría parecer caro todo). Con menos de 4 días de datos no opina.
+
 ### Bajas de precio
 
 `/api/bajas` compara el precio más bajo de hoy (entre todas las tiendas) de cada búsqueda con el último día anterior registrado en las dos semanas previas (`src/lib/drops.ts`). La home muestra las que bajaron 3% o más. Las "bajas" de más del 50% se descartan: casi siempre son otro producto que matcheó la búsqueda.
