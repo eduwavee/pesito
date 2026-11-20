@@ -97,9 +97,15 @@ export function isUsed(title: string): boolean {
 const NOTEBOOK = /\b(so-?dimm|notebook|laptop|port[aá]til)\b/i;
 const RAM = /\b(ddr[345]l?|memoria|ram)\b/i;
 
-/** Memoria de notebook (SODIMM): no entra en una PC de escritorio aunque diga "DDR5 16GB". */
+const SODIMM = /\bso-?dimm\b/i;
+const MODULE = /^\W*(memoria|mem\.?|ram)\b/i;
+
+/**
+ * Memoria de notebook (SODIMM): no entra en una PC de escritorio aunque diga "DDR5 16GB".
+ * Tiene que ser una memoria: "Notebook HP Victus … 8GB DDR4" es una notebook, no una SODIMM.
+ */
 export function isNotebookRam(title: string): boolean {
-  return RAM.test(title) && NOTEBOOK.test(title);
+  return RAM.test(title) && (SODIMM.test(title) || (MODULE.test(title) && NOTEBOOK.test(title)));
 }
 
 /** ¿La búsqueda pide algo de notebook? ("sodimm ddr5", "memoria notebook 16gb") */

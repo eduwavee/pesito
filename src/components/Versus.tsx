@@ -7,7 +7,8 @@ import { formatArs, formatNum } from "@/lib/format";
 import { bestByStore } from "@/lib/race";
 import { STORE_COUNT, STORE_IDS, STORES } from "@/lib/stores/meta";
 import { isComparable, type Product, type StoreId } from "@/lib/types";
-import { guessKind, pricePerGb, specsFor, type Kind } from "@/lib/versus";
+import { isExactModel } from "@/lib/variants";
+import { guessKind, isAccessoryTitle, isNotebookTitle, pricePerGb, specsFor, type Kind } from "@/lib/versus";
 import { Duelos } from "./Duelos";
 import { ArrowIcon, Dot, Footer, ShareButton, Spinner, Tape, TopBar } from "./ui";
 
@@ -18,14 +19,19 @@ const EJEMPLOS: [string, string][] = [
   ["Ryzen 5 7600", "Core i5 14400F"],
   ["SSD 1TB", "SSD 2TB"],
   ["DDR5 16GB", "DDR5 32GB"],
+  ["Lenovo LOQ", "HP Victus"],
 ];
 
 const KIND_PART: Partial<Record<Kind, PartId>> = { gpu: "gpu", cpu: "cpu", ssd: "ssd", ram: "ram", psu: "psu" };
 
 /** Solo lo que realmente es del tipo buscado (sin accesorios ni PCs armadas). */
-function clean(kind: Kind, products: Product[]) {
+function clean(kind: Kind, query: string, products: Product[]) {
   const part = KIND_PART[kind];
-  return part ? products.filter((p) => fitsCategory(part, p)) : products.filter((p) => p.inStock !== false && isComparable(p));
+  // placas y procesadores: el modelo exacto ("RTX 5060" no es una 5060 Ti), como en el resto del sitio
+  if (kind === "gpu" || kind === "cpu") return products.filter((p) => fitsCategory(part!, p) && isExactModel(p.title, query));
+  if (part) return products.filter((p) => fitsCategory(part, p));
+  // notebooks: solo la notebook en sí (no la mochila ni el cargador que también la nombran)
+  return products.filter((p) => p.inStock !== false && isComparable(p) && (kind !== "notebook" || !isAccessoryTitle(p.title)));
 }
 
 export default function Versus({ initialA = "", initialB = "" }: { initialA?: string; initialB?: string }) {
@@ -76,8 +82,13 @@ export default function Versus({ initialA = "", initialB = "" }: { initialA?: st
     () =>
       [a, b].map((side) => {
         if (!side) return null;
-        const kind = guessKind(side.query, side.products[0]?.title);
-        const products = clean(kind, side.products).sort((x, y) => x.price - y.price);
+        // "lenovo loq" no dice qué es: si la mayoría de los resultados son notebooks, es una notebook
+        const nb = side.products.filter((p) => isNotebookTitle(p.title)).length;
+        const kind: Kind =
+          guessKind(side.query) === "otro" && nb > 0 && nb * 2 >= side.products.length
+            ? "notebook"
+            : guessKind(side.query, side.products[0]?.title);
+        const products = clean(kind, side.query, side.products).sort((x, y) => x.price - y.price);
         return {
           ...side,
           kind,
@@ -96,6 +107,7 @@ export default function Versus({ initialA = "", initialB = "" }: { initialA?: st
   const cheaper = both ? (sa.best!.price <= sb.best!.price ? sa : sb) : undefined;
   const pricier = cheaper === sa ? sb : sa;
   const diff = both ? Math.abs(sa.best!.price - sb.best!.price) : 0;
+  const notebooks = sa?.kind === "notebook" || sb?.kind === "notebook";
 
   return (
     <div className="flex min-h-full flex-1 flex-col">
@@ -205,14 +217,14 @@ export default function Versus({ initialA = "", initialB = "" }: { initialA?: st
 
               {/* tabla lado a lado */}
               <div className="overflow-hidden rounded-[4px] border border-rule bg-sheet">
-                <table className="w-full text-sm">
+                <table className="w-full table-fixed text-sm">
                   <thead>
                     <tr className="border-b border-rule text-left">
-                      <th className="px-4 py-3 font-normal text-ink-3" scope="col">
+                      <th className="w-[5.5rem] px-3 py-3 font-normal text-ink-3 sm:w-36 sm:px-4" scope="col">
                         <span className="sr-only">Dato</span>
                       </th>
                       {[sa, sb].map((s) => (
-                        <th key={s.query} scope="col" className="px-4 py-3 text-base font-bold">
+                        <th key={s.query} scope="col" className="px-3 py-3 text-base font-bold break-words sm:px-4">
                           <span className="flex items-center gap-2">
                             {s.query}
                             {s.pending > 0 && <Spinner />}
@@ -224,12 +236,12 @@ export default function Versus({ initialA = "", initialB = "" }: { initialA?: st
                   <tbody className="divide-y divide-rule">
                     <Row label="Más barato">
                       {[sa, sb].map((s) => (
-                        <td key={s.query} className="px-4 py-3">
+                        <td key={s.query} className="px-3 py-3 break-words sm:px-4">
                           {s.best ? (
                             <a href={s.best.url} target="_blank" rel="noopener noreferrer" className="group block">
-                              <span className="cartel-num text-2xl leading-none">{formatArs(s.best.price)}</span>
+                              <span className="cartel-num text-xl leading-none sm:text-2xl">{formatArs(s.best.price)}</span>
                               {s === cheaper && diff > 0 && (
-                                <span className="ml-2 rounded-[2px] bg-lime light-scope px-1.5 py-px text-xs font-bold">Más barato</span>
+                                <span className="mt-1 inline-block rounded-[2px] bg-lime light-scope px-1.5 py-px text-xs font-bold sm:ml-2 sm:mt-0">Más barato</span>
                               )}
                               <span className="mt-1 flex items-center gap-1.5 text-ink-2 group-hover:underline">
                                 <Dot store={s.best.store} /> {STORES[s.best.store].name}
@@ -243,26 +255,41 @@ export default function Versus({ initialA = "", initialB = "" }: { initialA?: st
                     </Row>
                     <Row label="Más caro">
                       {[sa, sb].map((s) => (
-                        <td key={s.query} className="px-4 py-3 tabular-nums">
+                        <td key={s.query} className="px-3 py-3 tabular-nums sm:px-4">
                           {s.max ? formatArs(s.max.price) : "—"}
                         </td>
                       ))}
                     </Row>
                     <Row label="Ofertas">
                       {[sa, sb].map((s) => (
-                        <td key={s.query} className="px-4 py-3 tabular-nums">
+                        <td key={s.query} className="px-3 py-3 tabular-nums sm:px-4">
                           {s.products.length} en {s.perStore.size} {s.perStore.size === 1 ? "tienda" : "tiendas"}
                         </td>
                       ))}
                     </Row>
+                    {notebooks && (
+                      <Row label="Cuál es">
+                        {[sa, sb].map((s) => (
+                          <td key={s.query} className="px-3 py-3 break-words text-ink-2 sm:px-4">
+                            <span className="line-clamp-3">{s.best?.title ?? "—"}</span>
+                          </td>
+                        ))}
+                      </Row>
+                    )}
                     {specRows(sa, sb).map(([label, va, vb]) => (
                       <Row key={label} label={label}>
-                        <td className="px-4 py-3">{va}</td>
-                        <td className="px-4 py-3">{vb}</td>
+                        <td className="px-3 py-3 break-words sm:px-4">{va}</td>
+                        <td className="px-3 py-3 break-words sm:px-4">{vb}</td>
                       </Row>
                     ))}
                   </tbody>
                 </table>
+                {notebooks && (
+                  <p className="border-t border-rule px-4 py-2.5 text-xs text-ink-2">
+                    Datos leídos del título de la más barata de cada lado (“—” es que el título no lo dice). No decimos
+                    cuál es mejor: revisá las especificaciones en la tienda antes de comprar.
+                  </p>
+                )}
               </div>
             </div>
 
@@ -310,7 +337,7 @@ export default function Versus({ initialA = "", initialB = "" }: { initialA?: st
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <tr>
-      <th scope="row" className="w-36 px-4 py-3 text-left font-normal text-ink-2">
+      <th scope="row" className="px-3 py-3 text-left font-normal text-ink-2 sm:px-4">
         {label}
       </th>
       {children}
@@ -320,11 +347,18 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
 
 type SideData = { kind: Kind; best?: Product };
 
+const SPEC_ORDER = ["Procesador", "Placa de video", "Memoria", "Disco", "Pantalla", "Sistema"];
+
 /** Filas de datos técnicos: la unión de lo que se pudo leer de cada lado. */
 function specRows(a: SideData, b: SideData): [string, string, string][] {
   const ra = a.best ? specsFor(a.kind, a.best) : [];
   const rb = b.best ? specsFor(b.kind, b.best) : [];
-  const labels = [...new Set([...ra, ...rb].map((r) => r.label))];
+  // orden fijo (si un lado no tiene un dato, la fila no cambia de lugar)
+  const order = (l: string) => {
+    const i = SPEC_ORDER.indexOf(l);
+    return i < 0 ? SPEC_ORDER.length : i;
+  };
+  const labels = [...new Set([...ra, ...rb].map((r) => r.label))].sort((x, y) => order(x) - order(y));
   const rows: [string, string, string][] = labels.map((l) => [
     l,
     ra.find((r) => r.label === l)?.value ?? "—",

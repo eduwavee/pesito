@@ -97,6 +97,10 @@ describe("memorias de notebook", () => {
     expect(isNotebookRam("Memoria Notebook DDR4 16GB Kingston")).toBe(true);
     expect(isNotebookRam("Memoria Ram Ddr5 16gb 5600mhz Kingston Fury Beast RGB Black")).toBe(false);
     expect(isNotebookRam("Cooler para Notebook Base")).toBe(false);
+    // una notebook que trae memoria no es una memoria de notebook
+    expect(isNotebookRam('Notebook Gamer HP Victus 15 15.6" Intel Core i5 13420H 8GB DDR4 SSD 512GB RTX 4050 Win11')).toBe(false);
+    expect(isNotebookRam("Notebook Lenovo LOQ 15AHP10 Ryzen 7 250 | 16GB DDR5 | 512GB NVME")).toBe(false);
+    expect(isNotebookRam("Kingston Fury Impact 16GB DDR5 SODIMM 5600")).toBe(true);
   });
   it("si la búsqueda pide notebook, no se ocultan", () => {
     expect(asksNotebook("sodimm ddr5 16gb")).toBe(true);

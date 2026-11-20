@@ -4,6 +4,7 @@ import { DUELOS, dueloResult } from "@/lib/duelos";
 import { articleFor, compareLabel, CPU_PERF, findPerf, GPU_PERF, perfOf } from "@/lib/perf";
 import { buyTiming } from "@/lib/timing";
 import { forHistory } from "@/lib/stores";
+import { guessKind, isNotebookTitle, notebookSpecs } from "@/lib/versus";
 import type { Product } from "@/lib/types";
 
 const prod = (title: string, price: number): Product => ({ id: title, store: "mexx", title, price, url: "https://x" });
@@ -203,5 +204,55 @@ describe("alternativas de procesadores con gráficos", () => {
       { model: perfOf("Ryzen 5 8500G")!, product: prod("AMD Ryzen 5 8500G", 300000) },
     ]);
     expect(alt.map((a) => a.query)).toEqual(["Ryzen 5 8500G"]);
+  });
+});
+
+describe("notebooks lado a lado (sin veredicto)", () => {
+  const specs = (t: string) => Object.fromEntries(notebookSpecs(t).map((r) => [r.label, r.value]));
+  it("lee procesador, placa, memoria, disco, pantalla y sistema de títulos reales", () => {
+    expect(specs('Notebook Gamer HP Victus 15 15.6" Intel Core i5 13420H 16GB DDR4 SSD 1TB RTX 4050 Win11 15-fa2018la')).toEqual({
+      Procesador: "Core i5 13420H",
+      "Placa de video": "RTX 4050",
+      Memoria: "16 GB DDR4",
+      Disco: "1 TB",
+      Pantalla: '15.6"',
+      Sistema: "Windows",
+    });
+    expect(specs("Notebook Lenovo LOQ 15AHP10 Ryzen 7 250 IA | 16GB DDR5 | 512GB NVME | RTX 5050 8GB | 15.6 FHD IPS 144HZ")).toMatchObject({
+      Procesador: "Ryzen 7 250",
+      "Placa de video": "RTX 5050",
+      Memoria: "16 GB DDR5",
+      Disco: "512 GB",
+      Pantalla: '15.6" FHD 144 Hz',
+    });
+  });
+  it("ata cada tamaño a lo que tiene al lado", () => {
+    // "8Gb Ssd 256Gb": 8 es memoria
+    expect(specs('NOTEBOOK Lenovo IdeaPad 1 Ryzen 5 7520U 8Gb Ssd 256Gb 15" Win11')).toMatchObject({ Memoria: "8 GB", Disco: "256 GB" });
+    // "RTX 4050 16GB DDR5": memoria, no de video
+    expect(specs("Notebook HP Victus Ryzen 7 7445hs RTX 4050 16GB DDR5 512gb SSD")).toMatchObject({ Memoria: "16 GB DDR5" });
+    // "Ssd 24gb Ram"
+    expect(specs("Macbook Air 13'' M5 Cpu 10 Core 512gb Ssd 24gb Ram Silver")).toMatchObject({
+      Procesador: "Apple M5",
+      Memoria: "24 GB",
+      Disco: "512 GB",
+      Sistema: "macOS",
+    });
+    expect(specs("Notebook Lenovo Loq 15ARP9 R5-7235HS 16GB 512GB RTX 4050")).toMatchObject({ Procesador: "Ryzen 5 7235HS" });
+  });
+  it("lo que no se lee con seguridad no aparece (no se adivina)", () => {
+    const s = specs("NOTEBOOK LENOVO V14 AMD RYZEN 3 8GB DDR4 256 FDOS");
+    expect(s.Disco).toBeUndefined();
+    expect(s["Placa de video"]).toBeUndefined();
+    expect(s.Sistema).toBe("Sin Windows");
+  });
+  it("una notebook no es una placa de video, y un accesorio no es una notebook", () => {
+    expect(guessKind("notebook rtx 4060")).toBe("notebook");
+    expect(guessKind("lenovo loq", "Notebook Gamer Lenovo LOQ 15IAX9E RTX 3050")).toBe("notebook");
+    expect(guessKind("memoria notebook ddr5")).toBe("ram");
+    expect(guessKind("mochila notebook")).toBe("otro");
+    expect(findPerf("notebook rtx 4060")).toBeUndefined();
+    expect(isNotebookTitle("Mochila para Notebook HP 15")).toBe(false);
+    expect(isNotebookTitle("Outlet - Notebook Lenovo IdeaPad Slim 3")).toBe(true);
   });
 });
