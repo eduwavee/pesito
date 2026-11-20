@@ -4,6 +4,9 @@ import { join } from "node:path";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { fileDb } from "@/lib/db/file";
 
+// connection() solo existe dentro de un pedido real de Next; acá llamamos a los handlers directo
+vi.mock("next/server", async (orig) => ({ ...(await orig<typeof import("next/server")>()), connection: async () => {} }));
+
 describe("base local (archivo JSON)", () => {
   const dir = mkdtempSync(join(tmpdir(), "precioar-"));
   const db = fileDb(dir);

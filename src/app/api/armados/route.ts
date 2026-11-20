@@ -1,3 +1,4 @@
+import { connection } from "next/server";
 import { canonicalBuildKey } from "@/lib/builder/build";
 import { PARTS } from "@/lib/builder/parts";
 import { getDb } from "@/lib/db";
@@ -5,6 +6,8 @@ import { clientIp, rateLimit } from "@/lib/rate-limit";
 
 /** Armados populares (los que la gente comparte o completa). */
 export async function GET() {
+  // nunca en el build: sin esto Next la ejecuta para prerenderizarla (y consultaría tiendas sin red)
+  await connection();
   const builds = await getDb().popularBuilds(6);
   return Response.json({ builds }, { headers: { "Cache-Control": "public, s-maxage=300" } });
 }

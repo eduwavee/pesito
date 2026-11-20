@@ -1,3 +1,4 @@
+import { connection } from "next/server";
 import { arDay, getDb, type Alert, type PushSub } from "@/lib/db";
 import { formatArs, formatNum } from "@/lib/format";
 import { runHealthCheck } from "@/lib/health";
@@ -32,6 +33,8 @@ interface Job {
  * Si no entra todo en una corrida, sigue al otro día por las que hace más que no se revisan.
  */
 export async function GET(req: Request) {
+  // nunca en el build: sin esto Next la ejecuta para prerenderizarla (y consultaría tiendas sin red)
+  await connection();
   const secret = process.env.CRON_SECRET;
   if (!secret && process.env.NODE_ENV === "production") {
     console.error("[cron] falta CRON_SECRET: no corremos sin protección");

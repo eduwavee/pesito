@@ -1,3 +1,4 @@
+import { connection } from "next/server";
 import { cached } from "@/lib/cache";
 import { getDb } from "@/lib/db";
 import { healthReport, runHealthCheck } from "@/lib/health";
@@ -11,6 +12,8 @@ const MIN_GAP_MS = 15 * 60_000;
 
 /** GET /api/estado → cómo anda cada tienda (último chequeo + 14 días). */
 export async function GET() {
+  // nunca en el build: sin esto Next la ejecuta para prerenderizarla (y consultaría tiendas sin red)
+  await connection();
   const db = getDb();
   let checks = await db.storeChecks(14);
   const last = checks.at(-1);
