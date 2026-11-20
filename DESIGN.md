@@ -1,6 +1,6 @@
 ---
 name: Pesito
-description: Live hardware price comparison across six Argentine stores, answered as a fluo price card.
+description: Live hardware price comparison across eight Argentine stores, answered as a fluo price card.
 colors:
   fluo: "#ff3d8b"
   fluo-deep: "#e0206f"
@@ -18,6 +18,7 @@ colors:
   store-rockethard: "#C83E75"
   store-mexx: "#00A3E0"
   store-gezatek: "#8B5CF6"
+  store-fravega: "#440099"
   store-goldentech: "#0B7A3B"
   store-spacegamer: "#3F4A5A"
 typography:

@@ -7,7 +7,7 @@ related_targets: ["src/components/Comparador.tsx"]
 
 # Comparador (home + resultados)
 
-Scope: `/` — empty state + results. Mode: Operate. Audience: Argentine hardware buyers (PC builders), public, and portfolio viewers. Job: find the cheapest real offer across six stores in seconds and click through. Success balances an instant verdict with the felt live race between stores. Avoid: generic dark SaaS, loud gamer look, looking like a store, empty minimalism.
+Scope: `/` — empty state + results. Mode: Operate. Audience: Argentine hardware buyers (PC builders), public, and portfolio viewers. Job: find the cheapest real offer across eight stores in seconds and click through. Success balances an instant verdict with the felt live race between stores. Avoid: generic dark SaaS, loud gamer look, looking like a store, empty minimalism.
 
 ## Direction contract
 

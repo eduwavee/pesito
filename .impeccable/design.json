@@ -79,34 +79,19 @@
           "#ffd0a0"
         ]
       },
-      "store-fullh4rd": {
+      "store-rockethard": {
         "role": "tertiary",
-        "displayName": "FullH4rd Red",
-        "canonical": "oklch(57.3% 0.233 29.5)",
+        "displayName": "RocketHard Pink",
+        "canonical": "oklch(57.8% 0.180 0.1)",
         "tonalRamp": [
-          "#320000",
-          "#5d0000",
-          "#8b0000",
-          "#bc0000",
-          "#ed2519",
-          "#ff6451",
-          "#ff9580",
-          "#ffc3af"
-        ]
-      },
-      "store-venex": {
-        "role": "tertiary",
-        "displayName": "Venex Blue",
-        "canonical": "oklch(47.4% 0.169 257.2)",
-        "tonalRamp": [
-          "#000334",
-          "#00205c",
-          "#003e88",
-          "#1c5fb6",
-          "#3781e5",
-          "#64a6ff",
-          "#90cbff",
-          "#bdf1ff"
+          "#130005",
+          "#380019",
+          "#610030",
+          "#8e0149",
+          "#b42964",
+          "#de5387",
+          "#ff83ad",
+          "#fec6d5"
         ]
       },
       "store-mexx": {
@@ -137,6 +122,51 @@
           "#ac88ff",
           "#ceb1ff",
           "#f2dbff"
+        ]
+      },
+      "store-fravega": {
+        "role": "tertiary",
+        "displayName": "Frávega Purple",
+        "canonical": "oklch(35.5% 0.200 290.7)",
+        "tonalRamp": [
+          "#07001d",
+          "#1f004e",
+          "#3a0085",
+          "#5424af",
+          "#6e47d0",
+          "#906efa",
+          "#b1a1fe",
+          "#d7d1fe"
+        ]
+      },
+      "store-goldentech": {
+        "role": "tertiary",
+        "displayName": "Goldentech Green",
+        "canonical": "oklch(50.8% 0.133 151.0)",
+        "tonalRamp": [
+          "#000902",
+          "#00220b",
+          "#013e1a",
+          "#005d2a",
+          "#137d3e",
+          "#43a261",
+          "#6bc985",
+          "#92f1aa"
+        ]
+      },
+      "store-spacegamer": {
+        "role": "tertiary",
+        "displayName": "Space Gamer Slate",
+        "canonical": "oklch(40.6% 0.031 257.7)",
+        "tonalRamp": [
+          "#010611",
+          "#111b29",
+          "#293343",
+          "#434e5e",
+          "#5e6a7b",
+          "#818d9f",
+          "#a5b2c5",
+          "#cbd9ec"
         ]
       },
       "ink": {
@@ -416,7 +446,7 @@
       "kind": "card",
       "refersTo": "cartel",
       "description": "The single fluo price card carrying the cheapest offer; struck history above, written-in price, ink CTA.",
-      "html": "<article class=\"ds-cartel\"><p class=\"ds-cartel-lead\">Más barato en <span class=\"ds-cartel-pill\"><span class=\"ds-dot\" style=\"background:#0057B8\"></span> Venex</span></p><ul class=\"ds-cartel-hist\"><li><span class=\"ds-struck\">$437.100.-<svg class=\"ds-strike\" viewBox=\"0 0 100 10\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path d=\"M2 7 C 25 3, 55 8, 98 3\" pathLength=\"1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" vector-effect=\"non-scaling-stroke\"/></svg></span></li><li><span class=\"ds-struck\">$392.600.-<svg class=\"ds-strike\" viewBox=\"0 0 100 10\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path d=\"M2 7 C 25 3, 55 8, 98 3\" pathLength=\"1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" vector-effect=\"non-scaling-stroke\"/></svg></span></li></ul><p class=\"ds-cartel-price\"><span class=\"ds-cartel-cur\">$</span>384.500<span aria-hidden=\"true\">.-</span></p><a class=\"ds-cartel-title\" href=\"#\">Placa de video MSI GeForce RTX 5060 Ventus 2X OC 8GB</a><div class=\"ds-cartel-foot\"><a class=\"ds-btn-primary\" href=\"#\">Ver en Venex <svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M3 8h9.5M8.5 3.5 13 8l-4.5 4.5\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></a><p>Comparado en 6 tiendas</p></div></article>",
+      "html": "<article class=\"ds-cartel\"><p class=\"ds-cartel-lead\">Más barato en <span class=\"ds-cartel-pill\"><span class=\"ds-dot\" style=\"background:#0B7A3B\"></span> Goldentech</span></p><ul class=\"ds-cartel-hist\"><li><span class=\"ds-struck\">$437.100.-<svg class=\"ds-strike\" viewBox=\"0 0 100 10\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path d=\"M2 7 C 25 3, 55 8, 98 3\" pathLength=\"1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" vector-effect=\"non-scaling-stroke\"/></svg></span></li><li><span class=\"ds-struck\">$392.600.-<svg class=\"ds-strike\" viewBox=\"0 0 100 10\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path d=\"M2 7 C 25 3, 55 8, 98 3\" pathLength=\"1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" vector-effect=\"non-scaling-stroke\"/></svg></span></li></ul><p class=\"ds-cartel-price\"><span class=\"ds-cartel-cur\">$</span>384.500<span aria-hidden=\"true\">.-</span></p><a class=\"ds-cartel-title\" href=\"#\">Placa de video MSI GeForce RTX 5060 Ventus 2X OC 8GB</a><div class=\"ds-cartel-foot\"><a class=\"ds-btn-primary\" href=\"#\">Ver en Goldentech <svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M3 8h9.5M8.5 3.5 13 8l-4.5 4.5\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></a><p>Comparado en 8 tiendas</p></div></article>",
       "css": ".ds-cartel { font-family: var(--font-archivo, Archivo), system-ui, sans-serif; position: relative; transform: rotate(-1.2deg); border-radius: 4px; background: var(--fluo, #ff3d8b); color: var(--ink, #16171a); padding: 32px; max-width: 460px; box-shadow: 0 24px 40px -24px rgba(22,23,26,0.6), 0 2px 4px rgba(22,23,26,0.08); } .ds-cartel-lead { display: flex; align-items: center; gap: 8px; font-size: 1.125rem; font-weight: 700; line-height: 1.25; margin: 0; } .ds-cartel-pill { display: inline-flex; align-items: center; gap: 6px; border-radius: 9999px; background: var(--sheet, #fff); padding: 2px 10px; font-size: 1rem; } .ds-dot { display: inline-block; width: 10px; height: 10px; border-radius: 9999px; box-shadow: 0 0 0 1px rgba(22,23,26,0.15); } .ds-cartel-hist { list-style: none; display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 16px 0 0; padding: 0; } .ds-struck { position: relative; display: inline-block; font-variation-settings: 'wdth' 62; font-weight: 900; font-variant-numeric: tabular-nums lining-nums; letter-spacing: -0.01em; font-size: 1.25rem; color: rgba(22,23,26,0.7); } .ds-strike { position: absolute; left: -6%; top: 52%; width: 112%; height: 0.45em; transform: translateY(-50%); overflow: visible; color: var(--ink, #16171a); pointer-events: none; } .ds-strike path { stroke-dasharray: 1; animation: ds-strike 360ms cubic-bezier(0.16,1,0.3,1) both; } @keyframes ds-strike { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } } .ds-cartel-price { display: flex; align-items: flex-start; margin: 8px 0 0; font-variation-settings: 'wdth' 62; font-weight: 900; font-variant-numeric: tabular-nums lining-nums; letter-spacing: -0.01em; font-size: clamp(3.75rem, 13vw, 6rem); line-height: 0.9; animation: ds-write 520ms cubic-bezier(0.16,1,0.3,1) both; } .ds-cartel-cur { font-size: 0.42em; margin: 0.12em 4px 0 0; } @keyframes ds-write { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } } .ds-cartel-title { display: block; margin-top: 16px; max-width: 28rem; font-weight: 500; line-height: 1.375; color: inherit; text-decoration: underline; text-decoration-color: rgba(22,23,26,0.4); text-underline-offset: 0.2em; } .ds-cartel-title:hover { text-decoration-color: var(--ink, #16171a); } .ds-cartel-foot { margin-top: 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 16px; } .ds-cartel-foot p { margin: 0; font-size: 0.875rem; font-weight: 500; } .ds-btn-primary { display: inline-flex; align-items: center; gap: 8px; border-radius: 3px; background: var(--ink, #16171a); color: var(--paper, #eef0ea); padding: 12px 20px; font-weight: 700; text-decoration: none; transition: transform 200ms cubic-bezier(0.16,1,0.3,1); } .ds-btn-primary:hover { transform: translateY(-1px); } .ds-btn-primary:focus-visible { outline: 2px solid var(--ink, #16171a); outline-offset: 2px; } @media (prefers-reduced-motion: reduce) { .ds-cartel-price, .ds-strike path { animation: none; stroke-dasharray: none; } }"
     },
     {
@@ -472,7 +502,7 @@
       "kind": "custom",
       "refersTo": "tag-winner",
       "description": "Ruled, fully clickable offer row: image well, title and meta, narrow black price with lime winner tag or +$ difference.",
-      "html": "<ul class=\"ds-rows\"><li><a class=\"ds-row\" href=\"#\"><span class=\"ds-well\">Sin foto</span><span class=\"ds-mid\"><span class=\"ds-title\">Placa de video MSI GeForce RTX 5060 Ventus 2X OC 8GB</span><span class=\"ds-meta\"><span><span class=\"ds-dot\" style=\"background:#0057B8\"></span> Venex</span><span class=\"ds-badge\">Envío gratis</span></span></span><span class=\"ds-end\"><span class=\"ds-was\">$ 412.000</span><span class=\"ds-price\">$ 384.500</span><span class=\"ds-win\">Más barato</span></span></a></li><li><a class=\"ds-row\" href=\"#\"><span class=\"ds-well\">Sin foto</span><span class=\"ds-mid\"><span class=\"ds-title\">MSI GeForce RTX 5060 Gaming OC 8GB</span><span class=\"ds-meta\"><span><span class=\"ds-dot\" style=\"background:#FF6A00\"></span> Compra Gamer</span></span></span><span class=\"ds-end\"><span class=\"ds-price\">$ 392.600</span><span class=\"ds-diff\">+$ 8.100</span></span></a></li></ul>",
+      "html": "<ul class=\"ds-rows\"><li><a class=\"ds-row\" href=\"#\"><span class=\"ds-well\">Sin foto</span><span class=\"ds-mid\"><span class=\"ds-title\">Placa de video MSI GeForce RTX 5060 Ventus 2X OC 8GB</span><span class=\"ds-meta\"><span><span class=\"ds-dot\" style=\"background:#0B7A3B\"></span> Goldentech</span><span class=\"ds-badge\">Envío gratis</span></span></span><span class=\"ds-end\"><span class=\"ds-was\">$ 412.000</span><span class=\"ds-price\">$ 384.500</span><span class=\"ds-win\">Más barato</span></span></a></li><li><a class=\"ds-row\" href=\"#\"><span class=\"ds-well\">Sin foto</span><span class=\"ds-mid\"><span class=\"ds-title\">MSI GeForce RTX 5060 Gaming OC 8GB</span><span class=\"ds-meta\"><span><span class=\"ds-dot\" style=\"background:#FF6A00\"></span> Compra Gamer</span></span></span><span class=\"ds-end\"><span class=\"ds-price\">$ 392.600</span><span class=\"ds-diff\">+$ 8.100</span></span></a></li></ul>",
       "css": ".ds-rows { font-family: var(--font-archivo, Archivo), system-ui, sans-serif; list-style: none; margin: 0; padding: 0; background: var(--paper, #eef0ea); color: var(--ink, #16171a); } .ds-rows li + li { border-top: 1px solid var(--rule, #d6d9d0); } .ds-row { display: grid; grid-template-columns: 4.5rem minmax(0,1fr) auto; align-items: center; gap: 0 16px; padding: 14px 12px; color: inherit; text-decoration: none; transition: background-color 150ms; } .ds-row:hover { background: var(--sheet, #fff); } .ds-row:hover .ds-title { text-decoration: underline; } .ds-row:focus-visible { outline: 2px solid var(--ink, #16171a); outline-offset: 2px; } .ds-well { display: grid; place-items: center; aspect-ratio: 1; border: 1px solid var(--rule, #d6d9d0); border-radius: 3px; background: var(--sheet, #fff); padding: 6px; font-size: 0.65rem; color: var(--ink-3, #6f727a); } .ds-title { display: block; font-weight: 500; line-height: 1.375; } .ds-meta { margin-top: 4px; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; font-size: 0.875rem; color: var(--ink-2, #50535b); } .ds-dot { display: inline-block; width: 10px; height: 10px; border-radius: 9999px; box-shadow: 0 0 0 1px rgba(22,23,26,0.15); } .ds-badge { border-radius: 2px; background: var(--paper, #eef0ea); padding: 1px 6px; font-size: 0.75rem; font-weight: 500; } .ds-end { display: flex; flex-direction: column; align-items: flex-end; text-align: right; } .ds-was { font-size: 0.75rem; color: var(--ink-3, #6f727a); text-decoration: line-through; font-variant-numeric: tabular-nums; } .ds-price { font-variation-settings: 'wdth' 62; font-weight: 900; font-variant-numeric: tabular-nums lining-nums; letter-spacing: -0.01em; font-size: 1.875rem; line-height: 1; } .ds-win { margin-top: 4px; border-radius: 2px; background: var(--lime, #c8f031); padding: 2px 6px; font-size: 0.75rem; font-weight: 700; } .ds-diff { margin-top: 4px; font-size: 0.75rem; color: var(--ink-2, #50535b); font-variant-numeric: tabular-nums; }"
     },
     {
@@ -480,7 +510,7 @@
       "kind": "custom",
       "refersTo": "panel",
       "description": "Per-store minimum row on the sheet panel: every offer as a store-colored point on one price axis; the winner circled in lime.",
-      "html": "<div class=\"ds-panel\"><div class=\"ds-strip\"><span class=\"ds-name\"><span class=\"ds-dot\" style=\"background:#0057B8\"></span>Venex</span><span class=\"ds-track\"><span class=\"ds-axis\"></span><span class=\"ds-pt\" style=\"left:62%;background:#0057B8\"></span><span class=\"ds-pt ds-pt-min\" style=\"left:0%;background:#0057B8\"></span><span class=\"ds-ring\" style=\"left:0%\"></span></span><span class=\"ds-min\"><b>$ 384.500</b><small>el más barato</small></span></div><div class=\"ds-strip\"><span class=\"ds-name\"><span class=\"ds-dot\" style=\"background:#FF6A00\"></span>Compra Gamer</span><span class=\"ds-track\"><span class=\"ds-axis\"></span><span class=\"ds-pt ds-pt-min\" style=\"left:18%;background:#FF6A00\"></span><span class=\"ds-pt\" style=\"left:80%;background:#FF6A00\"></span></span><span class=\"ds-min\"><b class=\"ds-reg\">$ 392.600</b><small>+$ 8.100</small></span></div></div>",
+      "html": "<div class=\"ds-panel\"><div class=\"ds-strip\"><span class=\"ds-name\"><span class=\"ds-dot\" style=\"background:#0B7A3B\"></span>Goldentech</span><span class=\"ds-track\"><span class=\"ds-axis\"></span><span class=\"ds-pt\" style=\"left:62%;background:#0B7A3B\"></span><span class=\"ds-pt ds-pt-min\" style=\"left:0%;background:#0B7A3B\"></span><span class=\"ds-ring\" style=\"left:0%\"></span></span><span class=\"ds-min\"><b>$ 384.500</b><small>el más barato</small></span></div><div class=\"ds-strip\"><span class=\"ds-name\"><span class=\"ds-dot\" style=\"background:#FF6A00\"></span>Compra Gamer</span><span class=\"ds-track\"><span class=\"ds-axis\"></span><span class=\"ds-pt ds-pt-min\" style=\"left:18%;background:#FF6A00\"></span><span class=\"ds-pt\" style=\"left:80%;background:#FF6A00\"></span></span><span class=\"ds-min\"><b class=\"ds-reg\">$ 392.600</b><small>+$ 8.100</small></span></div></div>",
       "css": ".ds-panel { font-family: var(--font-archivo, Archivo), system-ui, sans-serif; border: 1px solid var(--rule, #d6d9d0); border-radius: 4px; background: var(--sheet, #fff); padding: 0 20px; color: var(--ink, #16171a); } .ds-strip { display: grid; grid-template-columns: 8.5rem minmax(0,1fr) auto; align-items: center; gap: 0 16px; padding: 10px 0; } .ds-strip + .ds-strip { border-top: 1px solid var(--rule, #d6d9d0); } .ds-name { display: flex; align-items: center; gap: 8px; font-size: 0.875rem; font-weight: 500; } .ds-dot { display: inline-block; width: 10px; height: 10px; border-radius: 9999px; box-shadow: 0 0 0 1px rgba(22,23,26,0.15); } .ds-track { position: relative; height: 20px; } .ds-axis { position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: var(--rule, #d6d9d0); } .ds-pt { position: absolute; top: 50%; width: 8px; height: 8px; border-radius: 9999px; opacity: 0.6; transform: translate(-50%,-50%); box-shadow: 0 0 0 2px var(--sheet, #fff); } .ds-pt-min { width: 14px; height: 14px; opacity: 1; } .ds-ring { position: absolute; top: 50%; width: 22px; height: 22px; box-sizing: border-box; border: 3px solid var(--lime, #c8f031); border-radius: 9999px; transform: translate(-50%,-50%); box-shadow: 0 0 0 1px var(--ink, #16171a); } .ds-min { display: flex; flex-direction: column; align-items: flex-end; font-size: 0.875rem; font-variant-numeric: tabular-nums; } .ds-min b { font-weight: 800; } .ds-min b.ds-reg { font-weight: 600; } .ds-min small { font-size: 0.75rem; color: var(--ink-2, #50535b); }"
     },
     {
@@ -496,7 +526,7 @@
       "kind": "custom",
       "refersTo": "button-secondary",
       "description": "Offer in a builder step: compatibility in ink with a check, lime tag only on the cheapest compatible offer, alert-red incompatibility at 60%, outline Elegir / ink Elegida.",
-      "html": "<ul class=\"ds-offers\"><li><span class=\"ds-well\">Sin foto</span><span class=\"ds-mid\"><span class=\"ds-title\">Memoria Kingston Fury Beast DDR5 16GB 5600MHz</span><span class=\"ds-meta\"><span><span class=\"ds-dot\" style=\"background:#0057B8\"></span> Venex</span><span class=\"ds-fit\"><svg width=\"12\" height=\"12\" viewBox=\"0 0 10 10\" fill=\"none\" aria-hidden=\"true\"><path d=\"m2 5.2 2 2L8 3\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg> Compatible</span><span class=\"ds-win\">Más barato</span></span></span><span class=\"ds-price\">$ 62.300</span><button class=\"ds-pick\" aria-pressed=\"true\"><svg width=\"12\" height=\"12\" viewBox=\"0 0 10 10\" fill=\"none\" aria-hidden=\"true\"><path d=\"m2 5.2 2 2L8 3\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg> Elegida</button></li><li><span class=\"ds-well\">Sin foto</span><span class=\"ds-mid\"><span class=\"ds-title\">Memoria Corsair Vengeance DDR5 16GB 6000MHz</span><span class=\"ds-meta\"><span><span class=\"ds-dot\" style=\"background:#FF6A00\"></span> Compra Gamer</span><span class=\"ds-fit\"><svg width=\"12\" height=\"12\" viewBox=\"0 0 10 10\" fill=\"none\" aria-hidden=\"true\"><path d=\"m2 5.2 2 2L8 3\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg> Compatible</span></span></span><span class=\"ds-price\">$ 68.900</span><button class=\"ds-pick\" aria-pressed=\"false\">Elegir</button></li><li class=\"ds-off\"><span class=\"ds-well\">Sin foto</span><span class=\"ds-mid\"><span class=\"ds-title\">Memoria Kingston DDR4 16GB 3200MHz</span><span class=\"ds-meta\"><span><span class=\"ds-dot\" style=\"background:#FFE600\"></span> Mercado Libre</span><span class=\"ds-nofit\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"none\" aria-hidden=\"true\"><path d=\"M7 1.75 12.75 12H1.25L7 1.75Z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><path d=\"M7 5.5v3\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><circle cx=\"7\" cy=\"10.2\" r=\"0.8\" fill=\"currentColor\"/></svg> El mother usa DDR5</span></span></span><span class=\"ds-price\">$ 41.500</span><button class=\"ds-pick\" aria-pressed=\"false\">Elegir</button></li></ul>",
+      "html": "<ul class=\"ds-offers\"><li><span class=\"ds-well\">Sin foto</span><span class=\"ds-mid\"><span class=\"ds-title\">Memoria Kingston Fury Beast DDR5 16GB 5600MHz</span><span class=\"ds-meta\"><span><span class=\"ds-dot\" style=\"background:#0B7A3B\"></span> Goldentech</span><span class=\"ds-fit\"><svg width=\"12\" height=\"12\" viewBox=\"0 0 10 10\" fill=\"none\" aria-hidden=\"true\"><path d=\"m2 5.2 2 2L8 3\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg> Compatible</span><span class=\"ds-win\">Más barato</span></span></span><span class=\"ds-price\">$ 62.300</span><button class=\"ds-pick\" aria-pressed=\"true\"><svg width=\"12\" height=\"12\" viewBox=\"0 0 10 10\" fill=\"none\" aria-hidden=\"true\"><path d=\"m2 5.2 2 2L8 3\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg> Elegida</button></li><li><span class=\"ds-well\">Sin foto</span><span class=\"ds-mid\"><span class=\"ds-title\">Memoria Corsair Vengeance DDR5 16GB 6000MHz</span><span class=\"ds-meta\"><span><span class=\"ds-dot\" style=\"background:#FF6A00\"></span> Compra Gamer</span><span class=\"ds-fit\"><svg width=\"12\" height=\"12\" viewBox=\"0 0 10 10\" fill=\"none\" aria-hidden=\"true\"><path d=\"m2 5.2 2 2L8 3\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg> Compatible</span></span></span><span class=\"ds-price\">$ 68.900</span><button class=\"ds-pick\" aria-pressed=\"false\">Elegir</button></li><li class=\"ds-off\"><span class=\"ds-well\">Sin foto</span><span class=\"ds-mid\"><span class=\"ds-title\">Memoria Kingston DDR4 16GB 3200MHz</span><span class=\"ds-meta\"><span><span class=\"ds-dot\" style=\"background:#FFE600\"></span> Mercado Libre</span><span class=\"ds-nofit\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"none\" aria-hidden=\"true\"><path d=\"M7 1.75 12.75 12H1.25L7 1.75Z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><path d=\"M7 5.5v3\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><circle cx=\"7\" cy=\"10.2\" r=\"0.8\" fill=\"currentColor\"/></svg> El mother usa DDR5</span></span></span><span class=\"ds-price\">$ 41.500</span><button class=\"ds-pick\" aria-pressed=\"false\">Elegir</button></li></ul>",
       "css": ".ds-offers { font-family: var(--font-archivo, Archivo), system-ui, sans-serif; list-style: none; margin: 0; padding: 0 12px; background: var(--paper, #eef0ea); color: var(--ink, #16171a); } .ds-offers li { display: grid; grid-template-columns: 3.5rem minmax(0,1fr) auto auto; align-items: center; gap: 8px 16px; padding: 14px 0; } .ds-offers li + li { border-top: 1px solid var(--rule, #d6d9d0); } .ds-offers li.ds-off { opacity: 0.6; } .ds-well { display: grid; place-items: center; aspect-ratio: 1; border: 1px solid var(--rule, #d6d9d0); border-radius: 3px; background: var(--sheet, #fff); font-size: 0.65rem; color: var(--ink-3, #6f727a); } .ds-title { display: block; font-weight: 500; line-height: 1.375; } .ds-meta { margin-top: 4px; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; font-size: 0.875rem; color: var(--ink-2, #50535b); } .ds-dot { display: inline-block; width: 10px; height: 10px; border-radius: 9999px; box-shadow: 0 0 0 1px rgba(22,23,26,0.15); } .ds-fit, .ds-nofit { display: inline-flex; align-items: center; gap: 4px; font-size: 0.75rem; } .ds-fit { color: var(--ink, #16171a); font-weight: 600; } .ds-fit svg { width: 11px; height: 11px; } .ds-nofit { color: var(--alert, #c4211f); font-weight: 700; } .ds-win { border-radius: 2px; background: var(--lime, #c8f031); color: var(--ink, #16171a); padding: 1px 6px; font-size: 0.75rem; font-weight: 700; } .ds-price { font-variation-settings: 'wdth' 62; font-weight: 900; font-variant-numeric: tabular-nums lining-nums; letter-spacing: -0.01em; font-size: 1.5rem; line-height: 1; text-align: right; } .ds-pick { display: inline-flex; align-items: center; gap: 6px; border: 1.5px solid var(--ink, #16171a); border-radius: 3px; background: transparent; color: var(--ink, #16171a); padding: 8px 14px; font: inherit; font-size: 0.875rem; font-weight: 700; cursor: pointer; transition: background-color 150ms, color 150ms; } .ds-pick:hover, .ds-pick[aria-pressed=true] { background: var(--ink, #16171a); color: var(--paper, #eef0ea); } .ds-pick:focus-visible { outline: 2px solid var(--ink, #16171a); outline-offset: 2px; }"
     },
     {
@@ -504,7 +534,7 @@
       "kind": "card",
       "refersTo": "cartel",
       "description": "The cartel as the live build total: taped to the wall, previous total struck, new total written in, Todo en <tienda> line, warnings on sheet, ink Copiar link.",
-      "html": "<article class=\"ds-total\"><span class=\"ds-tape\"></span><p class=\"ds-total-lead\">Total del armado</p><span class=\"ds-struck\">$1.214.300.-<svg viewBox=\"0 0 100 10\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path d=\"M2 7 C 25 3, 55 8, 98 3\" pathLength=\"1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" vector-effect=\"non-scaling-stroke\"/></svg></span><p class=\"ds-total-price\"><span>$</span>1.176.900<span aria-hidden=\"true\">.-</span></p><p class=\"ds-total-meta\"><b>5 de 7 piezas elegidas</b><br>Todo en Venex: <b>$ 1.203.400</b> (+$ 26.500)</p><ul class=\"ds-warn\"><li><svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"none\" aria-hidden=\"true\"><path d=\"M7 1.75 12.75 12H1.25L7 1.75Z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><path d=\"M7 5.5v3\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><circle cx=\"7\" cy=\"10.2\" r=\"0.8\" fill=\"currentColor\"/></svg> La fuente queda justa para esta placa de video.</li></ul><button class=\"ds-btn\">Copiar link</button></article>",
+      "html": "<article class=\"ds-total\"><span class=\"ds-tape\"></span><p class=\"ds-total-lead\">Total del armado</p><span class=\"ds-struck\">$1.214.300.-<svg viewBox=\"0 0 100 10\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path d=\"M2 7 C 25 3, 55 8, 98 3\" pathLength=\"1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" vector-effect=\"non-scaling-stroke\"/></svg></span><p class=\"ds-total-price\"><span>$</span>1.176.900<span aria-hidden=\"true\">.-</span></p><p class=\"ds-total-meta\"><b>5 de 7 piezas elegidas</b><br>Todo en Goldentech: <b>$ 1.203.400</b> (+$ 26.500)</p><ul class=\"ds-warn\"><li><svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"none\" aria-hidden=\"true\"><path d=\"M7 1.75 12.75 12H1.25L7 1.75Z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><path d=\"M7 5.5v3\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><circle cx=\"7\" cy=\"10.2\" r=\"0.8\" fill=\"currentColor\"/></svg> La fuente queda justa para esta placa de video.</li></ul><button class=\"ds-btn\">Copiar link</button></article>",
       "css": ".ds-total { font-family: var(--font-archivo, Archivo), system-ui, sans-serif; position: relative; max-width: 380px; margin: 24px; transform: rotate(-1.2deg); border-radius: 4px; background: var(--fluo, #ff3d8b); color: var(--ink, #16171a); padding: 28px; box-shadow: 0 24px 40px -24px rgba(22,23,26,0.6), 0 2px 4px rgba(22,23,26,0.08); } .ds-tape { position: absolute; top: -12px; left: 50%; width: 96px; height: 28px; transform: translateX(-50%) rotate(2deg); background: rgba(255,255,255,0.58); box-shadow: 0 1px 2px rgba(22,23,26,0.12); clip-path: polygon(2% 0, 98% 4%, 100% 30%, 97% 55%, 100% 82%, 97% 100%, 3% 96%, 0 70%, 3% 45%, 0 18%); } .ds-total-lead { margin: 0; font-size: 1.125rem; font-weight: 700; } .ds-struck { position: relative; display: inline-block; margin-top: 8px; font-variation-settings: 'wdth' 62; font-weight: 900; font-variant-numeric: tabular-nums lining-nums; letter-spacing: -0.01em; font-size: 1.25rem; color: rgba(22,23,26,0.7); } .ds-struck svg { position: absolute; left: -6%; top: 52%; width: 112%; height: 0.45em; transform: translateY(-50%); overflow: visible; color: var(--ink, #16171a); } .ds-total-price { display: flex; align-items: flex-start; margin: 0; font-variation-settings: 'wdth' 62; font-weight: 900; font-variant-numeric: tabular-nums lining-nums; letter-spacing: -0.01em; font-size: clamp(3.25rem, 10vw, 5rem); line-height: 0.9; animation: ds-write 520ms cubic-bezier(0.16,1,0.3,1) both; } .ds-total-price span:first-child { font-size: 0.42em; margin: 0.12em 4px 0 0; } @keyframes ds-write { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0); } } .ds-total-meta { margin: 12px 0 0; font-size: 0.875rem; line-height: 1.5; } .ds-total-meta b { font-variant-numeric: tabular-nums; } .ds-warn { list-style: none; margin: 16px 0 0; padding: 12px; border-radius: 3px; background: var(--sheet, #fff); font-size: 0.875rem; color: var(--ink-2, #50535b); } .ds-warn li { display: flex; gap: 8px; } .ds-btn { margin-top: 20px; border: 0; border-radius: 3px; background: var(--ink, #16171a); color: var(--paper, #eef0ea); padding: 10px 16px; font: inherit; font-size: 0.875rem; font-weight: 700; cursor: pointer; } @media (prefers-reduced-motion: reduce) { .ds-total-price { animation: none; } }"
     }
   ],

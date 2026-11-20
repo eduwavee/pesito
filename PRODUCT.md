@@ -8,7 +8,7 @@ web
 
 ## Users
 Three audiences at once, confirmed by the owner:
-- **People buying hardware in Argentina** (mostly PC builders/upgraders) who know the component they want — "RTX 5060", "Ryzen 5 7600" — and need the lowest price across local stores without opening six tabs.
+- **People buying hardware in Argentina** (mostly PC builders/upgraders) who know the component they want — "RTX 5060", "Ryzen 5 7600" — and need the lowest price across local stores without opening eight tabs.
 - **General public buying technology**: the site may launch publicly with real traffic and possible monetization later.
 - **Recruiters and clients of Sync Solutions**: the project is also a portfolio piece, so it must work flawlessly and show craft.
 
@@ -40,7 +40,7 @@ Queries each Argentine hardware store live and in parallel; each store streams i
 - Everything else visual is free to replace.
 
 ## Evidence on Hand
-- Real live prices from six stores; demo dataset in `src/lib/stores/demo.ts`.
+- Real live prices from eight stores; demo dataset in `src/lib/stores/demo.ts`.
 - No testimonials, user numbers, or partnerships exist — do not fabricate them.
 
 ## Product Principles

@@ -55,7 +55,7 @@ export const STORES: Record<StoreId, { name: string; color: string; home: string
 export const STORE_IDS = Object.keys(STORES) as StoreId[];
 
 const NUMBERS = ["ninguna", "una", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve", "diez"];
-/** "seis": para los textos ("en seis tiendas argentinas"), así no quedan desactualizados al sumar o sacar una. */
+/** "ocho": para los textos ("en ocho tiendas argentinas"), así no quedan desactualizados al sumar o sacar una. */
 export const STORE_COUNT = NUMBERS[STORE_IDS.length] ?? String(STORE_IDS.length);
 /** "Mercado Libre, Compra Gamer, … y Frávega" */
 export const STORE_LIST = (() => {
