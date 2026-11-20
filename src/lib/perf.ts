@@ -15,16 +15,24 @@ export interface PerfModel {
   /** edición / trabajo con muchos núcleos (solo procesadores) */
   edicion?: number;
   socket?: "AM4" | "AM5" | "LGA1700";
+  /** procesador con gráficos para jugar sin placa (los "G"): solo se compara con otros iguales */
+  apu?: true;
 }
 
 export const GPU_PERF: PerfModel[] = [
   { query: "RTX 3050", kind: "gpu", gaming: 70 },
   { query: "RX 6600", kind: "gpu", gaming: 100 },
+  { query: "RTX 3060", kind: "gpu", gaming: 104 },
   { query: "RX 7600", kind: "gpu", gaming: 118 },
+  { query: "RX 7600 XT", kind: "gpu", gaming: 123 },
   { query: "RTX 4060", kind: "gpu", gaming: 125 },
+  { query: "Arc B580", kind: "gpu", gaming: 128 },
+  { query: "RTX 4060 Ti", kind: "gpu", gaming: 133 },
   { query: "RTX 5060", kind: "gpu", gaming: 135 },
   { query: "RX 9060 XT", kind: "gpu", gaming: 150 },
   { query: "RTX 5060 Ti", kind: "gpu", gaming: 160 },
+  { query: "RX 7700 XT", kind: "gpu", gaming: 168 },
+  { query: "RX 7800 XT", kind: "gpu", gaming: 185 },
   { query: "RX 9070", kind: "gpu", gaming: 200 },
   { query: "RTX 5070", kind: "gpu", gaming: 205 },
   { query: "RX 9070 XT", kind: "gpu", gaming: 240 },
@@ -34,18 +42,28 @@ export const GPU_PERF: PerfModel[] = [
 
 export const CPU_PERF: PerfModel[] = [
   { query: "Ryzen 5 5500", kind: "cpu", gaming: 70, edicion: 60, socket: "AM4" },
+  { query: "Ryzen 5 5600G", kind: "cpu", gaming: 68, edicion: 64, socket: "AM4", apu: true },
   { query: "Ryzen 5 5600", kind: "cpu", gaming: 78, edicion: 66, socket: "AM4" },
+  { query: "Ryzen 5 5600X", kind: "cpu", gaming: 80, edicion: 68, socket: "AM4" },
   { query: "Ryzen 7 5700X", kind: "cpu", gaming: 82, edicion: 85, socket: "AM4" },
+  { query: "Ryzen 7 5800X", kind: "cpu", gaming: 84, edicion: 88, socket: "AM4" },
   { query: "Ryzen 7 5700X3D", kind: "cpu", gaming: 98, edicion: 82, socket: "AM4" },
+  { query: "Ryzen 5 8500G", kind: "cpu", gaming: 76, edicion: 70, socket: "AM5", apu: true },
+  { query: "Ryzen 5 8600G", kind: "cpu", gaming: 88, edicion: 82, socket: "AM5", apu: true },
   { query: "Ryzen 5 7600", kind: "cpu", gaming: 100, edicion: 85, socket: "AM5" },
+  { query: "Ryzen 5 7600X", kind: "cpu", gaming: 104, edicion: 88, socket: "AM5" },
   { query: "Ryzen 5 9600X", kind: "cpu", gaming: 106, edicion: 90, socket: "AM5" },
   { query: "Ryzen 7 7700", kind: "cpu", gaming: 108, edicion: 115, socket: "AM5" },
+  { query: "Ryzen 7 7700X", kind: "cpu", gaming: 110, edicion: 118, socket: "AM5" },
+  { query: "Ryzen 7 9700X", kind: "cpu", gaming: 114, edicion: 125, socket: "AM5" },
   { query: "Ryzen 7 7800X3D", kind: "cpu", gaming: 128, edicion: 112, socket: "AM5" },
   { query: "Ryzen 7 9800X3D", kind: "cpu", gaming: 140, edicion: 125, socket: "AM5" },
   { query: "Ryzen 9 9900X", kind: "cpu", gaming: 115, edicion: 160, socket: "AM5" },
   { query: "Ryzen 9 9950X", kind: "cpu", gaming: 120, edicion: 200, socket: "AM5" },
   { query: "Core i3 12100F", kind: "cpu", gaming: 62, edicion: 45, socket: "LGA1700" },
+  { query: "Core i3 14100F", kind: "cpu", gaming: 66, edicion: 48, socket: "LGA1700" },
   { query: "Core i5 12400F", kind: "cpu", gaming: 80, edicion: 70, socket: "LGA1700" },
+  { query: "Core i5 13400F", kind: "cpu", gaming: 86, edicion: 82, socket: "LGA1700" },
   { query: "Core i5 14400F", kind: "cpu", gaming: 92, edicion: 90, socket: "LGA1700" },
   { query: "Core i5 14600KF", kind: "cpu", gaming: 105, edicion: 115, socket: "LGA1700" },
   { query: "Core i7 14700KF", kind: "cpu", gaming: 115, edicion: 150, socket: "LGA1700" },

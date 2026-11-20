@@ -18,7 +18,7 @@ export type Kind = "gpu" | "cpu" | "ssd" | "ram" | "psu" | "otro";
 export function guessKind(query: string, sample?: string): Kind {
   const s = `${query} ${sample ?? ""}`.toUpperCase();
   if (/\bRTX\b|\bGTX\b|\bRX ?\d|PLACA DE VIDEO|RADEON|GEFORCE|ARC B\d/.test(s)) return "gpu";
-  if (/RYZEN|CORE ?I\d|CORE ULTRA|PROCESADOR/.test(s)) return "cpu";
+  if (/RYZEN|CORE ?I\d|CORE ULTRA|PROCESADOR|\bI[3579][ -]?\d{4,5}/.test(s)) return "cpu";
   if (/SSD|NVME|M\.2/.test(s)) return "ssd";
   if (/DDR[45]|MEMORIA/.test(s)) return "ram";
   if (/FUENTE|\d{3,4} ?W\b/.test(s)) return "psu";

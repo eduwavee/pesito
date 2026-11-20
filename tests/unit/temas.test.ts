@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { candidatesFor, pickAlternatives } from "@/lib/alternatives";
 import { DUELOS, dueloResult } from "@/lib/duelos";
-import { articleFor, compareLabel, findPerf, perfOf } from "@/lib/perf";
+import { articleFor, compareLabel, CPU_PERF, findPerf, GPU_PERF, perfOf } from "@/lib/perf";
 import { buyTiming } from "@/lib/timing";
 import { forHistory } from "@/lib/stores";
 import type { Product } from "@/lib/types";
@@ -162,5 +162,46 @@ describe("historial: solo el modelo exacto en placas y procesadores", () => {
   });
   it("usados y outlet nunca", () => {
     expect(forHistory(p("Placa RTX 5060 OUTLET", { used: true }), "rtx 5060")).toBe(false);
+  });
+});
+
+describe("tabla de rendimiento: modelos populares", () => {
+  it("cada búsqueda encuentra su modelo y no el vecino", () => {
+    const casos: [string, string][] = [
+      ["rtx 3060 12gb", "RTX 3060"],
+      ["rtx 4060 ti", "RTX 4060 Ti"],
+      ["rtx 4060", "RTX 4060"],
+      ["rx 7600 xt", "RX 7600 XT"],
+      ["rx 7600", "RX 7600"],
+      ["rx 7700 xt", "RX 7700 XT"],
+      ["rx 7800 xt", "RX 7800 XT"],
+      ["arc b580", "Arc B580"],
+      ["ryzen 5 5600g", "Ryzen 5 5600G"],
+      ["ryzen 5 5600x", "Ryzen 5 5600X"],
+      ["ryzen 5 5600", "Ryzen 5 5600"],
+      ["ryzen 5 8600g", "Ryzen 5 8600G"],
+      ["ryzen 5 7600x", "Ryzen 5 7600X"],
+      ["ryzen 7 9700x", "Ryzen 7 9700X"],
+      ["core i5 13400f", "Core i5 13400F"],
+      ["i3 14100f", "Core i3 14100F"],
+    ];
+    for (const [q, m] of casos) expect(findPerf(q)?.query, q).toBe(m);
+  });
+  it("cada modelo de la tabla se encuentra a sí mismo", () => {
+    for (const m of [...GPU_PERF, ...CPU_PERF]) expect(findPerf(m.query)?.query, m.query).toBe(m.query);
+  });
+});
+
+describe("alternativas de procesadores con gráficos", () => {
+  it("a un 5600G no le propone procesadores sin video", () => {
+    const base = perfOf("Ryzen 5 5600G")!;
+    const cands = candidatesFor(base);
+    expect(cands.length).toBeGreaterThan(0);
+    expect(cands.every((m) => m.apu)).toBe(true);
+    const alt = pickAlternatives({ model: base, price: 500000 }, [
+      { model: perfOf("Core i3 14100F")!, product: prod("Intel Core i3 14100F", 170000) },
+      { model: perfOf("Ryzen 5 8500G")!, product: prod("AMD Ryzen 5 8500G", 300000) },
+    ]);
+    expect(alt.map((a) => a.query)).toEqual(["Ryzen 5 8500G"]);
   });
 });

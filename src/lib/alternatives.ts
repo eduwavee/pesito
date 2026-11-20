@@ -22,16 +22,29 @@ export interface Alternative {
 export function candidatesFor(model: PerfModel, max = 6): PerfModel[] {
   const list = model.kind === "gpu" ? GPU_PERF : CPU_PERF;
   return list
-    .filter((m) => m.query !== model.query && m.gaming >= model.gaming * 0.85 && m.gaming <= model.gaming * 1.45)
+    .filter(
+      (m) =>
+        m.query !== model.query &&
+        sameUse(model, m) &&
+        m.gaming >= model.gaming * 0.85 &&
+        m.gaming <= model.gaming * 1.45,
+    )
     .sort((a, b) => Math.abs(a.gaming / model.gaming - 1) - Math.abs(b.gaming / model.gaming - 1))
     .slice(0, max);
+}
+
+/** Quien busca un procesador con gráficos (5600G, 8600G) lo quiere para jugar sin placa: no le sirve un "F". */
+function sameUse(base: PerfModel, other: PerfModel) {
+  return !base.apu || !!other.apu;
 }
 
 export function pickAlternatives(
   base: { model: PerfModel; price: number },
   options: { model: PerfModel; product?: Product }[],
 ): Alternative[] {
-  const priced = options.filter((o): o is { model: PerfModel; product: Product } => !!o.product);
+  const priced = options.filter(
+    (o): o is { model: PerfModel; product: Product } => !!o.product && sameUse(base.model, o.model),
+  );
   const make = (o: (typeof priced)[number], kind: Alternative["kind"]): Alternative => ({
     kind,
     query: o.model.query,
