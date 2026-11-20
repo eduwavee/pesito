@@ -2,7 +2,9 @@ import { cached } from "../cache";
 import { HttpError } from "../http";
 import { arDay, getDb } from "../db";
 import { asksNotebook, isNotebookRam, isSecondary, isUsed, matchesQuery, normalize, storeQuery } from "../text";
-import { isComparable, type StoreAdapter, type StoreId, type StoreResult } from "../types";
+import { isComparable, type Product, type StoreAdapter, type StoreId, type StoreResult } from "../types";
+import { isExactModel } from "../variants";
+import { guessKind } from "../versus";
 import { compragamer } from "./compragamer";
 import { demoResults } from "./demo";
 import { fravega } from "./fravega";
@@ -58,7 +60,7 @@ export async function searchStore(store: StoreId, rawQuery: string): Promise<Sto
       .sort((a, b) => a.price - b.price)
       .slice(0, LIMIT);
     // el historial (y las bajas y alertas que salen de él) solo cuenta lo comparable: nuevo y del formato buscado
-    const cheapest = products.find(isComparable);
+    const cheapest = products.find((p) => forHistory(p, query));
     if (cheapest) remember(store, query, cheapest);
     return {
       store,
@@ -86,6 +88,16 @@ export function describeError(e: unknown): { message: string; blocked: boolean }
         ? "La tienda tardó demasiado en responder"
         : "No se pudo consultar la tienda";
   return { message, blocked };
+}
+
+/**
+ * Qué entra al historial de una búsqueda: nuevo, del formato buscado y, en placas y procesadores,
+ * del modelo exacto (si una tienda no tiene la RTX 5060, su 5060 Ti no es "la 5060 más barata").
+ */
+export function forHistory(p: Product, query: string): boolean {
+  if (!isComparable(p)) return false;
+  const kind = guessKind(query);
+  return kind === "gpu" || kind === "cpu" ? isExactModel(p.title, query) : true;
 }
 
 /** Guarda el más barato del día para el historial. No bloquea la respuesta y nunca la rompe. */

@@ -3,6 +3,7 @@ import { candidatesFor, pickAlternatives } from "@/lib/alternatives";
 import { DUELOS, dueloResult } from "@/lib/duelos";
 import { articleFor, compareLabel, findPerf, perfOf } from "@/lib/perf";
 import { buyTiming } from "@/lib/timing";
+import { forHistory } from "@/lib/stores";
 import type { Product } from "@/lib/types";
 
 const prod = (title: string, price: number): Product => ({ id: title, store: "mexx", title, price, url: "https://x" });
@@ -138,5 +139,28 @@ describe("duelos", () => {
     const r = dueloResult({ tema: "x", a: "RTX 5070", b: "RX 9070 XT" }, prod("RTX 5070 12GB", 1), prod("RX 9070 XT 16GB", 2));
     expect(r.perf).toBe("más");
     expect(r.perGb).toBeUndefined();
+  });
+});
+
+describe("historial: solo el modelo exacto en placas y procesadores", () => {
+  const p = (title: string, extra: Partial<Product> = {}): Product => ({
+    id: title,
+    store: "rockethard",
+    title,
+    price: 1,
+    url: "https://x",
+    ...extra,
+  });
+  it("una 5060 Ti no cuenta como la RTX 5060 más barata", () => {
+    expect(forHistory(p("Placa De Video Asus Rtx 5060ti Oc 8gb"), "rtx 5060")).toBe(false);
+    expect(forHistory(p("Placa de Video Palit RTX 5060 Dual 8GB"), "rtx 5060")).toBe(true);
+    expect(forHistory(p("Procesador AMD Ryzen 5 7600X"), "ryzen 5 7600")).toBe(false);
+  });
+  it("en el resto no exige modelo (un B650M sigue siendo un B650)", () => {
+    expect(forHistory(p("Mother Asus Prime B650M-A para Ryzen"), "b650")).toBe(true);
+    expect(forHistory(p("SSD Kingston NV3 1TB"), "ssd 1tb")).toBe(true);
+  });
+  it("usados y outlet nunca", () => {
+    expect(forHistory(p("Placa RTX 5060 OUTLET", { used: true }), "rtx 5060")).toBe(false);
   });
 });
